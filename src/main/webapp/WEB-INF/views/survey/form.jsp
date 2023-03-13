@@ -42,6 +42,72 @@
         margin-bottom: 1rem !important;
     }
 
+    .nav-form {
+        border: 1px solid #D1D5DB;
+        border-radius: 10px;
+        position: sticky;
+        top: 50px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-right: 60%;
+        padding: 10%;
+    }
+
+    .nav-form-link {
+        margin-bottom: 5px;
+        margin-top: 5px;
+        font-size: 20px;
+        position: relative;
+    }
+
+    .nav-description {
+        position: absolute;
+        right: 100%;
+        top: 0;
+        background-color: whitesmoke;
+        color: #454545;
+        padding: 10px;
+        border-radius: 5px;
+        opacity: 0;
+        transform: translateX(-10px);
+        transition: opacity 0.2s, transform 0.2s;
+    }
+
+    .nav-form-link:hover .nav-description {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    .nav-form-link:hover:after {
+        content: attr(title);
+        position: absolute;
+        top: 50%;
+        left: 100%;
+        padding: 5px;
+        background-color: #454545;
+        color: whitesmoke;
+        font-size: 14px;
+        border-radius: 5px;
+        white-space: nowrap;
+        transform: translate(5px, -50%);
+    }
+
+    .nav-form-link:hover:before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 100%;
+        width: 10px;
+        height: 10px;
+        background-color: #454545;
+        transform: translate(5px, -50%) rotate(45deg);
+    }
+
+    .question-separator {
+        border-top: 1px solid rgba(0, 0, 0, .12);
+        margin: 8px 0;
+    }
 
 </style>
 
@@ -56,7 +122,7 @@
     <hr>
     <div class="row">
         <div class="col-2"></div>
-        <div class="col-8">
+        <div id="survey_main" class="col-8">
             <div class="mb-5">
                 <div class="card shadow">
                     <div class="card-body px-5 text-center text-md-left titlebox">
@@ -71,32 +137,46 @@
             <div class="mb-5">
                 <div class="card shadow">
                     <div class="card-body px-5 py-5 text-center text-md-left">
-                        <div class="row align-items-center">
-                            <div class="col-md-8"></div>
-                            <input type="text">
-                            <div class="btn-group me-2 mb-2">
-                                <button type="button" class="btn btn-secondary">Default</button>
-                                <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split me-n1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span class="fas fa-angle-down dropdown-arrow"></span>
-                                    <span class="sr-only">Toggle Dropdown</span>
-                                </button>
-                                <div class="dropdown-menu py-0" style="">
-                                    <a class="dropdown-item rounded-top" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item rounded-bottom" href="#">Separated link</a>
+                        <div id="question_main" class="row align-items-center">
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" placeholder="질문">
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-2 me-2 question-type">
+                                    <label for="question-type-select" class="form-label"></label>
+                                    <select class="form-select" id="question-type-select">
+                                        <option value="short-answer">주관식 - 단답형</option>
+                                        <option value="long-answer">주관식 - 장문형</option>
+                                        <optgroup label="&#xf0da; &#xf0da; &#xf0da;"></optgroup>
+                                        <option value="multiple-choice" selected>객관식 질문</option>
+                                        <option value="checkbox">체크박스</option>
+                                        <option value="dropdown">드롭다운</option>
+                                        <optgroup label="&#xf0da; &#xf0da; &#xf0da;"></optgroup>
+                                        <option value="multiple-choice-table">객관식 표</option>
+                                        <option value="checkbox-table">체크박스 표</option>
+                                        <optgroup label="&#xf0da; &#xf0da; &#xf0da;"></optgroup>
+                                        <option value="date">날짜</option>
+                                        <option value="time">시간</option>
+                                    </select>
                                 </div>
+                            </div>
+                            <div>
+
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-2"></div>
+        <div class="col-2">
+            <div class="nav-form">
+                <a href="#" class="nav-form-link" title="질문 추가"><i class="fas fa-plus"></i></a>
+                <a href="#" class="nav-form-link" title="질문 가져오기"><i class="fas fa-download"></i></a>
+                <a href="#" class="nav-form-link" title="섹션 추가"><i class="fas fa-plus-square"></i></a>
+            </div>
+        </div>
     </div>
 </main>
-
 <%@ include file="../footer.jsp" %>
 
 
