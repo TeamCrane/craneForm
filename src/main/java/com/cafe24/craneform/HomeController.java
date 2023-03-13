@@ -14,10 +14,11 @@ public class HomeController {
 
     @GetMapping("/")
     public String Home(HttpSession session) {
-        if (session.getAttribute("id") != null) {
+        /*if (session.getAttribute("id") != null) {
             return "index";
         } else {
             return "/member/login";
-        }
+        }*/
+        return "index";
     }
 }
