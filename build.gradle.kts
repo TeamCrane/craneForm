@@ -29,8 +29,11 @@ dependencies {
     providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 
-    // https://mvnrepository.com/artifact/org.apache.tomcat.embed/tomcat-embed-jasper
+    // jsp
     implementation("org.apache.tomcat.embed:tomcat-embed-jasper")
+
+    // jstl
+    implementation("javax.servlet:jstl:1.2")
 
 }
 
