@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-  <title>Title</title>
+  <title>Crane Form</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -47,7 +47,7 @@
 <header class="header-global" style="box-shadow: 1px 1px #959595">
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid d-flex align-items-center">
-      <a class="navbar-brand me-auto" href="#">Crane Form</a>
+      <a class="navbar-brand me-auto" href="/">Crane Form</a>
       <div class="input-group" style="width: 50%; margin: auto;">
         <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon2">
         <button class="btn btn-outline-secondary input-group-text" type="button" id="basic-addon2"><span class="fas fa-search"></span></button>
