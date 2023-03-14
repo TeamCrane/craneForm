@@ -20,6 +20,8 @@
   <link href="//db.onlinewebfonts.com/c/67680f2eb947c5cbd58b40961b4a61e9?family=Apple+SD+Gothic+Neo" rel="stylesheet"
         type="text/css"/>
 
+  <script src="/js/jquery_v3.6.4.js"></script>
+
   <style>
     header {
       font-family: AppleSDGothicNeoB00, sans-serif;

@@ -22,7 +22,7 @@
 
     <!-- CSS -->
     <link type="text/css" href="/css/pixel.css" rel="stylesheet">
-    <link rel="stylesheet" href="/css/index.css"
+    <link rel="stylesheet" href="/css/index.css">
 
     <%-- 폰트 --%>
     <link href="//db.onlinewebfonts.com/c/67680f2eb947c5cbd58b40961b4a61e9?family=Apple+SD+Gothic+Neo" rel="stylesheet"
