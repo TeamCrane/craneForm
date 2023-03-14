@@ -9,6 +9,7 @@
 <%@ include file="../header.jsp" %>
 
 <style>
+
     .btn-sort {
         color: #6c757d;
         font-size: 0.9rem;
@@ -61,24 +62,6 @@
         position: relative;
     }
 
-    .nav-description {
-        position: absolute;
-        right: 100%;
-        top: 0;
-        background-color: whitesmoke;
-        color: #454545;
-        padding: 10px;
-        border-radius: 5px;
-        opacity: 0;
-        transform: translateX(-10px);
-        transition: opacity 0.2s, transform 0.2s;
-    }
-
-    .nav-form-link:hover .nav-description {
-        opacity: 1;
-        transform: translateX(0);
-    }
-
     .nav-form-link:hover:after {
         content: attr(title);
         position: absolute;
@@ -104,9 +87,77 @@
         transform: translate(5px, -50%) rotate(45deg);
     }
 
-    .question-separator {
-        border-top: 1px solid rgba(0, 0, 0, .12);
-        margin: 8px 0;
+    .select-wrapper {
+        position: relative;
+        width: 100%;
+        padding: 10px;
+    }
+
+    .select-trigger {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px;
+        color: #4B5563;
+        background-color: #F9FAFB;
+        border: 0.0625rem solid #D1D5DB;
+        cursor: pointer;
+        margin-bottom: 5px;
+        margin-top: 5px;
+    }
+
+    .select-trigger:before {
+        content: "\25b6";
+        font-size: 0.8em;
+        margin-right: 5px;
+    }
+
+    .select-options {
+        position: absolute;
+        top: -200%;
+        left: 100%;
+        width: 100%;
+        z-index: 999;
+        color: #4B5563;
+        background-color: #F9FAFB;
+        border: 0.0625rem solid #D1D5DB;
+        border-top: none;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        flex-direction: column;
+        border-radius: 5px;
+        box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+        display: none;
+    }
+
+    .select-options li {
+        padding: 12px;
+        cursor: pointer;
+        font-size: 12px;
+    }
+
+    .select-options li:hover {
+        background-color: #f5f5f5;
+    }
+
+    .select-options li[selected] {
+        font-weight: bold;
+        background-color: #fffec9;
+    }
+
+    .select-wrapper.open .select-options {
+        display: flex;
+    }
+
+    optgroup[label] {
+        font-weight: bold;
+        margin-top: 10px;
+        margin-bottom: 5px;
+    }
+
+    .container {
+        overflow: visible;
     }
 
 </style>
@@ -142,27 +193,26 @@
                                 <input type="text" class="form-control" placeholder="질문">
                             </div>
                             <div class="col-md-4">
-                                <div class="mb-2 me-2 question-type">
-                                    <label for="question-type-select" class="form-label"></label>
-                                    <select class="form-select" id="question-type-select">
-                                        <option value="short-answer">주관식 - 단답형</option>
-                                        <option value="long-answer">주관식 - 장문형</option>
-                                        <optgroup label="&#xf0da; &#xf0da; &#xf0da;"></optgroup>
-                                        <option value="multiple-choice" selected>객관식 질문</option>
-                                        <option value="checkbox">체크박스</option>
-                                        <option value="dropdown">드롭다운</option>
-                                        <optgroup label="&#xf0da; &#xf0da; &#xf0da;"></optgroup>
-                                        <option value="multiple-choice-table">객관식 표</option>
-                                        <option value="checkbox-table">체크박스 표</option>
-                                        <optgroup label="&#xf0da; &#xf0da; &#xf0da;"></optgroup>
-                                        <option value="date">날짜</option>
-                                        <option value="time">시간</option>
-                                    </select>
+                                <div class="select-wrapper">
+                                    <div class="select-trigger">객관식 질문</div>
+                                    <ul class="select-options">
+                                        <li>주관식 - 단답형</li>
+                                        <li>주관식 - 장문형</li>
+                                        <hr>
+                                        <li selected>객관식 질문</li>
+                                        <li>체크박스</li>
+                                        <li>드롭다운</li>
+                                        <hr>
+                                        <li>객관식 표</li>
+                                        <li>체크박스 표</li>
+                                        <hr>
+                                        <li>날짜</li>
+                                        <li>시간</li>
+                                    </ul>
                                 </div>
                             </div>
-                            <div>
 
-                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -170,13 +220,76 @@
         </div>
         <div class="col-2">
             <div class="nav-form">
-                <a href="#" class="nav-form-link" title="질문 추가"><i class="fas fa-plus"></i></a>
-                <a href="#" class="nav-form-link" title="질문 가져오기"><i class="fas fa-download"></i></a>
-                <a href="#" class="nav-form-link" title="섹션 추가"><i class="fas fa-plus-square"></i></a>
+                <a class="nav-form-link" title="질문 추가" onclick="addQuestion()"><i class="fas fa-plus"></i></a>
+                <a class="nav-form-link" title="질문 가져오기"><i class="fas fa-download"></i></a>
+                <a class="nav-form-link" title="섹션 추가"><i class="fas fa-plus-square"></i></a>
             </div>
         </div>
     </div>
 </main>
+
+<script>
+    const selectTrigger = document.querySelector('.select-trigger');
+    const selectOptions = document.querySelector(".select-options");
+
+    // 클릭하면 질문 유형 목록이 보인다
+    selectTrigger.addEventListener('click', function () {
+        selectOptions.style.display = "flex";
+    });
+
+    // 질문 유형 목록이 열렸을 때 다른 곳을 클릭하면 display:none 처리된다
+    document.addEventListener('click', function (event) {
+        if (selectOptions.style.display === 'flex' && !event.target.closest('.select-wrapper')) {
+            selectOptions.style.display = 'none';
+        }
+    });
+
+    // 옵션을 클릭하면 해당 옵션으로 텍스트 내용이 바뀌고 목록이 사라진다
+    selectOptions.querySelectorAll('li').forEach(function (option) {
+        if (!option.querySelector('hr')) {
+            option.addEventListener('click', function (event) {
+                // const targeted_option = event.target;
+                const selectedOption = document.querySelector('.select-options li[selected]');
+
+                // 클릭된 요소로 selected 옮기기
+                selectedOption.removeAttribute('selected');
+                option.setAttribute('selected', 'selected');
+
+                // 클릭된 요소를 기본으로 세팅하고 선택창 display:none
+                selectTrigger.textContent = option.textContent;
+                selectOptions.style.display = 'none';
+            });
+        }
+    });
+
+    function addQuestion() {
+        let message = "";
+        message += '<div class="col-md-8">';
+        message += '    <input type="text" class="form-control" placeholder="질문">'
+        message += '</div>'
+        message += '<div class="col-md-4">'
+        message += '    <div class="select-wrapper">'
+        message += '        <div class="select-trigger">객관식 질문</div>'
+        message += '        <ul class="select-options">'
+        message += '            <li>주관식 - 단답형</li>'
+        message += '            <li>주관식 - 장문형</li>'
+        message += '            <hr>'
+        message += '            <li selected>객관식 질문</li>'
+        message += '            <li>체크박스</li>'
+        message += '            <li>드롭다운</li>'
+        message += '            <hr>'
+        message += '            <li>객관식 표</li>'
+        message += '            <li>체크박스 표</li>'
+        message += '            <hr>'
+        message += '            <li>날짜</li>'
+        message += '            <li>시간</li>'
+        message += '        </ul>'
+        message += '    </div>'
+        message += '</div>'
+
+        document.getElementById('question_main').innerHTML += message;
+    }
+
+</script>
+
 <%@ include file="../footer.jsp" %>
-
-
