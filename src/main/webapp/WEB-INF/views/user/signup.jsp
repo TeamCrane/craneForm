@@ -14,6 +14,8 @@
     <!-- Pixel CSS -->
     <link type="text/css" href="../../css/pixel.css" rel="stylesheet">
 
+    <script src="/js/jquery_v3.6.4.js"></script>
+
 </head>
 <body>
 <section class="min-vh-100 d-flex align-items-center section-image overlay-soft-dark" data-background="../../assets/img/pages/form-image.jpg">
@@ -27,6 +29,14 @@
                     <div style="text-underline: #ccc"></div>
                     <form action="#">
                         <!-- Form -->
+                        <div class="form-group mb-4">
+                            <label for="email">이름</label>
+                            <div class="input-group">
+                                <span class="input-group-text" id="basic-addon2"><span class="fas fa-user"></span></span>
+                                <input type="name" class="form-control" placeholder="이름" id="name" required>
+                            </div>
+                        </div>
+                        <!-- End of Form -->                        <!-- Form -->
                         <div class="form-group mb-4">
                             <label for="email">이메일</label>
                             <div class="input-group">
@@ -59,29 +69,30 @@
                                 <label for="email">생년월일</label>
                                 <div class="input-group">
                                     <span class="input-group-text" id="basic-addon6"><span class="fas fa-birthday-cake"></span></span>
-                                    <select name="year" id="year" class="form-control">
-                                        <option value="">년도</option>
-                                        <!-- JavaScript 코드 -->
-                                    </select>
-                                    <select name="month" id="month" class="form-control">
-                                        <option value="">월</option>
-                                        <option value="01">1월</option>
-                                        <option value="02">2월</option>
-                                        <option value="03">3월</option>
-                                        <option value="04">4월</option>
-                                        <option value="05">5월</option>
-                                        <option value="06">6월</option>
-                                        <option value="07">7월</option>
-                                        <option value="08">8월</option>
-                                        <option value="09">9월</option>
-                                        <option value="10">10월</option>
-                                        <option value="11">11월</option>
-                                        <option value="12">12월</option>
-                                    </select>
-                                    <select name="day" id="day" class="form-control">
-                                        <option value="">일</option>
-                                        <!-- JavaScript 코드 -->
-                                    </select>
+                                    <input type="date" placeholder="" class="form-control" id="birth" required>
+<%--                                    <select name="year" id="year" class="form-control">--%>
+<%--                                        <option value="">년도</option>--%>
+<%--                                        <!-- JavaScript 코드 -->--%>
+<%--                                    </select>--%>
+<%--                                    <select name="month" id="month" class="form-control">--%>
+<%--                                        <option value="">월</option>--%>
+<%--                                        <option value="01">1월</option>--%>
+<%--                                        <option value="02">2월</option>--%>
+<%--                                        <option value="03">3월</option>--%>
+<%--                                        <option value="04">4월</option>--%>
+<%--                                        <option value="05">5월</option>--%>
+<%--                                        <option value="06">6월</option>--%>
+<%--                                        <option value="07">7월</option>--%>
+<%--                                        <option value="08">8월</option>--%>
+<%--                                        <option value="09">9월</option>--%>
+<%--                                        <option value="10">10월</option>--%>
+<%--                                        <option value="11">11월</option>--%>
+<%--                                        <option value="12">12월</option>--%>
+<%--                                    </select>--%>
+<%--                                    <select name="day" id="day" class="form-control">--%>
+<%--                                        <option value="">일</option>--%>
+<%--                                        <!-- JavaScript 코드 -->--%>
+<%--                                    </select>--%>
                                 </div>
                             </div>
                             <!-- End of Form -->
@@ -141,7 +152,7 @@
                             </div>
                         </div>
                         <div class="d-grid">
-                            <button type="submit" class="btn btn-primary">회원가입</button>
+                            <button type="submit" class="btn btn-primary" id="signup">회원가입</button>
                         </div>
                     </form>
                     <div class="d-flex justify-content-center align-items-center mt-4">
@@ -156,40 +167,69 @@
     </div>
 </section>
 
-<!-- 생년월일 드롭다운 -->
 <script>
-    const year = document.querySelector("#year");
-    const day = document.querySelector("#day");
-
-    // 현재 연도를 구함
-    const currentYear = new Date().getFullYear();
-
-    // 현재 연도부터 1901년까지의 연도를 옵션으로 추가
-    for (let i = currentYear; i >= 1901; i--) {
-        const option = document.createElement("option");
-        option.value = i;
-        option.textContent = i + "년";
-        year.appendChild(option);
-    }
-
-    // 연도와 월이 선택되었을 때, 해당 월의 일 수를 계산하여 일 select 태그에 옵션을 추가
-    function updateDays() {
-        const yearValue = parseInt(year.value);
-        const monthValue = parseInt(month.value);
-        const daysInMonth = new Date(yearValue, monthValue, 0).getDate();
-
-        for (let i = 1; i <= daysInMonth; i++) {
-            const option = document.createElement("option");
-            option.value = i;
-            option.textContent = i + "일";
-            day.appendChild(option);
-        }
-    }
-
-    // 연도와 월 select 태그에 change 이벤트를 등록하여 일 select 태그 업데이트
-    year.addEventListener("change", updateDays);
-    month.addEventListener("change", updateDays);
+    $(function () {
+        $("#signup").click(function () {
+            let user = {
+                ui_name:$("#name").val(),
+                ui_email:$("#email").val(),
+                ui_address:$("#sample2_address").val() + " " + $("#sample2_detailAddress").val(),
+                ui_phone:$("#phone1").val() + "-" + $("#phone2").val() + "-" + $("#phone3").val(),
+                ui_gender:$("#gender option:selected").val(),
+                ui_birth:$("#birth").val(),
+                ui_password:$("#password_confirm").val()
+            }
+            if($("#password").val() != $("#password_confirm").val()) { alert("비밀번호를 다시 확인해주세요."); }
+            else {
+                $.ajax({
+                    url:"/api/signup",
+                    type:"put",
+                    data:JSON.stringify(user),
+                    contentType:"application/json",
+                    success:function(r) {
+                        alert(r.message);
+                        if(r.status) location.href = "/login";
+                    }
+                })
+            }
+        })
+    })
 </script>
+
+<%--<!-- 생년월일 드롭다운 -->--%>
+<%--<script>--%>
+<%--    const year = document.querySelector("#year");--%>
+<%--    const day = document.querySelector("#day");--%>
+
+<%--    // 현재 연도를 구함--%>
+<%--    const currentYear = new Date().getFullYear();--%>
+
+<%--    // 현재 연도부터 1901년까지의 연도를 옵션으로 추가--%>
+<%--    for (let i = currentYear; i >= 1901; i--) {--%>
+<%--        const option = document.createElement("option");--%>
+<%--        option.value = i;--%>
+<%--        option.textContent = i + "년";--%>
+<%--        year.appendChild(option);--%>
+<%--    }--%>
+
+<%--    // 연도와 월이 선택되었을 때, 해당 월의 일 수를 계산하여 일 select 태그에 옵션을 추가--%>
+<%--    function updateDays() {--%>
+<%--        const yearValue = parseInt(year.value);--%>
+<%--        const monthValue = parseInt(month.value);--%>
+<%--        const daysInMonth = new Date(yearValue, monthValue, 0).getDate();--%>
+
+<%--        for (let i = 1; i <= daysInMonth; i++) {--%>
+<%--            const option = document.createElement("option");--%>
+<%--            option.value = i;--%>
+<%--            option.textContent = i + "일";--%>
+<%--            day.appendChild(option);--%>
+<%--        }--%>
+<%--    }--%>
+
+<%--    // 연도와 월 select 태그에 change 이벤트를 등록하여 일 select 태그 업데이트--%>
+<%--    year.addEventListener("change", updateDays);--%>
+<%--    month.addEventListener("change", updateDays);--%>
+<%--</script>--%>
 
 <!-- 카카오 주소 검색 API 스크립트 -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>

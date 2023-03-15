@@ -19,8 +19,13 @@ public class HomeAPIController {
         return home_service.login(session, email, pwd);
     }
 
-    @PutMapping("/sign_up")
-    public Map<String, Object> putSignUp(@RequestBody UserInfoDTO user) {
-        return home_service.signUp(user);
+    @PostMapping("/logout")
+    public Map<String,Object> postLogout(HttpSession session) {
+        return home_service.logout(session);
+    }
+
+    @PutMapping("/signup")
+    public Map<String, Object> putSignup(@RequestBody UserInfoDTO user) {
+        return home_service.signup(user);
     }
 }

@@ -13,18 +13,18 @@ public class HomeController {
 
     @GetMapping("/")
     public String Home(HttpSession session) {
-        if (session.getAttribute("id") == null) { return "redirect:/login"; }
+        if (session.getAttribute("user") == null) { return "redirect:/login"; }
         return "index";
     }
 
     @GetMapping("/login")
     public String login(HttpSession session) {
-        if (session.getAttribute("id") != null) { return "redirect:/"; }
-        return "/member/login";
+        if (session.getAttribute("user") != null) { return "redirect:/"; }
+        return "/user/login";
     }
 
-    @GetMapping("/sign_up")
-    public String signUp(HttpSession session) {
-        return "sign_up";
+    @GetMapping("/signup")
+    public String signup(HttpSession session) {
+        return "/user/signup";
     }
 }
