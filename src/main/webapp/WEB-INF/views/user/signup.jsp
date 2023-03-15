@@ -152,7 +152,7 @@
                             </div>
                         </div>
                         <div class="d-grid">
-                            <button type="submit" class="btn btn-primary" id="signup">회원가입</button>
+                            <button type="button" class="btn btn-primary" id="signup">회원가입</button>
                         </div>
                     </form>
                     <div class="d-flex justify-content-center align-items-center mt-4">
