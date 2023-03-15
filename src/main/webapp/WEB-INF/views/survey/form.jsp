@@ -222,10 +222,10 @@
                 </div>
             </div>
 
-            <div class="mb-5">
+            <div id="question" class="mb-5">
                 <div class="card shadow">
                     <div class="card-body px-5 py-5 text-center text-md-left">
-                        <div id="question" class="row">
+                        <div class="row">
                             <input type="hidden" id="question_cnt" value="0">
                             <div id="question_main_0" class="question_main btn-group align-items-center">
                                 <div class="col-md-8">
@@ -250,14 +250,14 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <div id="option" class="col-12">
-                                    <div id="option_main_0" class="option_main align-items-center">
-                                        <input type="hidden" id="option_cnt_0" value="0">
+                                <div id="option_0" class="col-12">
+                                    <div id="option_main_0_0" class="option_main align-items-center">
+                                        <input type="hidden" id="option_cnt_0_0" value="0">
                                         <i class="fas fa-solid fa-arrow-circle-right"></i>&nbsp;
                                         <input type="text" id="option_0_0" placeholder="옵션 1">&nbsp;
                                     </div>
-                                    <div id="addOption_0" class="option_main align-items-center">
-                                        <i class="fas fa-solid fa-arrow-circle-plus"></i>&nbsp;<button class="btn btn-outline-gray opt_btn" <%--onclick="addOption(parseInt($('#option_cnt_0').val()))"--%>>옵션 추가</button>
+                                    <div id="addOption_0_0" class="option_main align-items-center">
+                                        <i class="fas fa-solid fa-arrow-circle-plus"></i>&nbsp;<button class="btn btn-outline-gray option_btn">옵션 추가</button>
                                     </div>
                                 </div>
                             </div>
@@ -277,16 +277,20 @@
 </main>
 
 <script>
-    const selectTrigger = document.querySelector('.select-trigger');
-    const selectOptions = document.querySelector(".select-options");
+    // const selectTrigger = document.querySelector('.select-trigger');
+    //const selectOptions = document.querySelector(".select-options");
 
     // 클릭하면 질문 유형 목록이 보인다
-    selectTrigger.addEventListener('click', function () {
-        selectOptions.style.display = "flex";
+    $('.select-trigger').each(function () {
+        $(this).on('click', function () {
+            const selectOptions0 = $(this).closest('.select-wrapper');
+            const selectOptions = selectOptions0.children('.select-options');
+            selectOptions.css('display', 'flex');
+        });
     });
 
     // 질문 유형 목록이 열렸을 때 다른 곳을 클릭하면 display:none 처리된다
-    document.addEventListener('click', function (event) {
+    /*document.addEventListener('click', function (event) {
         if (selectOptions.style.display === 'flex' && !event.target.closest('.select-wrapper')) {
             selectOptions.style.display = 'none';
         }
@@ -304,96 +308,107 @@
                 option.setAttribute('selected', 'selected');
 
                 // 클릭된 요소를 기본으로 세팅하고 선택창 display:none
-                selectTrigger.textContent = option.textContent;
+                const selectTrigger0 = $(this).closest('.select-wrapper');
+                const selectTrigger = selectTrigger0.children('.select-trigger');
+                selectTrigger.text(option.textContent);
                 selectOptions.style.display = 'none';
             });
         }
-    });
+    });*/
 
     // 질문 추가
     function addQuestion() {
-        // 질문 번호를 가져와서 1 증가
-        let qs_cnt = parseInt(document.getElementById('question_cnt').value);
-        qs_cnt += 1;
-        document.getElementById('question_cnt').value = qs_cnt;
+
+        // 질문 번호 가져오기
+        let question_cnt = parseInt(document.getElementById('question_cnt').value);
 
         // 옵션 번호 가져오기
-        let opt_cnt = parseInt(document.getElementById('option_cnt').value);
+        let option_main_id = $('#question_main_'+question_cnt).find('.option_main').eq(0).attr('id');
+        let option_cnt = parseInt(option_main_id.slice(-1));
 
+        // 1 더해서 대입
+        question_cnt += 1;
+        document.getElementById('question_cnt').value = question_cnt;
 
         let message = "";
-        message += '';
-        message += '<div id="question_main_' + qs_cnt + '" class="btn-group align-items-center">';
-        message += '    <div class="col-md-8">';
-        message += '        <input type="text" class="form-control" placeholder="질문 ' + (qs_cnt+1) + '">';
-        message += '    </div>';
-        message += '    <div class="col-md-4">';
-        message += '        <div class="select-wrapper">';
-        message += '            <div class="select-trigger">객관식 질문</div>';
-        message += '            <ul class="select-options">';
-        message += '                <li><i class="fas fa-pencil-alt"></i> &nbsp; 주관식 - 단답형</li>';
-        message += '                <li><i class="fas fa-pencil-alt"></i> &nbsp; 주관식 - 장문형</li>';
-        message += '                <hr>';
-        message += '                <li selected><i class="fas fa-check-circle"></i> &nbsp; 객관식 질문</li>';
-        message += '                <li><i class="far fa-check-square"></i> &nbsp; 체크박스</li>';
-        message += '                <li><i class="fas fa-caret-down"></i> &nbsp; 드롭다운</li>';
-        message += '                <hr>';
-        message += '                <li><i class="fas fa-th"></i> &nbsp; 객관식 표</li>';
-        message += '                <li><i class="far fa-check-square"></i> &nbsp; 체크박스 표</li>';
-        message += '                <hr>';
-        message += '                <li><i class="far fa-calendar-alt"></i> &nbsp; 날짜</li>';
-        message += '                <li><i class="far fa-clock"></i> &nbsp; 시간</li>';
-        message += '            </ul>';
+        message += '<br>';
+        message += '<div class="card shadow">';
+        message += '    <div class="card-body px-5 py-5 text-center text-md-left">';
+        message += '    <div class="row">';
+        message += '        <div id="question_main_' + question_cnt + '" class="question_main btn-group align-items-center">';
+        message += '            <div class="col-md-8">';
+        message += '                <input type="text" class="form-control" placeholder="질문 ' + (question_cnt+1) + '">';
+        message += '            </div>';
+        message += '            <div class="col-md-4">';
+        message += '                <div class="select-wrapper">';
+        message += '                    <div class="select-trigger" onclick="selectTrigger()">객관식 질문</div>';
+        message += '                    <ul class="select-options">';
+        message += '                        <li><i class="fas fa-pencil-alt"></i> &nbsp; 주관식 - 단답형</li>';
+        message += '                        <li><i class="fas fa-pencil-alt"></i> &nbsp; 주관식 - 장문형</li>';
+        message += '                        <hr>';
+        message += '                        <li selected><i class="fas fa-check-circle"></i> &nbsp; 객관식 질문</li>';
+        message += '                        <li><i class="far fa-check-square"></i> &nbsp; 체크박스</li>';
+        message += '                        <li><i class="fas fa-caret-down"></i> &nbsp; 드롭다운</li>';
+        message += '                        <hr>';
+        message += '                        <li><i class="fas fa-th"></i> &nbsp; 객관식 표</li>';
+        message += '                        <li><i class="far fa-check-square"></i> &nbsp; 체크박스 표</li>';
+        message += '                        <hr>';
+        message += '                        <li><i class="far fa-calendar-alt"></i> &nbsp; 날짜</li>';
+        message += '                        <li><i class="far fa-clock"></i> &nbsp; 시간</li>';
+        message += '                    </ul>';
+        message += '                </div>';
+        message += '                </div>';
+        message += '                <div id="option_' + question_cnt + '" class="col-12">';
+        message += '                    <div id="option_main_' + question_cnt + '_' + option_cnt + '" class="option_main align-items-center">';
+        message += '                        <input type="hidden" id="option_cnt_' + question_cnt + '_' + option_cnt + '" value="0">';
+        message += '                        <i class="fas fa-solid fa-arrow-circle-right"></i>&nbsp;';
+        message += '                        <input type="text" id="option_' + question_cnt + '_' + option_cnt + '" placeholder="옵션 ' + (option_cnt+1) + '">&nbsp;';
+        message += '                    </div>';
+        message += '                    <div id="addOption_' + question_cnt + '_' + option_cnt + '" class="option_main align-items-center">';
+        message += '                        <i class="fas fa-solid fa-arrow-circle-plus"></i>&nbsp;<button class="btn btn-outline-gray option_btn">옵션 추가</button>';
+        message += '                    </div>';
+        message += '                </div>';
+        message += '            </div>';
         message += '        </div>';
         message += '    </div>';
         message += '</div>';
-        message += '<div id="option">';
-        message += '    <div id="option_main_0" class="option_main align-items-center">';
-        message += '        <input type="hidden" id="option_cnt" value="0">';
-        message += '            <i class="fas fa-solid fa-arrow-circle-right"></i>&nbsp;';
-        message += '            <input type="text" id="option_0_0" placeholder="옵션 1">&nbsp;';
-        message += '    </div>';
-        message += '    <div id="addOption_0" class="option_main align-items-center">';
-        message += '        <i class="fas fa-solid fa-arrow-circle-plus"></i>&nbsp;<button class="btn btn-outline-gray" onclick="addOption()">옵션 추가</button>';
-        message += '    </div>';
         message += '</div>';
-
 
         document.getElementById('question').innerHTML += message;
     }
 
-    // 옵션 추가 버튼을 클릭하면 해당 옵션의 질문 번호를 가져온다.
-    $(document).on('click', '.opt_btn', function() {
-        let questionMainId = $(this).closest('.question_main').attr('id');
-        let cnt = parseInt(questionMainId.slice(-1));
-        alert(cnt);
-    });
+    $(document).on('click', '.option_btn', function(event) {
+        // 옵션 추가 버튼을 클릭하면 해당 옵션의 질문 번호를 가져온다
+        // 선택한 요소의 질문 번호를 가져와야하기에 번거로운 방법을 거친다
+        const question_main_id = $(event.target).closest('.question_main').attr('id');
+        const question_cnt = parseInt(question_main_id.slice(-1));
 
-    // 옵션 추가
-    function addOption(cnt) {
+        // 해당 옵션의 옵션 번호를 가져온다.
+        //const option_main_id = $(this).closest('.option_main').attr('id');
+        //let option_cnt = parseInt(option_main_id.slice(-1));
+        let option_main_id = $('#question_main_'+question_cnt).find('.option_main').last().attr('id');
+        let option_cnt = parseInt(option_main_id.slice(-1));
 
-        // 추가 버튼 삭제
-        const addButton = document.getElementById('addOption_'+cnt);
+        // 버튼을 제거한다.
+        const addButton = document.getElementById('addOption_' + question_cnt + '_' + option_cnt);
         addButton.remove();
 
-        document.getElementById('option_cnt_'+cnt).value = cnt;
+        option_cnt += 1;
 
-        cnt += 1;
 
-        // 출력
+
         let message = "";
-        message += '<div id="option_main_' + cnt + '" class="option_main align-items-center">';
-        message += '<input type="hidden" id="option_cnt_' + cnt + '" value="0">';
+        message += '<div id="option_main_' + question_cnt + '_' + option_cnt + '" class="option_main align-items-center">';
+        message += '    <input type="hidden" id="option_cnt_' + question_cnt + '_' + option_cnt + '" value="0">';
         message += '        <i class="fas fa-solid fa-arrow-circle-right"></i>&nbsp;';
-        message += '        <input type="text" id="option_' + document.getElementById('question_cnt').value + '_' + cnt + '" placeholder="옵션 ' + (cnt+1) + '">&nbsp;';
-        message += '            <div class="option_del"><i class="fas fa-sharp fa-solid fa-trash"></i>&nbsp; 삭제</div>';
+        message += '        <input type="text" id="option_' + question_cnt + '_' + option_cnt + '" placeholder="옵션 ' + (option_cnt+1) + '">&nbsp;';
         message += '</div>';
-        message += '<div id="addOption_' + cnt + '" class="option_main align-items-center">';
-        message += '    <i class="fas fa-solid fa-arrow-circle-plus"></i>&nbsp;<button class="btn btn-outline-gray" onclick="addOption()">옵션 추가</button>';
+        message += '<div id="addOption_' + question_cnt + '_' + option_cnt + '" class="option_main align-items-center">';
+        message += '    <i class="fas fa-solid fa-arrow-circle-plus"></i>&nbsp;<button class="btn btn-outline-gray option_btn">옵션 추가</button>';
         message += '</div>';
 
-        document.getElementById('option').innerHTML += message;
-    }
+        document.getElementById('option_'+question_cnt).innerHTML += message;
+    });
 
 </script>
 
