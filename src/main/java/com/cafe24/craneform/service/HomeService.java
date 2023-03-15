@@ -1,6 +1,6 @@
-package com.cafe24.craneform.Service;
+package com.cafe24.craneform.service;
 
-import com.cafe24.craneform.Dto.UserInfoDTO;
+import com.cafe24.craneform.dto.UserInfoDTO;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;

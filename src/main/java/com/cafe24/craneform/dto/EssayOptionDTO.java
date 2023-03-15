@@ -1,4 +1,4 @@
-package com.cafe24.craneform.Dto;
+package com.cafe24.craneform.dto;
 
 import lombok.Data;
 
