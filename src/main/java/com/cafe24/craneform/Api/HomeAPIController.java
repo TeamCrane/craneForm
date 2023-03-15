@@ -13,11 +13,11 @@ import java.util.Map;
 public class HomeAPIController {
     @Autowired HomeService home_service;
     @GetMapping("/login")
-    public Map<String, Object> getLogin(HttpSession session, @RequestParam String id, @RequestParam String pwd) {
-        return home_service.login(session, id, pwd);
+    public Map<String, Object> getLogin(HttpSession session, @RequestParam String email, @RequestParam String pwd) {
+        return home_service.login(session, email, pwd);
     }
-    @PutMapping("/join")
-    public Map<String, Object> putJoin(@RequestBody UserInfoDTO user) {
-        return null;
+    @PutMapping("/sign_up")
+    public Map<String, Object> putSignUp(@RequestBody UserInfoDTO user) {
+        return home_service.signUp(user);
     }
 }
