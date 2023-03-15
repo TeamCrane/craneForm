@@ -14,6 +14,8 @@
     <!-- Pixel CSS -->
     <link type="text/css" href="../../css/pixel.css" rel="stylesheet">
 
+    <script src="/js/jquery_v3.6.4.js"></script>
+
 </head>
 <body>
 <section class="min-vh-100 d-flex align-items-center section-image overlay-soft-dark" data-background="../../assets/img/pages/form-image.jpg">
@@ -55,13 +57,13 @@
                             </div>
                         </div>
                         <div class="d-grid">
-                            <button type="submit" class="btn btn-primary">로그인</button>
+                            <button type="button" class="btn btn-primary" id="login">로그인</button>
                         </div>
                     </form>
                     <div class="d-flex justify-content-center align-items-center mt-4">
                                     <span class="fw-normal">
                                         아직 회원이 아니신가요?
-                                        <a href="/join" class="fw-bold text-underline">회원가입</a>
+                                        <a href="/signup" class="fw-bold text-underline">회원가입</a>
                                     </span>
                     </div>
                 </div>
@@ -70,5 +72,28 @@
     </div>
 </section>
 
+<script>
+    $(function () {
+        $("#login").click(function () {
+            loginAccess();
+        })
+    })
+
+    function loginAccess() {
+        let email = $("#email").val();
+        let pwd = $("#password").val();
+        $.ajax({
+            url:"/api/login?email="+email+"&pwd="+pwd,
+            type:"get",
+            success:function(r) {
+                console.log(r.message);
+                alert(r.message);
+                if(r.status) {
+                    location.href = "/";
+                }
+            }
+        })
+    }
+</script>
 </body>
 </html>

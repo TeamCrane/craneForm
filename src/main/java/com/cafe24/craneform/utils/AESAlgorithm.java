@@ -1,4 +1,4 @@
-package com.cafe24.craneform.Utils;
+package com.cafe24.craneform.utils;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;

@@ -1,4 +1,4 @@
-package com.cafe24.craneform.Controller;
+package com.cafe24.craneform.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

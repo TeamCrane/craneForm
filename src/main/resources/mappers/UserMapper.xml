@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="user">
+
+    <select id="login" parameterType="com.cafe24.craneform.dto.UserInfoDTO" resultType="com.cafe24.craneform.dto.UserInfoDTO">
+        select * from user_info_tb
+        where ui_email = #{ui_email} and ui_password = #{ui_password}
+    </select>
+
+    <insert id="signup" parameterType="com.cafe24.craneform.dto.UserInfoDTO">
+        insert into user_info_tb (ui_name, ui_email, ui_addr, ui_phone, ui_gender, ui_birth, ui_password)
+        values (#{ui_name}, #{ui_email}, #{ui_addr}, #{ui_phone}, #{ui_gender}, #{ui_birth}, #{ui_password})
+    </insert>
+
+</mapper>
