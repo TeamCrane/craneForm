@@ -160,6 +160,43 @@
         overflow: visible;
     }
 
+    .option_main {
+        display: flex;
+        flex: 1;
+    }
+
+    .option_main > input {
+        font-size: 16px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        border-right: none;
+        border-left: none;
+        border-top: none;
+        border-bottom: 0.0625rem solid #D1D5DB;
+        padding-bottom: 5px;
+        width: 95%;
+    }
+
+    .option_main > input:focus {
+        outline: none;
+    }
+
+    .example_del {
+        cursor: pointer;
+        padding: 3px;
+    }
+
+    .example_del:hover {
+        background-color: #fdd6e2;
+        border: 1px solid #fdbbbe;
+        border-radius: 4px;
+    }
+
+    .question_main {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
 </style>
 
 <main class="container mt-5">
@@ -188,31 +225,42 @@
             <div class="mb-5">
                 <div class="card shadow">
                     <div class="card-body px-5 py-5 text-center text-md-left">
-                        <div id="question_main" class="row align-items-center">
-                            <div class="col-md-8">
-                                <input type="text" class="form-control" placeholder="질문">
-                            </div>
-                            <div class="col-md-4">
-                                <div class="select-wrapper">
-                                    <div class="select-trigger">객관식 질문</div>
-                                    <ul class="select-options">
-                                        <li>주관식 - 단답형</li>
-                                        <li>주관식 - 장문형</li>
-                                        <hr>
-                                        <li selected>객관식 질문</li>
-                                        <li>체크박스</li>
-                                        <li>드롭다운</li>
-                                        <hr>
-                                        <li>객관식 표</li>
-                                        <li>체크박스 표</li>
-                                        <hr>
-                                        <li>날짜</li>
-                                        <li>시간</li>
-                                    </ul>
+                        <div id="question" class="row">
+                            <input type="hidden" id="question_cnt" value="0">
+                            <div id="question_main_0" class="question_main btn-group align-items-center">
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" placeholder="질문 1">
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="select-wrapper">
+                                        <div class="select-trigger">객관식 질문</div>
+                                        <ul class="select-options">
+                                            <li><i class="fas fa-pencil-alt"></i> &nbsp; 주관식 - 단답형</li>
+                                            <li><i class="fas fa-pencil-alt"></i> &nbsp; 주관식 - 장문형</li>
+                                            <hr>
+                                            <li selected><i class="fas fa-check-circle"></i> &nbsp; 객관식 질문</li>
+                                            <li><i class="far fa-check-square"></i> &nbsp; 체크박스</li>
+                                            <li><i class="fas fa-caret-down"></i> &nbsp; 드롭다운</li>
+                                            <hr>
+                                            <li><i class="fas fa-th"></i> &nbsp; 객관식 표</li>
+                                            <li><i class="far fa-check-square"></i> &nbsp; 체크박스 표</li>
+                                            <hr>
+                                            <li><i class="far fa-calendar-alt"></i> &nbsp; 날짜</li>
+                                            <li><i class="far fa-clock"></i> &nbsp; 시간</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div id="option" class="col-12">
+                                    <div id="option_main_0" class="option_main align-items-center">
+                                        <input type="hidden" id="option_cnt_0" value="0">
+                                        <i class="fas fa-solid fa-arrow-circle-right"></i>&nbsp;
+                                        <input type="text" id="option_0_0" placeholder="옵션 1">&nbsp;
+                                    </div>
+                                    <div id="addOption_0" class="option_main align-items-center">
+                                        <i class="fas fa-solid fa-arrow-circle-plus"></i>&nbsp;<button class="btn btn-outline-gray opt_btn" <%--onclick="addOption(parseInt($('#option_cnt_0').val()))"--%>>옵션 추가</button>
+                                    </div>
                                 </div>
                             </div>
-
-
                         </div>
                     </div>
                 </div>
@@ -262,32 +310,89 @@
         }
     });
 
+    // 질문 추가
     function addQuestion() {
-        let message = "";
-        message += '<div class="col-md-8">';
-        message += '    <input type="text" class="form-control" placeholder="질문">'
-        message += '</div>'
-        message += '<div class="col-md-4">'
-        message += '    <div class="select-wrapper">'
-        message += '        <div class="select-trigger">객관식 질문</div>'
-        message += '        <ul class="select-options">'
-        message += '            <li>주관식 - 단답형</li>'
-        message += '            <li>주관식 - 장문형</li>'
-        message += '            <hr>'
-        message += '            <li selected>객관식 질문</li>'
-        message += '            <li>체크박스</li>'
-        message += '            <li>드롭다운</li>'
-        message += '            <hr>'
-        message += '            <li>객관식 표</li>'
-        message += '            <li>체크박스 표</li>'
-        message += '            <hr>'
-        message += '            <li>날짜</li>'
-        message += '            <li>시간</li>'
-        message += '        </ul>'
-        message += '    </div>'
-        message += '</div>'
+        // 질문 번호를 가져와서 1 증가
+        let qs_cnt = parseInt(document.getElementById('question_cnt').value);
+        qs_cnt += 1;
+        document.getElementById('question_cnt').value = qs_cnt;
 
-        document.getElementById('question_main').innerHTML += message;
+        // 옵션 번호 가져오기
+        let opt_cnt = parseInt(document.getElementById('option_cnt').value);
+
+
+        let message = "";
+        message += '';
+        message += '<div id="question_main_' + qs_cnt + '" class="btn-group align-items-center">';
+        message += '    <div class="col-md-8">';
+        message += '        <input type="text" class="form-control" placeholder="질문 ' + (qs_cnt+1) + '">';
+        message += '    </div>';
+        message += '    <div class="col-md-4">';
+        message += '        <div class="select-wrapper">';
+        message += '            <div class="select-trigger">객관식 질문</div>';
+        message += '            <ul class="select-options">';
+        message += '                <li><i class="fas fa-pencil-alt"></i> &nbsp; 주관식 - 단답형</li>';
+        message += '                <li><i class="fas fa-pencil-alt"></i> &nbsp; 주관식 - 장문형</li>';
+        message += '                <hr>';
+        message += '                <li selected><i class="fas fa-check-circle"></i> &nbsp; 객관식 질문</li>';
+        message += '                <li><i class="far fa-check-square"></i> &nbsp; 체크박스</li>';
+        message += '                <li><i class="fas fa-caret-down"></i> &nbsp; 드롭다운</li>';
+        message += '                <hr>';
+        message += '                <li><i class="fas fa-th"></i> &nbsp; 객관식 표</li>';
+        message += '                <li><i class="far fa-check-square"></i> &nbsp; 체크박스 표</li>';
+        message += '                <hr>';
+        message += '                <li><i class="far fa-calendar-alt"></i> &nbsp; 날짜</li>';
+        message += '                <li><i class="far fa-clock"></i> &nbsp; 시간</li>';
+        message += '            </ul>';
+        message += '        </div>';
+        message += '    </div>';
+        message += '</div>';
+        message += '<div id="option">';
+        message += '    <div id="option_main_0" class="option_main align-items-center">';
+        message += '        <input type="hidden" id="option_cnt" value="0">';
+        message += '            <i class="fas fa-solid fa-arrow-circle-right"></i>&nbsp;';
+        message += '            <input type="text" id="option_0_0" placeholder="옵션 1">&nbsp;';
+        message += '    </div>';
+        message += '    <div id="addOption_0" class="option_main align-items-center">';
+        message += '        <i class="fas fa-solid fa-arrow-circle-plus"></i>&nbsp;<button class="btn btn-outline-gray" onclick="addOption()">옵션 추가</button>';
+        message += '    </div>';
+        message += '</div>';
+
+
+        document.getElementById('question').innerHTML += message;
+    }
+
+    // 옵션 추가 버튼을 클릭하면 해당 옵션의 질문 번호를 가져온다.
+    $(document).on('click', '.opt_btn', function() {
+        let questionMainId = $(this).closest('.question_main').attr('id');
+        let cnt = parseInt(questionMainId.slice(-1));
+        alert(cnt);
+    });
+
+    // 옵션 추가
+    function addOption(cnt) {
+
+        // 추가 버튼 삭제
+        const addButton = document.getElementById('addOption_'+cnt);
+        addButton.remove();
+
+        document.getElementById('option_cnt_'+cnt).value = cnt;
+
+        cnt += 1;
+
+        // 출력
+        let message = "";
+        message += '<div id="option_main_' + cnt + '" class="option_main align-items-center">';
+        message += '<input type="hidden" id="option_cnt_' + cnt + '" value="0">';
+        message += '        <i class="fas fa-solid fa-arrow-circle-right"></i>&nbsp;';
+        message += '        <input type="text" id="option_' + document.getElementById('question_cnt').value + '_' + cnt + '" placeholder="옵션 ' + (cnt+1) + '">&nbsp;';
+        message += '            <div class="option_del"><i class="fas fa-sharp fa-solid fa-trash"></i>&nbsp; 삭제</div>';
+        message += '</div>';
+        message += '<div id="addOption_' + cnt + '" class="option_main align-items-center">';
+        message += '    <i class="fas fa-solid fa-arrow-circle-plus"></i>&nbsp;<button class="btn btn-outline-gray" onclick="addOption()">옵션 추가</button>';
+        message += '</div>';
+
+        document.getElementById('option').innerHTML += message;
     }
 
 </script>
