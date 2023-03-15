@@ -47,7 +47,7 @@
                         <li><a class="dropdown-item" href="#">Profile</a></li>
                         <li><a class="dropdown-item" href="#">Settings</a></li>
                         <li class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">Logout</a></li>
+                        <li><a class="dropdown-item" href="#" id="logout">Logout</a></li>
                     </ul>
                 </li>
             </ul>
@@ -118,6 +118,12 @@
     function addSurvey() {
         location.href="/survey/form";
     }
+
+    document.getElementById("logout").addEventListener("click", function () {
+        if(confirm("로그아웃 하시겠습니까?")) {
+                location.href = "/logout";
+        }
+    })
 </script>
 
 <!-- Core -->

@@ -14,7 +14,7 @@ public class HomeController {
     @GetMapping("/")
     public String Home(HttpSession session) {
         if (session.getAttribute("user") == null) { return "redirect:/login"; }
-        return "index";
+        return "/index";
     }
 
     @GetMapping("/login")
@@ -26,5 +26,11 @@ public class HomeController {
     @GetMapping("/signup")
     public String signup(HttpSession session) {
         return "/user/signup";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/login";
     }
 }
