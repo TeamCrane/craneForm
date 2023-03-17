@@ -50,10 +50,6 @@
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid d-flex align-items-center">
       <a class="navbar-brand me-auto" href="/">Crane Form</a>
-      <div class="input-group" style="width: 50%; margin: auto;">
-        <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon2">
-        <button class="btn btn-outline-secondary input-group-text" type="button" id="basic-addon2"><span class="fas fa-search"></span></button>
-      </div>
       <ul class="navbar-nav ms-auto nav-mypage">
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -70,3 +66,11 @@
     </div>
   </nav>
 </header>
+
+<script>
+  document.getElementById("logout").addEventListener("click", function () {
+    if(confirm("로그아웃 하시겠습니까?")) {
+      location.href = "/logout";
+    }
+  })
+</script>
