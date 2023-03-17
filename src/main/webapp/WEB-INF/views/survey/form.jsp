@@ -127,8 +127,7 @@
         margin: 0;
         flex-direction: column;
         border-radius: 5px;
-        box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
-        display: none;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     }
 
     .select-options li {
@@ -142,8 +141,9 @@
     }
 
     .select-options li[selected] {
-        font-weight: bold;
-        background-color: #fffec9;
+        font-weight: bolder;
+        color: #535cff;
+        background-color: #c9c7ff;
     }
 
     .select-wrapper.open .select-options {
@@ -233,22 +233,38 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div id="select_wrapper_0" class="select-wrapper">
-                                        <div id="select_type_0" class="select-trigger">
-                                            객관식 질문
+                                        <div id="select_type_0" class="select-trigger" onclick="selectTypeMenu(this)">
+                                            객관식
                                         </div>
-                                        <ul id="select_options_0" class="select-options" onclick="selectTypeChange(this)">
-                                            <li><i class="fas fa-pencil-alt"></i> &nbsp; 주관식 - 단답형</li>
-                                            <li><i class="fas fa-pencil-alt"></i> &nbsp; 주관식 - 장문형</li>
+                                        <ul id="select_options_0" class="select-options" style="display: none">
+                                            <li onclick="updateTypeMenu(this)"><i class="fas fa-pencil-alt"></i> &nbsp;
+                                                주관식 - 단답형
+                                            </li>
+                                            <li onclick="updateTypeMenu(this)"><i class="fas fa-pencil-alt"></i> &nbsp;
+                                                주관식 - 장문형
+                                            </li>
                                             <hr>
-                                            <li selected><i class="fas fa-check-circle"></i> &nbsp; 객관식 질문</li>
-                                            <li><i class="far fa-check-square"></i> &nbsp; 체크박스</li>
-                                            <li><i class="fas fa-caret-down"></i> &nbsp; 드롭다운</li>
+                                            <li selected onclick="updateTypeMenu(this)"><i
+                                                    class="fas fa-check-circle"></i> &nbsp; 객관식
+                                            </li>
+                                            <li onclick="updateTypeMenu(this)"><i class="far fa-check-square"></i>
+                                                &nbsp; 체크박스
+                                            </li>
+                                            <li onclick="updateTypeMenu(this)"><i class="fas fa-caret-down"></i> &nbsp;
+                                                드롭다운
+                                            </li>
                                             <hr>
-                                            <li><i class="fas fa-th"></i> &nbsp; 객관식 표</li>
-                                            <li><i class="far fa-check-square"></i> &nbsp; 체크박스 표</li>
+                                            <li onclick="updateTypeMenu(this)"><i class="fas fa-th"></i> &nbsp; 객관식 표
+                                            </li>
+                                            <li onclick="updateTypeMenu(this)"><i class="far fa-check-square"></i>
+                                                &nbsp; 체크박스 표
+                                            </li>
                                             <hr>
-                                            <li><i class="far fa-calendar-alt"></i> &nbsp; 날짜</li>
-                                            <li><i class="far fa-clock"></i> &nbsp; 시간</li>
+                                            <li onclick="updateTypeMenu(this)"><i class="far fa-calendar-alt"></i>
+                                                &nbsp; 날짜
+                                            </li>
+                                            <li onclick="updateTypeMenu(this)"><i class="far fa-clock"></i> &nbsp; 시간
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
@@ -282,17 +298,16 @@
 
 <script>
 
+    const select_option_list = document.querySelectorAll('.select-options');
+
     // 클릭하면 질문 유형 목록이 보인다
     function selectTypeMenu(event) {
+
         // 해당 요소의 이웃 요소를 가져온다
         const selectOptions = event.nextElementSibling;
 
         // 목록이 닫혀있다면 열고 열려있다면 닫는다
-        if (selectOptions.style.display === 'none') {
-            selectOptions.style.display = 'flex';
-        } else {
-            selectOptions.style.display = 'none';
-        }
+        selectOptions.style.display = (selectOptions.style.display === 'none') ? 'flex' : 'none';
     }
 
     // 질문 유형 목록이 열렸을 때 다른 곳을 클릭하면 display:none 처리한다
@@ -309,14 +324,20 @@
     });
 
     // 옵션을 클릭하면 해당 옵션으로 텍스트 내용이 바뀌고 목록이 사라진다
-    function selectTypeChange(event) {
-        const selected_option = event.querySelector('.select-options li[selected]');
+    function updateTypeMenu(event) {
+        const selected_option = event.parentElement.querySelector('li[selected]');
+        const chosen_option = event;
+
+        // alert(selected_option.textContent.trim());
 
         // 클릭된 요소로 selected 옮기기
         selected_option.removeAttribute('selected');
-        event.target.setAttribute('selected', 'selected');
+        chosen_option.setAttribute('selected', 'selected');
 
         // 클릭된 요소를 기본으로 세팅하고 선택창 display:none
+        const select_trigger = chosen_option.closest('.select-wrapper').querySelector('.select-trigger');
+        select_trigger.textContent = chosen_option.textContent.trim();
+        event.parentElement.style.display = 'none';
 
     }
 
@@ -346,20 +367,20 @@
         message += '            </div>';
         message += '            <div class="col-md-4">';
         message += '                <div id="select_wrapper_' + question_cnt + '" class="select-wrapper">';
-        message += '                    <div id="select_type_' + question_cnt + '"  class="select-trigger">객관식 질문</div>';
-        message += '                    <ul id="select_options_' + question_cnt + '" class="select-options" onclick="selectTypeChange(this)">';
-        message += '                        <li><i class="fas fa-pencil-alt"></i> &nbsp; 주관식 - 단답형</li>';
-        message += '                        <li><i class="fas fa-pencil-alt"></i> &nbsp; 주관식 - 장문형</li>';
+        message += '                    <div id="select_type_' + question_cnt + '"  class="select-trigger" onclick="selectTypeMenu(this)">객관식</div>';
+        message += '                    <ul id="select_options_' + question_cnt + '" class="select-options" style="display: none">';
+        message += '                        <li onclick="updateTypeMenu(this)"><i class="fas fa-pencil-alt"></i> &nbsp; 주관식 - 단답형</li>';
+        message += '                        <li onclick="updateTypeMenu(this)"><i class="fas fa-pencil-alt"></i> &nbsp; 주관식 - 장문형</li>';
         message += '                        <hr>';
-        message += '                        <li selected><i class="fas fa-check-circle"></i> &nbsp; 객관식 질문</li>';
-        message += '                        <li><i class="far fa-check-square"></i> &nbsp; 체크박스</li>';
-        message += '                        <li><i class="fas fa-caret-down"></i> &nbsp; 드롭다운</li>';
+        message += '                        <li selected onclick="updateTypeMenu(this)"><i class="fas fa-check-circle"></i> &nbsp; 객관식</li>';
+        message += '                        <li onclick="updateTypeMenu(this)"><i class="far fa-check-square"></i> &nbsp; 체크박스</li>';
+        message += '                        <li onclick="updateTypeMenu(this)"><i class="fas fa-caret-down"></i> &nbsp; 드롭다운</li>';
         message += '                        <hr>';
-        message += '                        <li><i class="fas fa-th"></i> &nbsp; 객관식 표</li>';
-        message += '                        <li><i class="far fa-check-square"></i> &nbsp; 체크박스 표</li>';
+        message += '                        <li onclick="updateTypeMenu(this)"><i class="fas fa-th"></i> &nbsp; 객관식 표</li>';
+        message += '                        <li onclick="updateTypeMenu(this)"><i class="far fa-check-square"></i> &nbsp; 체크박스 표</li>';
         message += '                        <hr>';
-        message += '                        <li><i class="far fa-calendar-alt"></i> &nbsp; 날짜</li>';
-        message += '                        <li><i class="far fa-clock"></i> &nbsp; 시간</li>';
+        message += '                        <li onclick="updateTypeMenu(this)"><i class="far fa-calendar-alt"></i> &nbsp; 날짜</li>';
+        message += '                        <li onclick="updateTypeMenu(this)"><i class="far fa-clock"></i> &nbsp; 시간</li>';
         message += '                    </ul>';
         message += '                </div>';
         message += '                </div>';
