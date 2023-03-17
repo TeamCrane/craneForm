@@ -28,4 +28,5 @@ public class HomeAPIController {
     public Map<String, Object> putSignup(@RequestBody UserInfoDTO user) {
         return home_service.signup(user);
     }
+
 }
