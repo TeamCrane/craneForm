@@ -36,7 +36,8 @@
                                 <input type="name" class="form-control" placeholder="이름" id="name" required>
                             </div>
                         </div>
-                        <!-- End of Form -->                        <!-- Form -->
+                        <!-- End of Form -->
+                        <!-- Form -->
                         <div class="form-group mb-4">
                             <label for="email">이메일</label>
                             <div class="input-group">
@@ -45,121 +46,90 @@
                             </div>
                         </div>
                         <!-- End of Form -->
-                        <div class="form-group">
-                            <!-- Form -->
-                            <div class="form-group mb-4">
-                                <label for="password">비밀번호</label>
-                                <div class="input-group">
-                                    <span class="input-group-text" id="basic-addon4"><span class="fas fa-unlock-alt"></span></span>
-                                    <input type="password" maxlength="16" placeholder="비밀번호 (16자 제한)" class="form-control" id="password" required>
-                                </div>
-                            </div>
-                            <!-- End of Form -->
-                            <!-- Form -->
-                            <div class="form-group mb-4">
-                                <label for="password_confirm">비밀번호 확인</label>
-                                <div class="input-group">
-                                    <span class="input-group-text" id="basic-addon5"><span class="fas fa-unlock-alt"></span></span>
-                                    <input type="password" maxlength="16" placeholder="비밀번호 확인" class="form-control" id="password_confirm" required>
-                                </div>
-                            </div>
-                            <!-- End of Form -->
-                            <!-- Form -->
-                            <div class="form-group mb-4">
-                                <label for="email">생년월일</label>
-                                <div class="input-group">
-                                    <span class="input-group-text" id="basic-addon6"><span class="fas fa-birthday-cake"></span></span>
-                                    <input type="date" placeholder="" class="form-control" id="birth" required>
-<%--                                    <select name="year" id="year" class="form-control">--%>
-<%--                                        <option value="">년도</option>--%>
-<%--                                        <!-- JavaScript 코드 -->--%>
-<%--                                    </select>--%>
-<%--                                    <select name="month" id="month" class="form-control">--%>
-<%--                                        <option value="">월</option>--%>
-<%--                                        <option value="01">1월</option>--%>
-<%--                                        <option value="02">2월</option>--%>
-<%--                                        <option value="03">3월</option>--%>
-<%--                                        <option value="04">4월</option>--%>
-<%--                                        <option value="05">5월</option>--%>
-<%--                                        <option value="06">6월</option>--%>
-<%--                                        <option value="07">7월</option>--%>
-<%--                                        <option value="08">8월</option>--%>
-<%--                                        <option value="09">9월</option>--%>
-<%--                                        <option value="10">10월</option>--%>
-<%--                                        <option value="11">11월</option>--%>
-<%--                                        <option value="12">12월</option>--%>
-<%--                                    </select>--%>
-<%--                                    <select name="day" id="day" class="form-control">--%>
-<%--                                        <option value="">일</option>--%>
-<%--                                        <!-- JavaScript 코드 -->--%>
-<%--                                    </select>--%>
-                                </div>
-                            </div>
-                            <!-- End of Form -->
-                            <!-- Form -->
-                            <div class="form-group mb-4">
-                                <label for="email">성별</label>
-                                <div class="input-group">
-                                    <span class="input-group-text" id="basic-addon7"><span class="fas fa-transgender"></span></span>
-                                    <select name="gender" id="gender" class="form-control">
-                                        <option value="">선택안함</option>
-                                        <option value="남">남</option>
-                                        <option value="여">여</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <!-- End of Form -->
-                            <!-- Form -->
-                            <div class="form-group mb-4">
-                                <label for="email">전화번호</label>
-                                <div class="input-group">
-                                    <span class="input-group-text" id="basic-addon8"><span class="fas fa-headphones"></span></span>
-                                    <input type="phone" class="form-control" id="phone1" placeholder="000" maxlength="3" required>
-                                    <input type="phone" class="form-control" id="phone2" placeholder="0000" maxlength="4" required>
-                                    <input type="phone" class="form-control" id="phone3" placeholder="0000" maxlength="4" required>
-                                </div>
-                            </div>
-                            <!-- End of Form -->
-                            <!-- Form -->
-                            <div class="form-group mb-4">
-                                <label for="email">주소</label>
-                                <div class="input-group">
-                                    <span class="input-group-text" id="basic-addon9"><span class="fas fa-address-book"></span></span>
-                                    <input type="text" class="form-control" id="sample2_postcode" placeholder="우편번호">
-                                    <input type="button" onclick="sample2_execDaumPostcode()" value="우편번호 찾기" style="border: 0.0625rem solid #D1D5DB;border-top-right-radius: 1rem;border-bottom-right-radius: 1rem;border-left: 0;"><br>
-                                </div>
-                                <div class="input-group" style="margin-top: 12px;">
-                                    <span class="input-group-text" id="basic-addon10"><span class="fas fa-address-book"></span></span>
-                                    <input type="text" class="form-control" id="sample2_address" placeholder="주소" style="border-top-right-radius: 1rem;border-bottom-right-radius: 1rem;"><br>
-                                </div>
-                                <div class="input-group" style="margin-top: 12px;">
-                                    <span class="input-group-text" id="basic-addon11"><span class="fas fa-address-book"></span></span>
-                                    <input type="text" class="form-control" id="sample2_detailAddress" placeholder="상세주소" style="border-top-right-radius: 1rem;border-bottom-right-radius: 1rem;"><br>
-                                    <input type="hidden" id="sample2_extraAddress" placeholder="참고항목">
-                                </div>
-                            </div>
+                        <!-- Form -->
+                        <div class="form-group mb-4">
+                            <label for="password">비밀번호</label>
                             <div class="input-group">
-                                <div id="layer" style="display:none;position:fixed;overflow:hidden;z-index:1;-webkit-overflow-scrolling:touch;border-radius: 1rem">
-                                    <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnCloseLayer" style="cursor:pointer;position:absolute;right:-3px;top:-3px;z-index:1" onclick="closeDaumPostcode()" alt="닫기 버튼">
-                                </div>
-                            </div>
-                            <!-- End of Form -->
-                            <div class="form-check mb-4" style="margin-top: 1.8rem;">
-                                <input class="form-check-input" type="checkbox" value="" id="terms">
-                                <label class="form-check-label" for="terms">
-                                    <a href="#">약관</a> 동의
-                                </label>
+                                <span class="input-group-text" id="basic-addon4"><span class="fas fa-unlock-alt"></span></span>
+                                <input type="password" maxlength="16" placeholder="비밀번호 (16자 제한)" class="form-control" id="password" required>
                             </div>
                         </div>
+                        <!-- End of Form -->
+                        <!-- Form -->
+                        <div class="form-group mb-4">
+                            <label for="password_confirm">비밀번호 확인</label>
+                            <div class="input-group">
+                                <span class="input-group-text" id="basic-addon5"><span class="fas fa-unlock-alt"></span></span>
+                                <input type="password" maxlength="16" placeholder="비밀번호 확인" class="form-control" id="password_confirm" required>
+                            </div>
+                        </div>
+                        <!-- End of Form -->
+                        <!-- Form -->
+                        <div class="form-group mb-4">
+                            <label for="email">생년월일</label>
+                            <div class="input-group">
+                                <span class="input-group-text" id="basic-addon6"><span class="fas fa-birthday-cake"></span></span>
+                                <input type="date" placeholder="" class="form-control" id="birth" required>
+                            </div>
+                        </div>
+                        <!-- End of Form -->
+                        <!-- Form -->
+                        <div class="form-group mb-4">
+                            <label for="email">성별</label>
+                            <div class="input-group">
+                                <span class="input-group-text" id="basic-addon7"><span class="fas fa-transgender"></span></span>
+                                <select name="gender" id="gender" class="form-control">
+                                    <option value="">선택안함</option>
+                                    <option value="m">남</option>
+                                    <option value="f">여</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- End of Form -->
+                        <!-- Form -->
+                        <div class="form-group mb-4">
+                            <label for="email">전화번호</label>
+                            <div class="input-group">
+                                <span class="input-group-text" id="basic-addon8"><span class="fas fa-headphones"></span></span>
+                                <input type="phone" class="form-control" id="phone1" placeholder="000" maxlength="3" required>
+                                <input type="phone" class="form-control" id="phone2" placeholder="0000" maxlength="4" required>
+                                <input type="phone" class="form-control" id="phone3" placeholder="0000" maxlength="4" required>
+                            </div>
+                        </div>
+                        <!-- End of Form -->
+                        <!-- Form -->
+                        <div class="form-group mb-4">
+                            <label for="email">주소</label>
+                            <div class="input-group">
+                                <span class="input-group-text" id="basic-addon9"><span class="fas fa-address-book"></span></span>
+                                <input type="text" class="form-control" id="sample2_postcode" placeholder="우편번호">
+                                <input type="button" onclick="sample2_execDaumPostcode()" value="우편번호 찾기" style="border: 0.0625rem solid #D1D5DB;border-top-right-radius: 1rem;border-bottom-right-radius: 1rem;border-left: 0;"><br>
+                            </div>
+                            <div class="input-group" style="margin-top: 12px;">
+                                <span class="input-group-text" id="basic-addon10"><span class="fas fa-address-book"></span></span>
+                                <input type="text" class="form-control" id="sample2_address" placeholder="주소" style="border-top-right-radius: 1rem;border-bottom-right-radius: 1rem;"><br>
+                            </div>
+                            <div class="input-group" style="margin-top: 12px;">
+                                <span class="input-group-text" id="basic-addon11"><span class="fas fa-address-book"></span></span>
+                                <input type="text" class="form-control" id="sample2_detailAddress" placeholder="상세주소1"><br>
+                                <input type="text" class="form-control" id="sample2_extraAddress" placeholder="상세주소2">
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <div id="layer" style="display:none;position:fixed;overflow:hidden;z-index:1;-webkit-overflow-scrolling:touch;border-radius: 1rem">
+                                <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnCloseLayer" style="cursor:pointer;position:absolute;right:-3px;top:-3px;z-index:1" onclick="closeDaumPostcode()" alt="닫기 버튼">
+                            </div>
+                        </div>
+                        <!-- End of Form -->
                         <div class="d-grid">
                             <button type="button" class="btn btn-primary" id="signup">회원가입</button>
                         </div>
                     </form>
                     <div class="d-flex justify-content-center align-items-center mt-4">
-                                <span class="fw-normal">
-                                    이미 회원이신가요?
-                                    <a href="/login" class="fw-bold text-underline">로그인</a>
-                                </span>
+                        <span class="fw-normal">
+                            이미 회원이신가요?
+                            <a href="/login" class="fw-bold text-underline">로그인</a>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -173,7 +143,7 @@
             let user = {
                 ui_name:$("#name").val(),
                 ui_email:$("#email").val(),
-                ui_address:$("#sample2_address").val() + " " + $("#sample2_detailAddress").val(),
+                ui_addr:"(" + $("#sample2_postcode").val() + ") " + $("#sample2_address").val() + ", " + $("#sample2_detailAddress").val() + " " + $("#sample2_extraAddress").val(),
                 ui_phone:$("#phone1").val() + "-" + $("#phone2").val() + "-" + $("#phone3").val(),
                 ui_gender:$("#gender option:selected").val(),
                 ui_birth:$("#birth").val(),
@@ -196,40 +166,6 @@
     })
 </script>
 
-<%--<!-- 생년월일 드롭다운 -->--%>
-<%--<script>--%>
-<%--    const year = document.querySelector("#year");--%>
-<%--    const day = document.querySelector("#day");--%>
-
-<%--    // 현재 연도를 구함--%>
-<%--    const currentYear = new Date().getFullYear();--%>
-
-<%--    // 현재 연도부터 1901년까지의 연도를 옵션으로 추가--%>
-<%--    for (let i = currentYear; i >= 1901; i--) {--%>
-<%--        const option = document.createElement("option");--%>
-<%--        option.value = i;--%>
-<%--        option.textContent = i + "년";--%>
-<%--        year.appendChild(option);--%>
-<%--    }--%>
-
-<%--    // 연도와 월이 선택되었을 때, 해당 월의 일 수를 계산하여 일 select 태그에 옵션을 추가--%>
-<%--    function updateDays() {--%>
-<%--        const yearValue = parseInt(year.value);--%>
-<%--        const monthValue = parseInt(month.value);--%>
-<%--        const daysInMonth = new Date(yearValue, monthValue, 0).getDate();--%>
-
-<%--        for (let i = 1; i <= daysInMonth; i++) {--%>
-<%--            const option = document.createElement("option");--%>
-<%--            option.value = i;--%>
-<%--            option.textContent = i + "일";--%>
-<%--            day.appendChild(option);--%>
-<%--        }--%>
-<%--    }--%>
-
-<%--    // 연도와 월 select 태그에 change 이벤트를 등록하여 일 select 태그 업데이트--%>
-<%--    year.addEventListener("change", updateDays);--%>
-<%--    month.addEventListener("change", updateDays);--%>
-<%--</script>--%>
 
 <!-- 카카오 주소 검색 API 스크립트 -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>

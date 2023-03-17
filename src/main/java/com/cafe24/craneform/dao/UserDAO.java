@@ -19,6 +19,8 @@ public class UserDAO {
          return sqlSession.selectOne("user.login", user);
     }
 
+    public boolean dupChkEmail(String email) { return sqlSession.selectOne("user.dup_email", email); }
+
     public void signupUser(UserInfoDTO user) {
         sqlSession.insert("user.signup", user);
     }
