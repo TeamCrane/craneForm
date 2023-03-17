@@ -232,9 +232,11 @@
                                     <input type="text" class="form-control" placeholder="질문 1">
                                 </div>
                                 <div class="col-md-4">
-                                    <div class="select-wrapper">
-                                        <div class="select-trigger">객관식 질문</div>
-                                        <ul class="select-options">
+                                    <div id="select_wrapper_0" class="select-wrapper">
+                                        <div id="select_type_0" class="select-trigger">
+                                            객관식 질문
+                                        </div>
+                                        <ul id="select_options_0" class="select-options" onclick="selectTypeChange(this)">
                                             <li><i class="fas fa-pencil-alt"></i> &nbsp; 주관식 - 단답형</li>
                                             <li><i class="fas fa-pencil-alt"></i> &nbsp; 주관식 - 장문형</li>
                                             <hr>
@@ -257,7 +259,9 @@
                                         <input type="text" id="option_0_0" placeholder="옵션 1">&nbsp;
                                     </div>
                                     <div id="addOption_0_0" class="option_main align-items-center">
-                                        <i class="fas fa-solid fa-arrow-circle-plus"></i>&nbsp;<button class="btn btn-outline-gray option_btn">옵션 추가</button>
+                                        <i class="fas fa-solid fa-arrow-circle-plus"></i>&nbsp;<button
+                                            class="btn btn-outline-gray option_btn">옵션 추가
+                                    </button>
                                     </div>
                                 </div>
                             </div>
@@ -277,44 +281,45 @@
 </main>
 
 <script>
-    // const selectTrigger = document.querySelector('.select-trigger');
-    //const selectOptions = document.querySelector(".select-options");
 
     // 클릭하면 질문 유형 목록이 보인다
-    $('.select-trigger').each(function () {
-        $(this).on('click', function () {
-            const selectOptions0 = $(this).closest('.select-wrapper');
-            const selectOptions = selectOptions0.children('.select-options');
-            selectOptions.css('display', 'flex');
-        });
-    });
+    function selectTypeMenu(event) {
+        // 해당 요소의 이웃 요소를 가져온다
+        const selectOptions = event.nextElementSibling;
 
-    // 질문 유형 목록이 열렸을 때 다른 곳을 클릭하면 display:none 처리된다
-    /*document.addEventListener('click', function (event) {
-        if (selectOptions.style.display === 'flex' && !event.target.closest('.select-wrapper')) {
+        // 목록이 닫혀있다면 열고 열려있다면 닫는다
+        if (selectOptions.style.display === 'none') {
+            selectOptions.style.display = 'flex';
+        } else {
             selectOptions.style.display = 'none';
+        }
+    }
+
+    // 질문 유형 목록이 열렸을 때 다른 곳을 클릭하면 display:none 처리한다
+    document.addEventListener('click', function (event) {
+        const question_cnt = parseInt(document.getElementById('question_cnt').value);
+        const select_wrappers = document.querySelectorAll('.select-wrapper');
+
+        for (let i = 0; i <= question_cnt; i++) {
+            const select_options = select_wrappers[i].querySelector('.select-options');
+            if (!select_wrappers[i].contains(event.target)) {
+                select_options.style.display = 'none';
+            }
         }
     });
 
     // 옵션을 클릭하면 해당 옵션으로 텍스트 내용이 바뀌고 목록이 사라진다
-    selectOptions.querySelectorAll('li').forEach(function (option) {
-        if (!option.querySelector('hr')) {
-            option.addEventListener('click', function (event) {
-                // const targeted_option = event.target;
-                const selectedOption = document.querySelector('.select-options li[selected]');
+    function selectTypeChange(event) {
+        const selected_option = event.querySelector('.select-options li[selected]');
 
-                // 클릭된 요소로 selected 옮기기
-                selectedOption.removeAttribute('selected');
-                option.setAttribute('selected', 'selected');
+        // 클릭된 요소로 selected 옮기기
+        selected_option.removeAttribute('selected');
+        event.target.setAttribute('selected', 'selected');
 
-                // 클릭된 요소를 기본으로 세팅하고 선택창 display:none
-                const selectTrigger0 = $(this).closest('.select-wrapper');
-                const selectTrigger = selectTrigger0.children('.select-trigger');
-                selectTrigger.text(option.textContent);
-                selectOptions.style.display = 'none';
-            });
-        }
-    });*/
+        // 클릭된 요소를 기본으로 세팅하고 선택창 display:none
+
+    }
+
 
     // 질문 추가
     function addQuestion() {
@@ -323,7 +328,7 @@
         let question_cnt = parseInt(document.getElementById('question_cnt').value);
 
         // 옵션 번호 가져오기
-        let option_main_id = $('#question_main_'+question_cnt).find('.option_main').eq(0).attr('id');
+        let option_main_id = $('#question_main_' + question_cnt).find('.option_main').eq(0).attr('id');
         let option_cnt = parseInt(option_main_id.slice(-1));
 
         // 1 더해서 대입
@@ -337,12 +342,12 @@
         message += '    <div class="row">';
         message += '        <div id="question_main_' + question_cnt + '" class="question_main btn-group align-items-center">';
         message += '            <div class="col-md-8">';
-        message += '                <input type="text" class="form-control" placeholder="질문 ' + (question_cnt+1) + '">';
+        message += '                <input type="text" class="form-control" placeholder="질문 ' + (question_cnt + 1) + '">';
         message += '            </div>';
         message += '            <div class="col-md-4">';
-        message += '                <div class="select-wrapper">';
-        message += '                    <div class="select-trigger" onclick="selectTrigger()">객관식 질문</div>';
-        message += '                    <ul class="select-options">';
+        message += '                <div id="select_wrapper_' + question_cnt + '" class="select-wrapper">';
+        message += '                    <div id="select_type_' + question_cnt + '"  class="select-trigger">객관식 질문</div>';
+        message += '                    <ul id="select_options_' + question_cnt + '" class="select-options" onclick="selectTypeChange(this)">';
         message += '                        <li><i class="fas fa-pencil-alt"></i> &nbsp; 주관식 - 단답형</li>';
         message += '                        <li><i class="fas fa-pencil-alt"></i> &nbsp; 주관식 - 장문형</li>';
         message += '                        <hr>';
@@ -362,7 +367,7 @@
         message += '                    <div id="option_main_' + question_cnt + '_' + option_cnt + '" class="option_main align-items-center">';
         message += '                        <input type="hidden" id="option_cnt_' + question_cnt + '_' + option_cnt + '" value="0">';
         message += '                        <i class="fas fa-solid fa-arrow-circle-right"></i>&nbsp;';
-        message += '                        <input type="text" id="option_' + question_cnt + '_' + option_cnt + '" placeholder="옵션 ' + (option_cnt+1) + '">&nbsp;';
+        message += '                        <input type="text" id="option_' + question_cnt + '_' + option_cnt + '" placeholder="옵션 ' + (option_cnt + 1) + '">&nbsp;';
         message += '                    </div>';
         message += '                    <div id="addOption_' + question_cnt + '_' + option_cnt + '" class="option_main align-items-center">';
         message += '                        <i class="fas fa-solid fa-arrow-circle-plus"></i>&nbsp;<button class="btn btn-outline-gray option_btn">옵션 추가</button>';
@@ -377,16 +382,18 @@
         document.getElementById('question').innerHTML += message;
     }
 
-    $(document).on('click', '.option_btn', function(event) {
+    // 옵션 추가
+    $(document).on('click', '.option_btn', function (event) {
         // 옵션 추가 버튼을 클릭하면 해당 옵션의 질문 번호를 가져온다
         // 선택한 요소의 질문 번호를 가져와야하기에 번거로운 방법을 거친다
         const question_main_id = $(event.target).closest('.question_main').attr('id');
-        const question_cnt = parseInt(question_main_id.slice(-1));
+        const question_main_array = question_main_id.split('_');
+        const question_cnt = question_main_array[2];
 
         // 해당 옵션의 옵션 번호를 가져온다.
         //const option_main_id = $(this).closest('.option_main').attr('id');
         //let option_cnt = parseInt(option_main_id.slice(-1));
-        let option_main_id = $('#question_main_'+question_cnt).find('.option_main').last().attr('id');
+        let option_main_id = $('#question_main_' + question_cnt).find('.option_main').last().attr('id');
         let option_cnt = parseInt(option_main_id.slice(-1));
 
         // 버튼을 제거한다.
@@ -396,20 +403,93 @@
         option_cnt += 1;
 
 
-
         let message = "";
         message += '<div id="option_main_' + question_cnt + '_' + option_cnt + '" class="option_main align-items-center">';
         message += '    <input type="hidden" id="option_cnt_' + question_cnt + '_' + option_cnt + '" value="0">';
         message += '        <i class="fas fa-solid fa-arrow-circle-right"></i>&nbsp;';
-        message += '        <input type="text" id="option_' + question_cnt + '_' + option_cnt + '" placeholder="옵션 ' + (option_cnt+1) + '">&nbsp;';
+        message += '        <input type="text" id="option_' + question_cnt + '_' + option_cnt + '" placeholder="옵션 ' + (option_cnt + 1) + '">&nbsp;';
         message += '</div>';
         message += '<div id="addOption_' + question_cnt + '_' + option_cnt + '" class="option_main align-items-center">';
         message += '    <i class="fas fa-solid fa-arrow-circle-plus"></i>&nbsp;<button class="btn btn-outline-gray option_btn">옵션 추가</button>';
         message += '</div>';
 
-        document.getElementById('option_'+question_cnt).innerHTML += message;
+        document.getElementById('option_' + question_cnt).innerHTML += message;
     });
 
+    /*const select_trigger0 = $(this).closest('.select-wrapper');
+        const select_trigger = select_trigger0.children('.select-trigger');
+        select_trigger.text(event.textContent);
+        selected_option.style.display = 'none';*/
+
+    /*if (!event.target.querySelector('hr')) {
+        alert()
+
+        event.addEventListener('click', function () {
+            const selected_option = event.querySelector('.select-options li[selected]');
+
+            // 클릭된 요소로 selected 옮기기
+            selected_option.removeAttribute('selected');
+            event.setAttribute('selected', 'selected');
+
+            // 클릭된 요소를 기본으로 세팅하고 선택창 display:none
+            const selectTrigger0 = $(this).closest('.select-wrapper');
+            const selectTrigger = selectTrigger0.children('.select-trigger');
+            selectTrigger.text(event.textContent);
+            selected_option.style.display = 'none';
+        });
+    }*/
+
+    // const selectOptions = document.querySelector(".select-options");
+
+    // 클릭 이벤트가 발생한 곳이 select-options 내부인지 외부인지 판단
+    /*if (event.target.closest(".select-wrapper") === null) {
+
+        // select-options 외부를 클릭했다면 display:none
+        const questionCnt = document.getElementById('question_cnt').value;
+
+        for (let i = 0; i < questionCnt; i++) {
+            const select_options = document.getElementById('select_options_'+i);
+            select_options.style.display = "none";
+        }
+    }*/
+
+    /*selectOptions.querySelectorAll('li').forEach(function (option) {
+        if (!option.querySelector('hr')) {
+            option.addEventListener('click', function (event) {
+                // const targeted_option = event.target;
+                const selectedOption = document.querySelector('.select-options li[selected]');
+
+                // 클릭된 요소로 selected 옮기기
+                selectedOption.removeAttribute('selected');
+                option.setAttribute('selected', 'selected');
+
+                // 클릭된 요소를 기본으로 세팅하고 선택창 display:none
+                const selectTrigger0 = $(this).closest('.select-wrapper');
+                const selectTrigger = selectTrigger0.children('.select-trigger');
+                selectTrigger.text(option.textContent);
+                selectOptions.style.display = 'none';
+            });
+        }
+    });*/
+
+    /*for (let i = 0; i < select_wrappers; i++) {
+            const select_options = select_wrappers[i].querySelectorAll('.select-options');
+            let flag = true;
+            for (let j = 0; j < select_options.length; j++) {
+                // 옵션 목록이 전부 닫혀있는지 확인
+                if (getComputedStyle(select_options[j]).display !== 'flex') {
+                    flag = false;
+                    break;
+                }
+            }
+
+            // 하나라도 열려있으면 전부 닫기
+            if (flag) {
+                for (let j = 0; j < select_options.length; j++) {
+                    select_options[j].style.display = 'none';
+                }
+            }
+        }*/
 </script>
 
 <%@ include file="../footer.jsp" %>
