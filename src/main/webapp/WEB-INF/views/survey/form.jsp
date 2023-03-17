@@ -197,87 +197,123 @@
         flex-wrap: wrap;
     }
 
+    .multi-check {
+        margin: auto;
+        padding-right: 10px;
+    }
+
+    .multi-check input[type="checkbox"] {
+        margin-right: 5px;
+    }
+
+    .required {
+        margin-left: auto;
+        padding-right: 10px;
+    }
+
+    .required input[type="checkbox"] {
+        margin-right: 5px;
+    }
+
+    label {
+        font-weight: normal;
+    }
+
 </style>
 
 <main class="container mt-5">
-    <div class="row mb-3 d-flex">
-        <div class="btn-group text-center justify-content-center" role="group" aria-label="Sort cards">
-            <a href="#" class="btn-sort">질문</a>
-            <span class="separator">|</span>
-            <a href="#" class="btn-sort">설정</a>
+    <form method="post">
+        <div class="row mb-3 d-flex">
+            <div class="btn-group text-center justify-content-center" role="group" aria-label="Sort cards">
+                <a href="#" class="btn-sort">질문</a>
+                <span class="separator">|</span>
+                <a href="#" class="btn-sort">설정</a>
+            </div>
         </div>
-    </div>
-    <hr>
-    <div class="row">
-        <div class="col-2"></div>
-        <div id="survey_main" class="col-8">
-            <div class="mb-5">
-                <div class="card shadow">
-                    <div class="card-body px-5 text-center text-md-left titlebox">
-                        <div class="row align-items-center">
-                            <input type="text" class="title" placeholder="제목 없는 설문지" value="">
-                            <input type="text" class="form-control description" placeholder="설문지 설명" value="">
+        <hr>
+        <div class="row">
+            <div class="col-2"></div>
+            <div id="survey_main" class="col-8">
+                <div class="mb-5">
+                    <div class="card shadow">
+                        <div class="card-body px-5 text-center text-md-left titlebox">
+                            <div class="row align-items-center">
+                                <input type="text" name="title" class="title" placeholder="제목 없는 설문지" value="">
+                                <input type="text" name="description" class="form-control description" placeholder="설문지 설명" value="">
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div id="question" class="mb-5">
-                <div class="card shadow">
-                    <div class="card-body px-5 py-5 text-center text-md-left">
-                        <div class="row">
-                            <input type="hidden" id="question_cnt" value="0">
-                            <div id="question_main_0" class="question_main btn-group align-items-center">
-                                <div class="col-md-8">
-                                    <input type="text" class="form-control" placeholder="질문 1">
-                                </div>
-                                <div class="col-md-4">
-                                    <div id="select_wrapper_0" class="select-wrapper">
-                                        <div id="select_type_0" class="select-trigger" onclick="selectTypeMenu(this)">
-                                            객관식
+                <div id="question" class="mb-5">
+                    <div class="card shadow">
+                        <div class="card-body px-5 py-5 text-center text-md-left">
+                            <div class="row">
+                                <input type="hidden" id="question_cnt" value="0">
+                                <div id="question_main_0" class="question_main btn-group align-items-center">
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" placeholder="질문 1">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div id="select_wrapper_0" class="select-wrapper">
+                                            <div class="select-trigger"
+                                                 onclick="selectTypeMenu(this)">
+                                                객관식
+                                            </div>
+                                            <ul id="select_options_0" class="select-options" style="display: none">
+                                                <li onclick="updateTypeMenu(this)"><i class="fas fa-pencil-alt"></i>
+                                                    &nbsp;
+                                                    주관식 - 단답형
+                                                </li>
+                                                <li onclick="updateTypeMenu(this)"><i class="fas fa-pencil-alt"></i>
+                                                    &nbsp;
+                                                    주관식 - 장문형
+                                                </li>
+                                                <hr>
+                                                <li selected onclick="updateTypeMenu(this)"><i
+                                                        class="fas fa-check-circle"></i> &nbsp; 객관식
+                                                </li>
+                                                <li onclick="updateTypeMenu(this)"><i class="far fa-check-square"></i>
+                                                    &nbsp; 체크박스
+                                                </li>
+                                                <li onclick="updateTypeMenu(this)"><i class="fas fa-caret-down"></i>
+                                                    &nbsp;
+                                                    드롭다운
+                                                </li>
+                                                <hr>
+                                                <li onclick="updateTypeMenu(this)"><i class="fas fa-th"></i> &nbsp; 객관식
+                                                    표
+                                                </li>
+                                                <li onclick="updateTypeMenu(this)"><i class="far fa-check-square"></i>
+                                                    &nbsp; 체크박스 표
+                                                </li>
+                                                <hr>
+                                                <li onclick="updateTypeMenu(this)"><i class="far fa-calendar-alt"></i>
+                                                    &nbsp; 날짜
+                                                </li>
+                                                <li onclick="updateTypeMenu(this)"><i class="far fa-clock"></i> &nbsp;
+                                                    시간
+                                                </li>
+                                            </ul>
                                         </div>
-                                        <ul id="select_options_0" class="select-options" style="display: none">
-                                            <li onclick="updateTypeMenu(this)"><i class="fas fa-pencil-alt"></i> &nbsp;
-                                                주관식 - 단답형
-                                            </li>
-                                            <li onclick="updateTypeMenu(this)"><i class="fas fa-pencil-alt"></i> &nbsp;
-                                                주관식 - 장문형
-                                            </li>
-                                            <hr>
-                                            <li selected onclick="updateTypeMenu(this)"><i
-                                                    class="fas fa-check-circle"></i> &nbsp; 객관식
-                                            </li>
-                                            <li onclick="updateTypeMenu(this)"><i class="far fa-check-square"></i>
-                                                &nbsp; 체크박스
-                                            </li>
-                                            <li onclick="updateTypeMenu(this)"><i class="fas fa-caret-down"></i> &nbsp;
-                                                드롭다운
-                                            </li>
-                                            <hr>
-                                            <li onclick="updateTypeMenu(this)"><i class="fas fa-th"></i> &nbsp; 객관식 표
-                                            </li>
-                                            <li onclick="updateTypeMenu(this)"><i class="far fa-check-square"></i>
-                                                &nbsp; 체크박스 표
-                                            </li>
-                                            <hr>
-                                            <li onclick="updateTypeMenu(this)"><i class="far fa-calendar-alt"></i>
-                                                &nbsp; 날짜
-                                            </li>
-                                            <li onclick="updateTypeMenu(this)"><i class="far fa-clock"></i> &nbsp; 시간
-                                            </li>
-                                        </ul>
                                     </div>
-                                </div>
-                                <div id="option_0" class="col-12">
-                                    <div id="option_main_0_0" class="option_main align-items-center">
-                                        <input type="hidden" id="option_cnt_0_0" value="0">
-                                        <i class="fas fa-solid fa-arrow-circle-right"></i>&nbsp;
-                                        <input type="text" id="option_0_0" placeholder="옵션 1">&nbsp;
+                                    <div class="required">
+                                        <input type="checkbox" id="required_0"><label for="required_0"><span style="color: red">*</span> 필수 여부</label>
                                     </div>
-                                    <div id="addOption_0_0" class="option_main align-items-center">
-                                        <i class="fas fa-solid fa-arrow-circle-plus"></i>&nbsp;<button
-                                            class="btn btn-outline-gray option_btn">옵션 추가
-                                    </button>
+                                    <div class="multi-check">
+                                        <input type="checkbox" id="multi_check_0"><label for="multi_check_0">다중 선택 허용</label>
+                                    </div>
+                                    <div id="option_0" class="col-12">
+                                        <div id="option_main_0_0" class="option_main align-items-center">
+                                            <input type="hidden" id="option_cnt_0_0" value="0">
+                                            <i class="fas fa-solid fa-arrow-circle-right"></i>&nbsp;
+                                            <input type="text" id="option_0_0" placeholder="옵션 1">&nbsp;
+                                        </div>
+                                        <div id="addOption_0_0" class="option_main align-items-center">
+                                            <i class="fas fa-solid fa-arrow-circle-plus"></i>&nbsp;<button
+                                                class="btn btn-outline-gray option_btn">옵션 추가
+                                        </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -285,16 +321,27 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-2">
-            <div class="nav-form">
-                <a class="nav-form-link" title="질문 추가" onclick="addQuestion()"><i class="fas fa-plus"></i></a>
-                <a class="nav-form-link" title="질문 가져오기"><i class="fas fa-download"></i></a>
-                <a class="nav-form-link" title="섹션 추가"><i class="fas fa-plus-square"></i></a>
+            <div class="col-2">
+                <div class="nav-form">
+                    <a class="nav-form-link" title="질문 추가" onclick="addQuestion()"><i class="fas fa-plus"></i></a>
+                    <a class="nav-form-link" title="질문 가져오기"><i class="fas fa-download"></i></a>
+                    <a class="nav-form-link" title="섹션 추가"><i class="fas fa-plus-square"></i></a>
+                </div>
             </div>
         </div>
-    </div>
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-8">
+                <button type="button" class="btn btn-lg btn-primary btn-block" onclick="questionComplete()" style="width: 100%">제출</button>
+            </div>
+            <div class="col-2"></div>
+        </div>
+    </form>
 </main>
+
+<section id="setting">
+
+</section>
 
 <script>
 
@@ -367,7 +414,7 @@
         message += '            </div>';
         message += '            <div class="col-md-4">';
         message += '                <div id="select_wrapper_' + question_cnt + '" class="select-wrapper">';
-        message += '                    <div id="select_type_' + question_cnt + '"  class="select-trigger" onclick="selectTypeMenu(this)">객관식</div>';
+        message += '                    <div class="select-trigger" onclick="selectTypeMenu(this)">객관식</div>';
         message += '                    <ul id="select_options_' + question_cnt + '" class="select-options" style="display: none">';
         message += '                        <li onclick="updateTypeMenu(this)"><i class="fas fa-pencil-alt"></i> &nbsp; 주관식 - 단답형</li>';
         message += '                        <li onclick="updateTypeMenu(this)"><i class="fas fa-pencil-alt"></i> &nbsp; 주관식 - 장문형</li>';
@@ -383,6 +430,12 @@
         message += '                        <li onclick="updateTypeMenu(this)"><i class="far fa-clock"></i> &nbsp; 시간</li>';
         message += '                    </ul>';
         message += '                </div>';
+        message += '                </div>';
+        message += '                <div class="required">';
+        message += '                    <input type="checkbox" id="required_' + question_cnt + '"><label for="required_' + question_cnt + '"><span style="color: red">*</span> 필수 여부</label>';
+        message += '                </div>';
+        message += '                <div class="multi-check">';
+        message += '                    <input type="checkbox" id="multi_check_' + question_cnt + '"><label for="multi_check_' + question_cnt + '">다중 선택 허용</label>';
         message += '                </div>';
         message += '                <div id="option_' + question_cnt + '" class="col-12">';
         message += '                    <div id="option_main_' + question_cnt + '_' + option_cnt + '" class="option_main align-items-center">';
