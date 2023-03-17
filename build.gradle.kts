@@ -35,6 +35,10 @@ dependencies {
     // jstl
     implementation("javax.servlet:jstl:1.2")
 
+    // gson (json)
+    implementation("com.google.code.gson:gson:2.8.9")
+
+
 }
 
 tasks.withType<Test> {

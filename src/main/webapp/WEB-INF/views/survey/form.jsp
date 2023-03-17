@@ -222,15 +222,15 @@
 </style>
 
 <main class="container mt-5">
-    <form method="post">
-        <div class="row mb-3 d-flex">
-            <div class="btn-group text-center justify-content-center" role="group" aria-label="Sort cards">
-                <a href="#" class="btn-sort">질문</a>
-                <span class="separator">|</span>
-                <a href="#" class="btn-sort">설정</a>
-            </div>
+    <div class="row mb-3 d-flex">
+        <div class="btn-group text-center justify-content-center" role="group" aria-label="Sort cards">
+            <a href="#" class="btn-sort" onclick="questionSetting()">질문</a>
+            <span class="separator">|</span>
+            <a href="#" class="btn-sort" onclick="questionSetting()">설정</a>
         </div>
-        <hr>
+    </div>
+    <hr>
+    <form id="question_form" method="post">
         <div class="row">
             <div class="col-2"></div>
             <div id="survey_main" class="col-8">
@@ -238,7 +238,7 @@
                     <div class="card shadow">
                         <div class="card-body px-5 text-center text-md-left titlebox">
                             <div class="row align-items-center">
-                                <input type="text" name="title" class="title" placeholder="제목 없는 설문지" value="">
+                                <input type="text" name="title" class="title" placeholder="제목 없는 설문지" value="" required>
                                 <input type="text" name="description" class="form-control description" placeholder="설문지 설명" value="">
                             </div>
                         </div>
@@ -252,11 +252,11 @@
                                 <input type="hidden" id="question_cnt" value="0">
                                 <div id="question_main_0" class="question_main btn-group align-items-center">
                                     <div class="col-md-8">
-                                        <input type="text" class="form-control" placeholder="질문 1">
+                                        <input type="text" name="question" class="form-control" placeholder="질문 1" required>
                                     </div>
                                     <div class="col-md-4">
                                         <div id="select_wrapper_0" class="select-wrapper">
-                                            <div class="select-trigger"
+                                            <div name="question_type" class="select-trigger"
                                                  onclick="selectTypeMenu(this)">
                                                 객관식
                                             </div>
@@ -298,7 +298,7 @@
                                         </div>
                                     </div>
                                     <div class="required">
-                                        <input type="checkbox" id="required_0"><label for="required_0"><span style="color: red">*</span> 필수 여부</label>
+                                        <input type="checkbox" id="required_0" name="question_required"><label for="required_0"><span style="color: red">*</span> 필수 여부</label>
                                     </div>
                                     <div class="multi-check">
                                         <input type="checkbox" id="multi_check_0"><label for="multi_check_0">다중 선택 허용</label>
@@ -307,7 +307,7 @@
                                         <div id="option_main_0_0" class="option_main align-items-center">
                                             <input type="hidden" id="option_cnt_0_0" value="0">
                                             <i class="fas fa-solid fa-arrow-circle-right"></i>&nbsp;
-                                            <input type="text" id="option_0_0" placeholder="옵션 1">&nbsp;
+                                            <input type="text" id="option_0_0" name="option" placeholder="옵션 1" required>&nbsp;
                                         </div>
                                         <div id="addOption_0_0" class="option_main align-items-center">
                                             <i class="fas fa-solid fa-arrow-circle-plus"></i>&nbsp;<button
@@ -397,7 +397,8 @@
 
         // 옵션 번호 가져오기
         let option_main_id = $('#question_main_' + question_cnt).find('.option_main').eq(0).attr('id');
-        let option_cnt = parseInt(option_main_id.slice(-1));
+        let option_cnt_array = option_main_id.split('_');
+        let option_cnt = parseInt(option_cnt_array[2]);
 
         // 1 더해서 대입
         question_cnt += 1;
@@ -410,11 +411,11 @@
         message += '    <div class="row">';
         message += '        <div id="question_main_' + question_cnt + '" class="question_main btn-group align-items-center">';
         message += '            <div class="col-md-8">';
-        message += '                <input type="text" class="form-control" placeholder="질문 ' + (question_cnt + 1) + '">';
+        message += '                <input type="text" name="question" class="form-control" placeholder="질문 ' + (question_cnt + 1) + '" required>';
         message += '            </div>';
         message += '            <div class="col-md-4">';
         message += '                <div id="select_wrapper_' + question_cnt + '" class="select-wrapper">';
-        message += '                    <div class="select-trigger" onclick="selectTypeMenu(this)">객관식</div>';
+        message += '                    <div name="question_type" class="select-trigger" onclick="selectTypeMenu(this)">객관식</div>';
         message += '                    <ul id="select_options_' + question_cnt + '" class="select-options" style="display: none">';
         message += '                        <li onclick="updateTypeMenu(this)"><i class="fas fa-pencil-alt"></i> &nbsp; 주관식 - 단답형</li>';
         message += '                        <li onclick="updateTypeMenu(this)"><i class="fas fa-pencil-alt"></i> &nbsp; 주관식 - 장문형</li>';
@@ -432,7 +433,7 @@
         message += '                </div>';
         message += '                </div>';
         message += '                <div class="required">';
-        message += '                    <input type="checkbox" id="required_' + question_cnt + '"><label for="required_' + question_cnt + '"><span style="color: red">*</span> 필수 여부</label>';
+        message += '                    <input type="checkbox" id="required_' + question_cnt + '" name="question_required"><label for="required_' + question_cnt + '"><span style="color: red">*</span> 필수 여부</label>';
         message += '                </div>';
         message += '                <div class="multi-check">';
         message += '                    <input type="checkbox" id="multi_check_' + question_cnt + '"><label for="multi_check_' + question_cnt + '">다중 선택 허용</label>';
@@ -441,7 +442,7 @@
         message += '                    <div id="option_main_' + question_cnt + '_' + option_cnt + '" class="option_main align-items-center">';
         message += '                        <input type="hidden" id="option_cnt_' + question_cnt + '_' + option_cnt + '" value="0">';
         message += '                        <i class="fas fa-solid fa-arrow-circle-right"></i>&nbsp;';
-        message += '                        <input type="text" id="option_' + question_cnt + '_' + option_cnt + '" placeholder="옵션 ' + (option_cnt + 1) + '">&nbsp;';
+        message += '                        <input type="text" id="option_' + question_cnt + '_' + option_cnt + '"  name="option" placeholder="옵션 ' + (option_cnt + 1) + '" required>&nbsp;';
         message += '                    </div>';
         message += '                    <div id="addOption_' + question_cnt + '_' + option_cnt + '" class="option_main align-items-center">';
         message += '                        <i class="fas fa-solid fa-arrow-circle-plus"></i>&nbsp;<button class="btn btn-outline-gray option_btn">옵션 추가</button>';
@@ -453,7 +454,7 @@
         message += '</div>';
         message += '</div>';
 
-        document.getElementById('question').innerHTML += message;
+        document.getElementById('question').insertAdjacentHTML('beforeend', message);
     }
 
     // 옵션 추가
@@ -468,7 +469,8 @@
         //const option_main_id = $(this).closest('.option_main').attr('id');
         //let option_cnt = parseInt(option_main_id.slice(-1));
         let option_main_id = $('#question_main_' + question_cnt).find('.option_main').last().attr('id');
-        let option_cnt = parseInt(option_main_id.slice(-1));
+        let option_cnt_array = option_main_id.split('_');
+        let option_cnt = parseInt(option_cnt_array[2]);
 
         // 버튼을 제거한다.
         const addButton = document.getElementById('addOption_' + question_cnt + '_' + option_cnt);
@@ -481,89 +483,46 @@
         message += '<div id="option_main_' + question_cnt + '_' + option_cnt + '" class="option_main align-items-center">';
         message += '    <input type="hidden" id="option_cnt_' + question_cnt + '_' + option_cnt + '" value="0">';
         message += '        <i class="fas fa-solid fa-arrow-circle-right"></i>&nbsp;';
-        message += '        <input type="text" id="option_' + question_cnt + '_' + option_cnt + '" placeholder="옵션 ' + (option_cnt + 1) + '">&nbsp;';
+        message += '        <input type="text" id="option_' + question_cnt + '_' + option_cnt + '"  name="option" placeholder="옵션 ' + (option_cnt + 1) + '" required>&nbsp;';
         message += '</div>';
         message += '<div id="addOption_' + question_cnt + '_' + option_cnt + '" class="option_main align-items-center">';
         message += '    <i class="fas fa-solid fa-arrow-circle-plus"></i>&nbsp;<button class="btn btn-outline-gray option_btn">옵션 추가</button>';
         message += '</div>';
 
-        document.getElementById('option_' + question_cnt).innerHTML += message;
+        document.getElementById('option_' + question_cnt).insertAdjacentHTML('beforeend', message);
     });
 
-    /*const select_trigger0 = $(this).closest('.select-wrapper');
-        const select_trigger = select_trigger0.children('.select-trigger');
-        select_trigger.text(event.textContent);
-        selected_option.style.display = 'none';*/
-
-    /*if (!event.target.querySelector('hr')) {
-        alert()
-
-        event.addEventListener('click', function () {
-            const selected_option = event.querySelector('.select-options li[selected]');
-
-            // 클릭된 요소로 selected 옮기기
-            selected_option.removeAttribute('selected');
-            event.setAttribute('selected', 'selected');
-
-            // 클릭된 요소를 기본으로 세팅하고 선택창 display:none
-            const selectTrigger0 = $(this).closest('.select-wrapper');
-            const selectTrigger = selectTrigger0.children('.select-trigger');
-            selectTrigger.text(event.textContent);
-            selected_option.style.display = 'none';
-        });
-    }*/
-
-    // const selectOptions = document.querySelector(".select-options");
-
-    // 클릭 이벤트가 발생한 곳이 select-options 내부인지 외부인지 판단
-    /*if (event.target.closest(".select-wrapper") === null) {
-
-        // select-options 외부를 클릭했다면 display:none
-        const questionCnt = document.getElementById('question_cnt').value;
-
-        for (let i = 0; i < questionCnt; i++) {
-            const select_options = document.getElementById('select_options_'+i);
-            select_options.style.display = "none";
+    // 질문과 세팅 페이지 변경
+    function questionSetting() {
+        if (document.getElementById('question_form').style.display === 'none') {
+            document.getElementById('question_form').style.display = 'block';
+            document.getElementById('setting').style.display = 'none';
+        } else {
+            document.getElementById('setting').style.display = 'block';
+            document.getElementById('question_form').style.display = 'none';
         }
-    }*/
+    }
 
-    /*selectOptions.querySelectorAll('li').forEach(function (option) {
-        if (!option.querySelector('hr')) {
-            option.addEventListener('click', function (event) {
-                // const targeted_option = event.target;
-                const selectedOption = document.querySelector('.select-options li[selected]');
+    // 데이터 전송 (json 형식)
+    function questionComplete() {
+        let form_data = $('form').serialize();
+        let json_data = JSON.stringify({ form_data: form_data }); // 객체를 json 타입으로 변경 (직렬화)
 
-                // 클릭된 요소로 selected 옮기기
-                selectedOption.removeAttribute('selected');
-                option.setAttribute('selected', 'selected');
-
-                // 클릭된 요소를 기본으로 세팅하고 선택창 display:none
-                const selectTrigger0 = $(this).closest('.select-wrapper');
-                const selectTrigger = selectTrigger0.children('.select-trigger');
-                selectTrigger.text(option.textContent);
-                selectOptions.style.display = 'none';
-            });
-        }
-    });*/
-
-    /*for (let i = 0; i < select_wrappers; i++) {
-            const select_options = select_wrappers[i].querySelectorAll('.select-options');
-            let flag = true;
-            for (let j = 0; j < select_options.length; j++) {
-                // 옵션 목록이 전부 닫혀있는지 확인
-                if (getComputedStyle(select_options[j]).display !== 'flex') {
-                    flag = false;
-                    break;
-                }
+        $.ajax({
+            type: "POST",
+            url: "/api/submitSurvey",
+            contentType: "application/json",
+            data: json_data,
+            success: function(result) {
+                alert('제출 성공');
+                location.href="/";
+            },
+            error: function (error) {
+                console.log('error : ' + error)
             }
+        })
 
-            // 하나라도 열려있으면 전부 닫기
-            if (flag) {
-                for (let j = 0; j < select_options.length; j++) {
-                    select_options[j].style.display = 'none';
-                }
-            }
-        }*/
+    }
 </script>
 
 <%@ include file="../footer.jsp" %>
