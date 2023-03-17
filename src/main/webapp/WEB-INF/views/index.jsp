@@ -44,7 +44,7 @@
                         My Page
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li><a class="dropdown-item" href="/user/profile?no=<%=session.getAttribute("no") %>">Profile</a></li>
                         <li><a class="dropdown-item" href="#">Settings</a></li>
                         <li class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="#" id="logout">Logout</a></li>
