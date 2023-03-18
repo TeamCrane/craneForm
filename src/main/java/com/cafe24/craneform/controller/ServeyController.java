@@ -1,5 +1,6 @@
 package com.cafe24.craneform.controller;
 
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,8 +14,9 @@ public class ServeyController {
     }
 
     @GetMapping("/form")
-    public String AddSurvey() {
-        return "/survey/form";
+    public String AddSurvey(HttpSession session) {
+        if (session.getAttribute("user") != null) { return "/survey/form"; }
+        return "redirect:/";
     }
 
 }
