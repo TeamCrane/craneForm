@@ -3,4 +3,10 @@
 
 <mapper namespace="survey">
 
+    <insert id="insertSurveyInfo" parameterType="com.cafe24.craneform.dto.SurveyInfoDTO">
+        <![CDATA[
+            INSERT INTO survey_info_tb (si_ui_no, si_subtitle, si_detail, si_start_date, si_end_date, si_state)
+            VALUES (#{si_ui_no}, #{si_subtitle}, #{si_detail}, now(), #{si_end_date}, #{si_state})
+        ]]>
+    </insert>
 </mapper>

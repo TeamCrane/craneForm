@@ -40,7 +40,8 @@ CREATE TABLE question_tb -- 질문
     qs_si_no    INT          NOT NULL,                            -- 설문 일련번호
     qs_type     VARCHAR(50)  NOT NULL,                            -- 질문 유형
     qs_detail   VARCHAR(255) NOT NULL,                            -- 질문 내용
-    qs_required char(1)      NOT NULL,                            -- 필수 여부
+    qs_required VARCHAR(2)   NOT NULL,                            -- 필수 여부
+    qs_multi    VARCHAR(2)   NOT NULL,                            -- 다중 선택 여부
     qs_order    INT          NOT NULL                             -- 질문 순번
 );
 
@@ -97,15 +98,15 @@ CREATE TABLE essay_answer_tb -- 주관식 답변
 CREATE TABLE table_answer_tb -- 표 답변
 (
     ta_no     INT     NOT NULL AUTO_INCREMENT PRIMARY KEY, -- 표 답변 일련번호
-    ta_qs_no  INT     NOT NULL, -- 질문 일련번호
-    ta_row    INT     NOT NULL, -- 행 번호
-    ta_column INT     NOT NULL, -- 열 번호
-    ta_check  CHAR(1) NOT NULL -- 체크 여부
+    ta_qs_no  INT     NOT NULL,                            -- 질문 일련번호
+    ta_row    INT     NOT NULL,                            -- 행 번호
+    ta_column INT     NOT NULL,                            -- 열 번호
+    ta_check  CHAR(1) NOT NULL                             -- 체크 여부
 );
 
 CREATE TABLE select_analysis_tb -- 객관식 분석
 (
-    san_no INT NOT NULL AUTO_INCREMENT PRIMARY KEY, -- 객관식 분석 일련번호
-    san_qs_no INT NOT NULL, -- 질문 일련번호
-    san_so_no INT NOT NULL -- 객관식 옵션 일련번호
+    san_no    INT NOT NULL AUTO_INCREMENT PRIMARY KEY, -- 객관식 분석 일련번호
+    san_qs_no INT NOT NULL,                            -- 질문 일련번호
+    san_so_no INT NOT NULL                             -- 객관식 옵션 일련번호
 );

@@ -181,12 +181,13 @@
         outline: none;
     }
 
-    .example_del {
+    .option_del {
         cursor: pointer;
         padding: 3px;
+        text-align: center;
     }
 
-    .example_del:hover {
+    .option_del:hover {
         background-color: #fdd6e2;
         border: 1px solid #fdbbbe;
         border-radius: 4px;
@@ -238,7 +239,7 @@
                     <div class="card shadow">
                         <div class="card-body px-5 text-center text-md-left titlebox">
                             <div class="row align-items-center">
-                                <input type="text" name="title" class="title" placeholder="제목 없는 설문지" value="" required>
+                                <input type="text" name="title" class="title" placeholder="제목 없는 설문지" value="" required autofocus>
                                 <input type="text" name="description" class="form-control description" placeholder="설문지 설명" value="">
                             </div>
                         </div>
@@ -252,11 +253,12 @@
                                 <input type="hidden" id="question_cnt" value="0">
                                 <div id="question_main_0" class="question_main btn-group align-items-center">
                                     <div class="col-md-8">
-                                        <input type="text" name="question" class="form-control" placeholder="질문 1" required>
+                                        <input type="text" name="question_0" class="form-control" placeholder="질문 1" required>
                                     </div>
                                     <div class="col-md-4">
                                         <div id="select_wrapper_0" class="select-wrapper">
-                                            <div name="question_type" class="select-trigger"
+                                            <input type="hidden" name="question_type_0" value="객관식">
+                                            <div id="question_type_0" class="select-trigger"
                                                  onclick="selectTypeMenu(this)">
                                                 객관식
                                             </div>
@@ -298,16 +300,15 @@
                                         </div>
                                     </div>
                                     <div class="required">
-                                        <input type="checkbox" id="required_0" name="question_required"><label for="required_0"><span style="color: red">*</span> 필수 여부</label>
+                                        <input type="checkbox" id="required_0" name="question_required_0"><label for="required_0"><span style="color: red">*</span> 필수 여부</label>
                                     </div>
                                     <div class="multi-check">
-                                        <input type="checkbox" id="multi_check_0"><label for="multi_check_0">다중 선택 허용</label>
+                                        <input type="checkbox" id="multi_check_0" name="question_multi_0"><label for="multi_check_0">다중 선택 허용</label>
                                     </div>
                                     <div id="option_0" class="col-12">
                                         <div id="option_main_0_0" class="option_main align-items-center">
-                                            <input type="hidden" id="option_cnt_0_0" value="0">
                                             <i class="fas fa-solid fa-arrow-circle-right"></i>&nbsp;
-                                            <input type="text" id="option_0_0" name="option" placeholder="옵션 1" required>&nbsp;
+                                            <input type="text" id="option_0_0" name="option_0_0" placeholder="옵션 1" required>&nbsp;
                                         </div>
                                         <div id="addOption_0_0" class="option_main align-items-center">
                                             <i class="fas fa-solid fa-arrow-circle-plus"></i>&nbsp;<button
@@ -339,8 +340,12 @@
     </form>
 </main>
 
-<section id="setting">
+<section id="setting" style="display: none">
+    설문 조건 설정하기
 
+    시작일, 종료일, 진행상태
+
+    조건 종류 조건 내용
 </section>
 
 <script>
@@ -384,8 +389,8 @@
         // 클릭된 요소를 기본으로 세팅하고 선택창 display:none
         const select_trigger = chosen_option.closest('.select-wrapper').querySelector('.select-trigger');
         select_trigger.textContent = chosen_option.textContent.trim();
+        select_trigger.previousElementSibling.value = chosen_option.textContent.trim();
         event.parentElement.style.display = 'none';
-
     }
 
 
@@ -411,11 +416,12 @@
         message += '    <div class="row">';
         message += '        <div id="question_main_' + question_cnt + '" class="question_main btn-group align-items-center">';
         message += '            <div class="col-md-8">';
-        message += '                <input type="text" name="question" class="form-control" placeholder="질문 ' + (question_cnt + 1) + '" required>';
+        message += '                <input type="text" name="question_' + question_cnt + '" class="form-control" placeholder="질문 ' + (question_cnt + 1) + '" required>';
         message += '            </div>';
         message += '            <div class="col-md-4">';
         message += '                <div id="select_wrapper_' + question_cnt + '" class="select-wrapper">';
-        message += '                    <div name="question_type" class="select-trigger" onclick="selectTypeMenu(this)">객관식</div>';
+        message += '                    <input type="hidden" name="question_type_' + question_cnt + '" value="객관식">';
+        message += '                    <div id="question_type_' + question_cnt + '" class="select-trigger" onclick="selectTypeMenu(this)">객관식</div>';
         message += '                    <ul id="select_options_' + question_cnt + '" class="select-options" style="display: none">';
         message += '                        <li onclick="updateTypeMenu(this)"><i class="fas fa-pencil-alt"></i> &nbsp; 주관식 - 단답형</li>';
         message += '                        <li onclick="updateTypeMenu(this)"><i class="fas fa-pencil-alt"></i> &nbsp; 주관식 - 장문형</li>';
@@ -433,16 +439,15 @@
         message += '                </div>';
         message += '                </div>';
         message += '                <div class="required">';
-        message += '                    <input type="checkbox" id="required_' + question_cnt + '" name="question_required"><label for="required_' + question_cnt + '"><span style="color: red">*</span> 필수 여부</label>';
+        message += '                    <input type="checkbox" id="required_' + question_cnt + '" name="question_required_' + question_cnt + '"><label for="required_' + question_cnt + '"><span style="color: red">*</span> 필수 여부</label>';
         message += '                </div>';
         message += '                <div class="multi-check">';
-        message += '                    <input type="checkbox" id="multi_check_' + question_cnt + '"><label for="multi_check_' + question_cnt + '">다중 선택 허용</label>';
+        message += '                    <input type="checkbox" id="multi_check_' + question_cnt + '" name="question_multi_' + question_cnt + '"><label for="multi_check_' + question_cnt + '">다중 선택 허용</label>';
         message += '                </div>';
         message += '                <div id="option_' + question_cnt + '" class="col-12">';
         message += '                    <div id="option_main_' + question_cnt + '_' + option_cnt + '" class="option_main align-items-center">';
-        message += '                        <input type="hidden" id="option_cnt_' + question_cnt + '_' + option_cnt + '" value="0">';
         message += '                        <i class="fas fa-solid fa-arrow-circle-right"></i>&nbsp;';
-        message += '                        <input type="text" id="option_' + question_cnt + '_' + option_cnt + '"  name="option" placeholder="옵션 ' + (option_cnt + 1) + '" required>&nbsp;';
+        message += '                        <input type="text" id="option_' + question_cnt + '_' + option_cnt + '"  name="option_' + question_cnt + '_' + option_cnt + '" placeholder="옵션 ' + (option_cnt + 1) + '" required>&nbsp;';
         message += '                    </div>';
         message += '                    <div id="addOption_' + question_cnt + '_' + option_cnt + '" class="option_main align-items-center">';
         message += '                        <i class="fas fa-solid fa-arrow-circle-plus"></i>&nbsp;<button class="btn btn-outline-gray option_btn">옵션 추가</button>';
@@ -478,12 +483,11 @@
 
         option_cnt += 1;
 
-
         let message = "";
         message += '<div id="option_main_' + question_cnt + '_' + option_cnt + '" class="option_main align-items-center">';
-        message += '    <input type="hidden" id="option_cnt_' + question_cnt + '_' + option_cnt + '" value="0">';
         message += '        <i class="fas fa-solid fa-arrow-circle-right"></i>&nbsp;';
-        message += '        <input type="text" id="option_' + question_cnt + '_' + option_cnt + '"  name="option" placeholder="옵션 ' + (option_cnt + 1) + '" required>&nbsp;';
+        message += '        <input type="text" id="option_' + question_cnt + '_' + option_cnt + '"  name="option_' + question_cnt + '_' + option_cnt + '" placeholder="옵션 ' + (option_cnt + 1) + '" required>&nbsp;';
+        message += ' <div class="option_del col-2" onclick="deleteOption(this)"><i class="fas fa-sharp fa-solid fa-trash"></i>&nbsp; 삭제</div>';
         message += '</div>';
         message += '<div id="addOption_' + question_cnt + '_' + option_cnt + '" class="option_main align-items-center">';
         message += '    <i class="fas fa-solid fa-arrow-circle-plus"></i>&nbsp;<button class="btn btn-outline-gray option_btn">옵션 추가</button>';
@@ -521,8 +525,13 @@
                 console.log('error : ' + error)
             }
         })
+    }
+
+    function deleteOption(event) {
 
     }
+
+
 </script>
 
 <%@ include file="../footer.jsp" %>

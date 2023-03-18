@@ -9,7 +9,8 @@ public class QuestionDTO {
     private Integer qs_si_no; // 설문 일련번호 (설문)
     private String qs_type; // 질문 유형
     private String qs_detail; // 질문 내용
-    private Character qs_required; // 필수 여부
+    private String qs_required; // 필수 여부
+    private String qs_multi; // 다중 선택 여부
     private Integer qs_order; // 질문 순번
 
 }
