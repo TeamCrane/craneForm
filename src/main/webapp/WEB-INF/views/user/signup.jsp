@@ -102,17 +102,17 @@
                             <label for="email">주소</label>
                             <div class="input-group">
                                 <span class="input-group-text" id="basic-addon9"><span class="fas fa-address-book"></span></span>
-                                <input type="text" class="form-control" id="sample2_postcode" placeholder="우편번호">
+                                <input type="text" class="form-control" id="sample2_postcode" placeholder="우편번호" disabled>
                                 <input type="button" onclick="sample2_execDaumPostcode()" value="우편번호 찾기" style="border: 0.0625rem solid #D1D5DB;border-top-right-radius: 1rem;border-bottom-right-radius: 1rem;border-left: 0;"><br>
                             </div>
                             <div class="input-group" style="margin-top: 12px;">
                                 <span class="input-group-text" id="basic-addon10"><span class="fas fa-address-book"></span></span>
-                                <input type="text" class="form-control" id="sample2_address" placeholder="주소" style="border-top-right-radius: 1rem;border-bottom-right-radius: 1rem;"><br>
+                                <input type="text" class="form-control" id="sample2_address" placeholder="주소" disabled style="border-top-right-radius: 1rem;border-bottom-right-radius: 1rem;"><br>
                             </div>
                             <div class="input-group" style="margin-top: 12px;">
                                 <span class="input-group-text" id="basic-addon11"><span class="fas fa-address-book"></span></span>
-                                <input type="text" class="form-control" id="sample2_detailAddress" placeholder="상세주소1"><br>
-                                <input type="text" class="form-control" id="sample2_extraAddress" placeholder="상세주소2">
+                                <input type="text" class="form-control" id="sample2_detailAddress" placeholder="상세주소 1"><br>
+                                <input type="text" class="form-control" id="sample2_extraAddress" disabled placeholder="상세주소 2">
                             </div>
                         </div>
                         <div class="input-group">
@@ -143,7 +143,7 @@
             let user = {
                 ui_name:$("#name").val(),
                 ui_email:$("#email").val(),
-                ui_addr:"(" + $("#sample2_postcode").val() + ") " + $("#sample2_address").val() + ", " + $("#sample2_detailAddress").val() + " " + $("#sample2_extraAddress").val(),
+                ui_addr:$("#sample2_postcode").val()==""?"":"(" + $("#sample2_postcode").val() + ") " + $("#sample2_address").val() + ", " + $("#sample2_detailAddress").val() + " " + $("#sample2_extraAddress").val(),
                 ui_phone:$("#phone1").val() + "-" + $("#phone2").val() + "-" + $("#phone3").val(),
                 ui_gender:$("#gender option:selected").val(),
                 ui_birth:$("#birth").val(),
