@@ -8,6 +8,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="../header.jsp" %>
 
+<%--
+TODO delete option 완성하기, 설문 조건 완성, 객관식 이외에도 완성
+--%>
+
 <style>
 
     .btn-sort {
@@ -511,20 +515,27 @@
     function questionComplete() {
         let form_data = $('form').serialize();
         let json_data = JSON.stringify({ form_data: form_data }); // 객체를 json 타입으로 변경 (직렬화)
+        let form = document.getElementById("question_form");
 
-        $.ajax({
-            type: "POST",
-            url: "/api/submitSurvey",
-            contentType: "application/json",
-            data: json_data,
-            success: function(result) {
-                alert('제출 성공');
-                location.href="/";
-            },
-            error: function (error) {
-                console.log('error : ' + error)
-            }
-        })
+        // 유효성 검사를 해주는 함수
+        if (form.checkValidity()) {
+            $.ajax({
+                type: "POST",
+                url: "/api/submitSurvey",
+                contentType: "application/json",
+                data: json_data,
+                success: function(result) {
+                    alert('제출 성공');
+                    location.href="/";
+                },
+                error: function (error) {
+                    console.log('error : ' + error)
+                }
+            })
+        } else {
+            form.reportValidity();
+        }
+
     }
 
     function deleteOption(event) {
