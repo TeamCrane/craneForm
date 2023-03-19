@@ -3,6 +3,7 @@
 
 <mapper namespace="survey">
 
+    <!-- 설문 제출 -->
     <insert id="insertSurveyInfo" parameterType="com.cafe24.craneform.dto.SurveyInfoDTO">
         <![CDATA[
             INSERT INTO survey_info_tb (si_ui_no, si_subtitle, si_detail, si_start_date, si_end_date, si_state)
@@ -10,6 +11,7 @@
         ]]>
     </insert>
 
+    <!-- 질문 제출 -->
     <insert id="insertQuestion" parameterType="com.cafe24.craneform.dto.QuestionDTO">
         <![CDATA[
             INSERT INTO question_tb (qs_si_no, qs_type, qs_detail, qs_required, qs_multi, qs_order)
@@ -17,6 +19,7 @@
         ]]>
     </insert>
 
+    <!-- 옵션 제출 -->
     <insert id="insertSelectOption" parameterType="com.cafe24.craneform.dto.SelectOptionDTO">
         <![CDATA[
             INSERT INTO select_option_tb (so_qs_no, so_detail, so_order)
@@ -24,6 +27,7 @@
         ]]>
     </insert>
 
+    <!-- 방금 insert한 설문 번호 검색 -->
     <select id="searchSurveyNo" parameterType="com.cafe24.craneform.dto.SurveyInfoDTO" resultType="int">
         <![CDATA[
             SELECT si_no FROM survey_info_tb
@@ -32,11 +36,20 @@
         ]]>
     </select>
 
+    <!-- 방금 insert한 질문 번호 검색 -->
     <select id="searchQuestionNo" parameterType="com.cafe24.craneform.dto.QuestionDTO" resultType="int">
         <![CDATA[
             SELECT qs_no FROM question_tb
             WHERE qs_si_no = #{qs_si_no} AND qs_order = #{qs_order}
             LIMIT 1
+        ]]>
+    </select>
+
+    <!-- index 설문 목록 표시 -->
+    <select id="surveyInfoList" resultType="com.cafe24.craneform.dto.SurveyInfoDTO">
+        <![CDATA[
+            SELECT si_no, si_ui_no, si_created_date, si_detail, si_start_date, si_end_date, si_state, si_subtitle
+            FROM survey_info_tb
         ]]>
     </select>
 </mapper>

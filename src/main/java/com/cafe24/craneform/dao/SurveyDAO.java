@@ -7,6 +7,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class SurveyDAO {
 
@@ -36,5 +38,10 @@ public class SurveyDAO {
     // 옵션 제출
     public int insertSelectOption(SelectOptionDTO selectOptionDTO) {
         return sqlSession.insert("survey.insertSelectOption", selectOptionDTO);
+    }
+
+    // index 설문조사 리스트
+    public List<SurveyInfoDTO> surveyInfoList() {
+        return sqlSession.selectList("survey.surveyInfoList");
     }
 }
