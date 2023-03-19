@@ -1,6 +1,7 @@
 package com.cafe24.craneform.dao;
 
 import com.cafe24.craneform.dto.QuestionDTO;
+import com.cafe24.craneform.dto.SelectOptionDTO;
 import com.cafe24.craneform.dto.SurveyInfoDTO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,17 +15,26 @@ public class SurveyDAO {
 
     // 설문 정보 제출
     public int insertSurveyInfo(SurveyInfoDTO surveyInfoDTO) {
-        return sqlSession.insert("survey.insertSurveyInfo", surveyInfoDTO);
+        int cnt = sqlSession.insert("survey.insertSurveyInfo", surveyInfoDTO); // 설문 제출
+        if (cnt == 1) {
+            return sqlSession.selectOne("survey.searchSurveyNo", surveyInfoDTO); // 설문 번호 검색
+        } else {
+            return 0;
+        }
     }
 
-    public int insertQuestion(int questionOrder, String[] questionArray) {
-        QuestionDTO questionDTO = new QuestionDTO();
-        questionDTO.setQs_order(questionOrder);
-        questionDTO.setQs_type(questionArray[0]);
+    // 질문 제출
+    public int insertQuestion(QuestionDTO questionDTO) {
+        int cnt = sqlSession.insert("survey.insertQuestion", questionDTO); // 질문 제출
+        if (cnt == 1) {
+            return sqlSession.selectOne("survey.searchQuestionNo", questionDTO); // 질문 번호 검색
+        } else {
+            return 0;
+        }
+    }
 
-        questionArray[1] = (questionArray[1] == null) ? "" : questionArray[1]; // 필수 순번이 없다면 채워주기
-        questionArray[2] = (questionArray[2] == null) ? "" : questionArray[2]; //
-
-        return sqlSession.insert("survey.insertQuestion");
+    // 옵션 제출
+    public int insertSelectOption(SelectOptionDTO selectOptionDTO) {
+        return sqlSession.insert("survey.insertSelectOption", selectOptionDTO);
     }
 }

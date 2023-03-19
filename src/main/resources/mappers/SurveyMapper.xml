@@ -9,4 +9,34 @@
             VALUES (#{si_ui_no}, #{si_subtitle}, #{si_detail}, now(), #{si_end_date}, #{si_state})
         ]]>
     </insert>
+
+    <insert id="insertQuestion" parameterType="com.cafe24.craneform.dto.QuestionDTO">
+        <![CDATA[
+            INSERT INTO question_tb (qs_si_no, qs_type, qs_detail, qs_required, qs_multi, qs_order)
+            VALUES (#{qs_si_no}, #{qs_type}, #{qs_detail}, #{qs_required}, #{qs_multi}, #{qs_order})
+        ]]>
+    </insert>
+
+    <insert id="insertSelectOption" parameterType="com.cafe24.craneform.dto.SelectOptionDTO">
+        <![CDATA[
+            INSERT INTO select_option_tb (so_qs_no, so_detail, so_order)
+            VALUES (#{so_qs_no}, #{so_detail}, #{so_order})
+        ]]>
+    </insert>
+
+    <select id="searchSurveyNo" parameterType="com.cafe24.craneform.dto.SurveyInfoDTO" resultType="int">
+        <![CDATA[
+            SELECT si_no FROM survey_info_tb
+            WHERE si_ui_no = #{si_ui_no}
+            LIMIT 1
+        ]]>
+    </select>
+
+    <select id="searchQuestionNo" parameterType="com.cafe24.craneform.dto.QuestionDTO" resultType="int">
+        <![CDATA[
+            SELECT qs_no FROM question_tb
+            WHERE qs_si_no = #{qs_si_no} AND qs_order = #{qs_order}
+            LIMIT 1
+        ]]>
+    </select>
 </mapper>
