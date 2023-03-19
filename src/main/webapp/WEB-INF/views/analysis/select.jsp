@@ -16,6 +16,11 @@
 
     .card {
         height: 700px;
+        overflow-y: scroll;
+    }
+
+    .card::-webkit-scrollbar {
+        display: none;
     }
 
     .box {
@@ -50,23 +55,94 @@
         opacity: 0.7;
     }
 
+    .survey {
+        display: block;
+        padding-left: 20px;
+        width: calc(100% - 20px);
+        margin: 10px;
+        border: 2px solid #ddd;
+        border-radius: 10px;
+    }
+    
+    .survey:hover {
+        background-color: #eee;
+    }
+
+    .survey-title {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        padding-right: 0;
+        cursor: pointer;
+    }
+
+    .survey-question {
+        font-size: 16px;
+        margin-bottom: 5px;
+        padding-left: 20px;
+        cursor: pointer;
+    }
+
+    .survey-title:hover,
+    .survey-question:hover {
+        text-decoration: underline;
+    }
+
 </style>
 
 <main>
     <div class="section section-md">
         <div class="container">
             <div class="row mb-5">
-                <div class="col-12 col-md-6 col-lg-4 mb-5 mb-lg-0">
-                    <div class="card shadow text-center">
-                        <a href="#">tag</a>
+                <div class="col-12 col-md-6 col-lg-3 mb-5 mb-lg-0">
+                    <div class="card shadow">
+                        <div class="mt-3"></div>
+                        <div class="survey" data-order="1">
+                            <p class="survey-title mt-4">Survey 1</p>
+                            <div class="survey-questions d-none">
+                                <p class="survey-question">Survey 1 Question 1</p>
+                                <p class="survey-question">Survey 1 Question 2</p>
+                            </div>
+                        </div>
+                        <div class="survey" data-order="2">
+                            <p class="survey-title mt-4">Survey 2</p>
+                            <div class="survey-questions d-none">
+                                <p class="survey-question">Survey 2 Question 1</p>
+                                <p class="survey-question">Survey 2 Question 2</p>
+                                <p class="survey-question">Survey 2 Question 3</p>
+                            </div>
+                        </div>
+                        <div class="survey" data-order="3">
+                            <p class="survey-title mt-4">Survey 3</p>
+                            <div class="survey-questions d-none">
+                                <p class="survey-question">Survey 3 Question 1</p>
+                                <p class="survey-question">Survey 3 Question 2</p>
+                            </div>
+                        </div>
+                        <div class="survey" data-order="4">
+                            <p class="survey-title mt-4">Survey 4</p>
+                            <div class="survey-questions d-none">
+                                <p class="survey-question">Survey 4 Question 1</p>
+                                <p class="survey-question">Survey 4 Question 2</p>
+                            </div>
+                        </div>
+                        <div class="survey" data-order="5">
+                            <p class="survey-title mt-4">Survey 5</p>
+                            <div class="survey-questions d-none">
+                                <p class="survey-question">Survey 5 Question 1</p>
+                                <p class="survey-question">Survey 5 Question 2</p>
+                                <p class="survey-question">Survey 5 Question 3</p>
+                                <p class="survey-question">Survey 5 Question 4</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-12 col-md-6 col-lg-4 mb-5 mb-lg-0">
-                    <div class="card shadow text-center target">
+                <div class="col-12 col-md-6 col-lg-7 mb-5 mb-lg-0">
+                    <div class="card shadow text-center target" id="analysis">
                     </div>
                 </div>
-                <div class="col-12 col-md-6 col-lg-4 mb-5 mb-lg-0">
-                    <div class="card shadow text-center target">
+                <div class="col-12 col-md-6 col-lg-2 mb-5 mb-lg-0">
+                    <div class="card shadow text-center target" id="options">
                         <div class="box" draggable="true" data-order="1">Box 1</div>
                         <div class="box" draggable="true" data-order="2">Box 2</div>
                         <div class="box" draggable="true" data-order="3">Box 3</div>
@@ -78,6 +154,19 @@
 </main>
 
 <script>
+    // survey-title 요소를 클릭했을 때 survey-questions 요소를 토글하는 함수
+    function toggleQuestions(event) {
+        const survey = event.target.nextElementSibling;
+        survey.classList.toggle('d-none');
+    }
+
+    // survey-title 요소에 click 이벤트를 등록함
+    const surveyTitles = document.querySelectorAll('.survey-title');
+    for (let i = 0; i < surveyTitles.length; i++) {
+        surveyTitles[i].addEventListener('click', toggleQuestions);
+    }
+
+
     const boxes = document.querySelectorAll('.box');
     const targets = document.querySelectorAll('.target');
     let currentBox = null;
@@ -115,6 +204,11 @@
                 target.insertBefore(currentBox, children[targetIndex]);
             } else {
                 target.appendChild(currentBox);
+            }
+            if (target.id === "analysis") {
+                currentBox.innerHTML += "-1";
+            } else if (target.id === "options") {
+                currentBox.innerHTML = currentBox.innerHTML.replace("-1", "");
             }
         });
     });

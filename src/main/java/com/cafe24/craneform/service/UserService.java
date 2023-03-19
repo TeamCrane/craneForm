@@ -5,7 +5,6 @@ import com.cafe24.craneform.dto.UserInfoDTO;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.text.SimpleDateFormat;
 import java.util.LinkedHashMap;
@@ -17,7 +16,7 @@ public class UserService {
     @Autowired
     private UserDAO userDAO;
 
-    public Map<String, Object> userModify(HttpSession session, @RequestBody UserInfoDTO user) {
+    public Map<String, Object> userModify(HttpSession session, UserInfoDTO user) {
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
 
         if(user.getUi_phone().length() != 12 && user.getUi_phone().length() != 13) {
