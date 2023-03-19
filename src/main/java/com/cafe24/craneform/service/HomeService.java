@@ -5,8 +5,6 @@ import com.cafe24.craneform.dto.UserInfoDTO;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.text.SimpleDateFormat;
 import java.util.LinkedHashMap;
@@ -18,7 +16,7 @@ public class HomeService {
     @Autowired
     private UserDAO userDAO;
 
-    public Map<String, Object> login (HttpSession session, @RequestParam String email, @RequestParam String pwd) {
+    public Map<String, Object> login (HttpSession session, String email, String pwd) {
 
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
          UserInfoDTO loginUser = userDAO.loginUser(email, pwd);
@@ -55,7 +53,7 @@ public class HomeService {
         return resultMap;
     }
 
-    public Map<String, Object> signup (@RequestBody UserInfoDTO user) {
+    public Map<String, Object> signup (UserInfoDTO user) {
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
         if(user.getUi_name().length() > 20) {
             resultMap.put("status", false);
