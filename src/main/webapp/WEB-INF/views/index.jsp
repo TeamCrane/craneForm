@@ -6,6 +6,10 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <html>
 <head>
     <title>Crane Form</title>
@@ -35,17 +39,22 @@
         <div class="container-fluid d-flex align-items-center">
             <a class="navbar-brand me-auto" href="/">Crane Form</a>
             <div class="input-group" style="width: 50%; margin: auto;">
-                <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon2">
-                <button class="btn btn-outline-secondary input-group-text" type="button" id="basic-addon2"><span class="fas fa-search"></span></button>
+                <input type="text" class="form-control" placeholder="Search" aria-label="Search"
+                       aria-describedby="basic-addon2">
+                <button class="btn btn-outline-secondary input-group-text" type="button" id="basic-addon2"><span
+                        class="fas fa-search"></span></button>
             </div>
             <ul class="navbar-nav ms-auto nav-mypage">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
                         My Page
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="/user/profile?no=<%=session.getAttribute("no") %>">Profile</a></li>
-                        <li><a class="dropdown-item" href="/analysis/select?no=<%=session.getAttribute("no")%>">Analysis</a></li>
+                        <li><a class="dropdown-item"
+                               href="/user/profile?no=<%=session.getAttribute("no") %>">Profile</a></li>
+                        <li><a class="dropdown-item"
+                               href="/analysis/select?no=<%=session.getAttribute("no")%>">Analysis</a></li>
                         <li class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="#" id="logout">Logout</a></li>
                     </ul>
@@ -79,32 +88,43 @@
             </div>
         </div>
 
-        <div class="col-md-3 mb-4">
-            <div class="card text-center">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div>
-                            <h5 class="card-title mb-1">설문지 제목</h5>
-                            <p class="card-text mb-0">March 11, 2023</p>
-                        </div>
-                        <div class="btn-group">
-                            <button type="button" class="btn dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="fas fa-ellipsis-v"></span>
-                            </button>
-                            <div class="dropdown-menu py-0 dropdown-menu-md-start" style="white-space: normal; word-break: break-word;">
-                                <a class="dropdown-item rounded-top" href="#"><i class="fas fa-edit me-2"></i>이름 바꾸기</a>
-                                <a class="dropdown-item" href="#"><i class="fas fa-trash-alt me-2"></i>삭제</a>
-                                <a class="dropdown-item" href="#"><i class="fas fa-external-link-alt me-2"></i>새창으로 열기</a>
+        <c:forEach var="si_list" items="${surveyInfoList}" varStatus="vs">
+            <fmt:formatDate var="si_created_date" value="${si_list.si_created_date}" pattern="yyyy-MM-dd"/> <%-- 날짜 형식 지정 --%>
+            <fmt:parseNumber var="si_no" value="${si_list.si_no}"/>
+            <div class="col-md-3 mb-4 survey_main" onclick="moveSurveyDetail(${si_no})">
+                <input type="hidden" id="surveyNo" value="${si_list.si_no}">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <h5 class="card-title mb-1">${si_list.si_subtitle}</h5>
+                                <p class="card-text mb-0">${si_created_date}</p>
+                            </div>
+                            <div class="btn-group">
+                                <c:if test="${ui_no eq si_list.si_ui_no}">
+                                <button type="button" class="btn dropdown-toggle dropdown-toggle-split"
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="fas fa-ellipsis-v"></span>
+                                </button>
+                                <div class="dropdown-menu py-0 dropdown-menu-md-start"
+                                     style=" white-space: normal; word-break: break-word;">
+                                    <a class="dropdown-item rounded-top"><i class="fas fa-edit me-2"></i>이름 바꾸기</a>
+                                    <a class="dropdown-item" onclick="deleteSurvey(${si_list.si_no})"><i class="fas fa-trash-alt me-2"></i>삭제</a>
+                                    <a class="dropdown-item" href="#"><i class="fas fa-external-link-alt me-2"></i>새창으로
+                                        열기</a>
+                                </div>
+                                </c:if>
                             </div>
                         </div>
-                    </div>
-                    <hr>
-                    <div class="card-img-container">
-                        <img src="/img/goodgun.png" class="card-img-top img-fluid mb-3" style="max-width:100%; max-height: 70px">
+                        <hr>
+                        <%--<div class="card-img-container">
+                            <img src="/img/goodgun.png" class="card-img-top img-fluid mb-3"
+                                 style="max-width:100%; max-height: 70px">
+                        </div>--%>
                     </div>
                 </div>
             </div>
-        </div>
+        </c:forEach>
     </div>
 </main>
 
@@ -115,15 +135,28 @@
 
 <script>
 
+    // 설문 추가
     function addSurvey() {
-        location.href="/survey/form";
+        location.href = "/survey/form";
     }
 
+    // 로그아웃
     document.getElementById("logout").addEventListener("click", function () {
-        if(confirm("로그아웃 하시겠습니까?")) {
-                location.href = "/logout";
+        if (confirm("로그아웃 하시겠습니까?")) {
+            location.href = "/logout";
         }
     })
+
+    // 설문 상세
+    function moveSurveyDetail(si_no) {
+        location.href="/survey/detail?no="+si_no;
+    }
+
+    // 설문 삭제
+    function deleteSurvey(si_no) {
+
+    }
+
 </script>
 
 <!-- Core -->

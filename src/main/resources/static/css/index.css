@@ -103,3 +103,7 @@ header {
     color: #212529;
     background-color: #f8f9fa;
 }
+
+.survey_main {
+    cursor: pointer;
+}
