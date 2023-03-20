@@ -3,4 +3,20 @@
 
 <mapper namespace="analysis">
 
+    <select id="select_result" resultType="com.cafe24.craneform.dto.result.SelectResultDTO">
+        select
+            si.si_no, si.si_subtitle, qs.qs_no, qs.qs_type, qs.qs_detail, qs.qs_order,
+            so.so_detail, so.so_order, COUNT(sa.sa_no) as sa_count
+        from
+            survey_info_tb si
+                LEFT OUTER JOIN question_tb qs ON si.si_no = qs.qs_si_no
+                LEFT OUTER JOIN select_option_tb so ON qs.qs_no = so.so_qs_no
+                LEFT OUTER JOIN select_answer_tb sa ON so.so_no = sa.sa_so_no
+        where
+            si.si_ui_no = #{ui_no}
+        group by
+            si.si_no, si.si_subtitle, qs.qs_no, qs.qs_type, qs.qs_detail, qs.qs_order, so.so_detail, so.so_order;
+
+    </select>
+
 </mapper>
