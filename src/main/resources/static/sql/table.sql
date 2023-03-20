@@ -41,7 +41,6 @@ CREATE TABLE question_tb -- 질문
     qs_type     VARCHAR(50)  NOT NULL,                            -- 질문 유형
     qs_detail   VARCHAR(255) NOT NULL,                            -- 질문 내용
     qs_required VARCHAR(2)   NOT NULL,                            -- 필수 여부
-    qs_multi    VARCHAR(2)   NOT NULL,                            -- 다중 선택 여부
     qs_order    INT          NOT NULL                             -- 질문 순번
 );
 

@@ -14,8 +14,8 @@
     <!-- 질문 제출 -->
     <insert id="insertQuestion" parameterType="com.cafe24.craneform.dto.QuestionDTO">
         <![CDATA[
-            INSERT INTO question_tb (qs_si_no, qs_type, qs_detail, qs_required, qs_multi, qs_order)
-            VALUES (#{qs_si_no}, #{qs_type}, #{qs_detail}, #{qs_required}, #{qs_multi}, #{qs_order})
+            INSERT INTO question_tb (qs_si_no, qs_type, qs_detail, qs_required, qs_order)
+            VALUES (#{qs_si_no}, #{qs_type}, #{qs_detail}, #{qs_required}, #{qs_order})
         ]]>
     </insert>
 
