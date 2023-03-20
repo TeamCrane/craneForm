@@ -44,4 +44,27 @@ public class SurveyDAO {
     public List<SurveyInfoDTO> surveyInfoList() {
         return sqlSession.selectList("survey.surveyInfoList");
     }
+
+    // 설문조사 상세
+    public SurveyInfoDTO surveyInfoOne(int si_no) {
+        return sqlSession.selectOne("survey.surveyInfoOne", si_no);
+    }
+
+    // 질문 리스트
+    public List<QuestionDTO> questionList(int si_no) {
+        return sqlSession.selectList("survey.questionList", si_no);
+    }
+
+    // 객관식 옵션 리스트
+    public List<SelectOptionDTO> optionList(int si_no) {
+        return sqlSession.selectList("survey.selectOptionList", si_no);
+    }
+
+    // selectbox의 옵션 번호 찾기
+    public String findSelectAnswer(int i, String value) {
+        SelectOptionDTO selectOptionDTO = new SelectOptionDTO();
+        selectOptionDTO.setSo_qs_no(i);
+        selectOptionDTO.setSo_detail(value);
+        return sqlSession.selectOne("survey.findSelectAnswer", selectOptionDTO);
+    }
 }
