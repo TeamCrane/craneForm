@@ -44,7 +44,7 @@ public class SurveyService {
         String[] parts = formData.split("&");
 
         // 질문과 옵션을 저장하기 위한 배열 선언
-        String[][] questionArray = null; // [질문 순번][질문 유형, 필수 여부, 다중 선택, 질문 내용] / 질문이 여러개일 수 있으니 이차 배열
+        String[][] questionArray = null; // [질문 순번][질문 유형, 필수 여부, 질문 내용] / 질문이 여러개일 수 있으니 이차 배열
         List<String> optionList = new ArrayList<>(); // [index: 옵션 순번, value: 옵션 내용] / 질문 순번은 아래서 구분
 
         int surveyNo = 0; // 설문 번호 (db에 저장된 값)
@@ -101,7 +101,7 @@ public class SurveyService {
 
                 // 선언되지 않았을 때만 선언
                 if (questionArray == null) {
-                    questionArray = new String[qCnt][4];
+                    questionArray = new String[qCnt][3];
                 }
 
                 // question_ 다음에 오는게 숫자인지 판단. 숫자라면 questionIdx를 갱신한다
@@ -113,10 +113,8 @@ public class SurveyService {
                     questionArray[questionIdx][0] = URLDecoder.decode(value, StandardCharsets.UTF_8).trim();
                 } else if (key.contains("question_required_")) { // 필수 여부
                     questionArray[questionIdx][1] = URLDecoder.decode(value, StandardCharsets.UTF_8).trim();
-                } else if (key.contains("question_multi_")) { // 다중 선택 여부
-                    questionArray[questionIdx][2] = URLDecoder.decode(value, StandardCharsets.UTF_8).trim();
                 } else if (key.equals("question_"+questionIdx)) { // 질문 내용
-                    questionArray[questionIdx][3] = URLDecoder.decode(value, StandardCharsets.UTF_8).trim();
+                    questionArray[questionIdx][2] = URLDecoder.decode(value, StandardCharsets.UTF_8).trim();
                 }
 
             } else if (key.contains("option")) { // 옵션의 경우
@@ -138,10 +136,8 @@ public class SurveyService {
                 assert questionArray != null;
                 questionDTO.setQs_type(questionArray[i][0]);
                 questionArray[i][1] = (questionArray[i][1] == null) ? "" : questionArray[i][1]; // 필수 순번이 없다면 채우기
-                questionArray[i][2] = (questionArray[i][2] == null) ? "" : questionArray[i][2]; // 다중 선택이 없다면 채우기
                 questionDTO.setQs_required(questionArray[i][1]);
-                questionDTO.setQs_multi(questionArray[i][2]);
-                questionDTO.setQs_detail(questionArray[i][3]);
+                questionDTO.setQs_detail(questionArray[i][2]);
                 questionNoList.add(surveyDAO.insertQuestion(questionDTO));
             }
         }

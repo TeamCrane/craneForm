@@ -202,15 +202,6 @@ TODO delete option 완성하기, 설문 조건 완성, 객관식 이외에도 �
         flex-wrap: wrap;
     }
 
-    .multi-check {
-        margin: auto;
-        padding-right: 10px;
-    }
-
-    .multi-check input[type="checkbox"] {
-        margin-right: 5px;
-    }
-
     .required {
         margin-left: auto;
         padding-right: 10px;
@@ -305,9 +296,6 @@ TODO delete option 완성하기, 설문 조건 완성, 객관식 이외에도 �
                                     </div>
                                     <div class="required">
                                         <input type="checkbox" id="required_0" name="question_required_0"><label for="required_0"><span style="color: red">*</span> 필수 여부</label>
-                                    </div>
-                                    <div class="multi-check">
-                                        <input type="checkbox" id="multi_check_0" name="question_multi_0"><label for="multi_check_0">다중 선택 허용</label>
                                     </div>
                                     <div id="option_0" class="col-12">
                                         <div id="option_main_0_0" class="option_main align-items-center">
@@ -444,9 +432,6 @@ TODO delete option 완성하기, 설문 조건 완성, 객관식 이외에도 �
         message += '                </div>';
         message += '                <div class="required">';
         message += '                    <input type="checkbox" id="required_' + question_cnt + '" name="question_required_' + question_cnt + '"><label for="required_' + question_cnt + '"><span style="color: red">*</span> 필수 여부</label>';
-        message += '                </div>';
-        message += '                <div class="multi-check">';
-        message += '                    <input type="checkbox" id="multi_check_' + question_cnt + '" name="question_multi_' + question_cnt + '"><label for="multi_check_' + question_cnt + '">다중 선택 허용</label>';
         message += '                </div>';
         message += '                <div id="option_' + question_cnt + '" class="col-12">';
         message += '                    <div id="option_main_' + question_cnt + '_' + option_cnt + '" class="option_main align-items-center">';
