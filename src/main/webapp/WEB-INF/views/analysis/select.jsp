@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="../header.jsp" %>
+<script src="/js/jquery_v3.6.4.js"></script>
 
 <style>
 
@@ -39,7 +40,7 @@
     }
 
     .box:hover {
-        background-color: #f9f9f9;
+        background-color: #eee;
     }
 
     .box:active, .box.selected {
@@ -154,6 +155,61 @@
 </main>
 
 <script>
+
+    let titlesNum = new Array();
+    let titlesName = new Array();
+    let questionsNum = new Array();
+    let questionsName = new Array();
+    let questionsOrder = new Array();
+    let optionsName = new Array();
+    let optionsOrder = new Array();
+    let saved;
+
+    $(function () {
+        selectResultList();
+
+    })
+
+    function selectResultList() {
+        $.ajax({
+            url:"/api/analysis/select",
+            type:"get",
+            resultType:"application/json",
+            success:function(r) {
+
+                console.log(r.select_result);
+
+                for(i of r.select_result.values()) {
+
+                    if(!titlesNum.includes(i.si_no)) {
+                        titlesNum.push(i.si_no);
+                        titlesName.push(i.si_subtitle);
+                    }
+                    if(!questionsNum.includes(i.qs_no)) {
+                        questionsNum.push(i.qs_no);
+                        questionsName.push(i.qs_detail);
+                        questionsOrder.push(i.qs_order);
+                    }
+                    optionsName.push(i.so_detail);
+                    optionsOrder.push(i.so_order);
+                }
+
+                console.log(titlesNum);
+                console.log(titlesName);
+                console.log(questionsNum);
+                console.log(questionsName);
+                console.log(questionsOrder);
+                console.log(optionsName);
+                console.log(optionsOrder);
+
+            }
+        })
+    }
+
+</script>
+
+<script>
+
     // survey-title 요소를 클릭했을 때 survey-questions 요소를 토글하는 함수
     function toggleQuestions(event) {
         const survey = event.target.nextElementSibling;
@@ -166,6 +222,9 @@
         surveyTitles[i].addEventListener('click', toggleQuestions);
     }
 
+</script>
+
+<script>
 
     const boxes = document.querySelectorAll('.box');
     const targets = document.querySelectorAll('.target');
@@ -212,6 +271,7 @@
             }
         });
     });
+
 </script>
 
 
