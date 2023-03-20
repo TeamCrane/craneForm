@@ -80,10 +80,10 @@ CREATE TABLE table_option_tb -- 표 옵션
 
 CREATE TABLE select_answer_tb -- 객관식 답변
 (
-    sa_no     INT NOT NULL AUTO_INCREMENT PRIMARY KEY, -- 객관식 답변 일련번호
-    sa_qs_no  INT NOT NULL,                            -- 질문 일련번호
-    ssa_ui_no INT NOT NULL,                            -- 유저 일련번호
-    sa_so_no  INT NOT NULL                             -- 객관식 옵션 일련번호
+    sa_no    INT NOT NULL AUTO_INCREMENT PRIMARY KEY, -- 객관식 답변 일련번호
+    sa_qs_no INT NOT NULL,                            -- 질문 일련번호
+    sa_ui_no INT NOT NULL,                            -- 유저 일련번호
+    sa_so_no INT NOT NULL                             -- 객관식 옵션 일련번호
 );
 
 CREATE TABLE essay_answer_tb -- 주관식 답변

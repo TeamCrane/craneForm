@@ -20,6 +20,13 @@ public class SurveyAPIController {
     // 설문 제출
     @PostMapping(value = "/submitSurvey")
     public int submitSurvey(@RequestBody Map<String, String> json_data, HttpSession session) {
-        return surveyService.submit(json_data, session);
+        return surveyService.Submit(json_data, session);
+    }
+
+    // 설문 답변 제출 (객관식)
+    @PostMapping("/submitAnswer")
+    public String submitAnswer(@RequestBody Map<String, String> json_data) {
+        int cnt = surveyService.submitAnswer(json_data);
+        return "redirect:/";
     }
 }

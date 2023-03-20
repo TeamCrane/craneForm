@@ -275,7 +275,7 @@ TODO delete option 완성하기, 설문 조건 완성, 객관식 이외에도 �
                                                 </li>
                                                 <li onclick="updateTypeMenu(this)"><i class="fas fa-caret-down"></i>
                                                     &nbsp;
-                                                    드롭다운
+                                                    셀렉트박스
                                                 </li>
                                                 <hr>
                                                 <li onclick="updateTypeMenu(this)"><i class="fas fa-th"></i> &nbsp; 객관식
@@ -383,6 +383,20 @@ TODO delete option 완성하기, 설문 조건 완성, 객관식 이외에도 �
         select_trigger.textContent = chosen_option.textContent.trim();
         select_trigger.previousElementSibling.value = chosen_option.textContent.trim();
         event.parentElement.style.display = 'none';
+
+        // 체크 박스나 셀렉트 박스일시 필수 여부 없애기
+        const required = event.parentElement.parentElement.parentElement.nextElementSibling;
+        if (chosen_option.textContent.trim() === '체크박스' || chosen_option.textContent.trim() === '셀렉트박스') {
+            required.innerHTML="";
+        } else if (chosen_option.textContent.trim() === '객관식') {
+            let question_id = event.parentElement.parentElement.id;
+            let question_id_array = question_id.split("_");
+            let question_cnt = question_id_array[2];
+
+            let message = "";
+            message += '<input type="checkbox" id="required_0" name="question_required_0"><label for="required_0"><span style="color: red">*</span> 필수 여부</label>';
+            required.innerHTML=message;
+        }
     }
 
 
@@ -393,9 +407,7 @@ TODO delete option 완성하기, 설문 조건 완성, 객관식 이외에도 �
         let question_cnt = parseInt(document.getElementById('question_cnt').value);
 
         // 옵션 번호 가져오기
-        let option_main_id = $('#question_main_' + question_cnt).find('.option_main').eq(0).attr('id');
-        let option_cnt_array = option_main_id.split('_');
-        let option_cnt = parseInt(option_cnt_array[2]);
+        let option_cnt = 0;
 
         // 1 더해서 대입
         question_cnt += 1;
@@ -420,7 +432,7 @@ TODO delete option 완성하기, 설문 조건 완성, 객관식 이외에도 �
         message += '                        <hr>';
         message += '                        <li selected onclick="updateTypeMenu(this)"><i class="fas fa-check-circle"></i> &nbsp; 객관식</li>';
         message += '                        <li onclick="updateTypeMenu(this)"><i class="far fa-check-square"></i> &nbsp; 체크박스</li>';
-        message += '                        <li onclick="updateTypeMenu(this)"><i class="fas fa-caret-down"></i> &nbsp; 드롭다운</li>';
+        message += '                        <li onclick="updateTypeMenu(this)"><i class="fas fa-caret-down"></i> &nbsp; 셀렉트박스</li>';
         message += '                        <hr>';
         message += '                        <li onclick="updateTypeMenu(this)"><i class="fas fa-th"></i> &nbsp; 객관식 표</li>';
         message += '                        <li onclick="updateTypeMenu(this)"><i class="far fa-check-square"></i> &nbsp; 체크박스 표</li>';
@@ -460,8 +472,6 @@ TODO delete option 완성하기, 설문 조건 완성, 객관식 이외에도 �
         const question_cnt = question_main_array[2];
 
         // 해당 옵션의 옵션 번호를 가져온다.
-        //const option_main_id = $(this).closest('.option_main').attr('id');
-        //let option_cnt = parseInt(option_main_id.slice(-1));
         let option_main_id = $('#question_main_' + question_cnt).find('.option_main').last().attr('id');
         let option_cnt_array = option_main_id.split('_');
         let option_cnt = parseInt(option_cnt_array[2]);

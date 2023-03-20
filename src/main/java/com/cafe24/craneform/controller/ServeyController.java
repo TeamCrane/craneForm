@@ -1,6 +1,8 @@
 package com.cafe24.craneform.controller;
 
+import com.cafe24.craneform.dao.SurveyDAO;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,16 +17,25 @@ public class ServeyController {
         System.out.println("----- ServeyController 객체 생성");
     }
 
+    @Autowired
+    private SurveyDAO surveyDAO = new SurveyDAO();
+
+    // 폼 작성 페이지 이동
     @GetMapping("/form")
-    public String AddSurvey(HttpSession session) {
+    public String addSurvey(HttpSession session) {
         if (session.getAttribute("user") != null) { return "/survey/form"; }
         return "redirect:/";
     }
 
+    // 설문 상세 페이지 이동
     @GetMapping("/detail/{si_no}")
     public ModelAndView surveyDetail(@PathVariable int si_no) {
         ModelAndView mav = new ModelAndView();
+        mav.addObject("si", surveyDAO.surveyInfoOne(si_no)); // 설문 정보
+        mav.addObject("qs", surveyDAO.questionList(si_no)); // 질문
+        mav.addObject("opt", surveyDAO.optionList(si_no));
         mav.setViewName("/survey/detail");
         return mav;
     }
+
 }

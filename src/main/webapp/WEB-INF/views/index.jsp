@@ -107,7 +107,7 @@
                                     <span class="fas fa-ellipsis-v"></span>
                                 </button>
                                 <div class="dropdown-menu py-0 dropdown-menu-md-start"
-                                     style=" white-space: normal; word-break: break-word;">
+                                     style="white-space: normal; word-break: break-word;">
                                     <a class="dropdown-item rounded-top"><i class="fas fa-edit me-2"></i>이름 바꾸기</a>
                                     <a class="dropdown-item" onclick="deleteSurvey(${si_list.si_no})"><i class="fas fa-trash-alt me-2"></i>삭제</a>
                                     <a class="dropdown-item" href="#"><i class="fas fa-external-link-alt me-2"></i>새창으로
@@ -149,7 +149,7 @@
 
     // 설문 상세
     function moveSurveyDetail(si_no) {
-        location.href="/survey/detail?no="+si_no;
+        location.href="/survey/detail/"+si_no;
     }
 
     // 설문 삭제

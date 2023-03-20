@@ -1,10 +1,7 @@
 package com.cafe24.craneform.service;
 
 import com.cafe24.craneform.dao.SurveyDAO;
-import com.cafe24.craneform.dto.QuestionDTO;
-import com.cafe24.craneform.dto.SelectOptionDTO;
-import com.cafe24.craneform.dto.SurveyConditionDTO;
-import com.cafe24.craneform.dto.SurveyInfoDTO;
+import com.cafe24.craneform.dto.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +11,7 @@ import java.nio.charset.StandardCharsets;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +26,7 @@ public class SurveyService {
     private SurveyDAO surveyDAO;
 
     // 설문 제출
-    public int submit(Map<String, String> jsonData, HttpSession session) {
+    public int Submit(Map<String, String> jsonData, HttpSession session) {
 
         SurveyInfoDTO surveyInfoDTO = new SurveyInfoDTO(); // 설문 정보
         SurveyConditionDTO surveyConditionDTO = new SurveyConditionDTO(); // 설문 조건
@@ -158,4 +156,84 @@ public class SurveyService {
         return cnt;
     }
 
+    public int submitAnswer(Map<String, String> jsonData) {
+
+        SelectAnswerDTO selectAnswerDTO = new SelectAnswerDTO();
+
+        // json 데이터를 문자열로 받아와서 분리
+        String formData = jsonData.get("form_data");
+        String[] parts = formData.split("&");
+
+        int aCnt = 0; // 답변 수를 알기 위해 답변 유형이 몇개 있는지 카운트
+        for (String s : parts) {
+            if (!s.contains("answer_type_") && s.contains("answer_")) {
+                aCnt++;
+            }
+        }
+
+        // 질문 유형과 답변을 저장할 배열 생성
+        String[][] answer = new String[aCnt][3]; // 질문 번호, 답변 내용, 질문 유형
+
+        int qIdx = 0; // 질문 유형에서 쓸 인덱스
+        int aIdx = 0; // 답변에서 쓸 인덱스
+
+        for (String part : parts) {
+            String[] pair = part.split("=");
+
+            // key와 value 분리
+            String key = pair[0];
+            String value = "";
+            if (pair.length < 2) { // value 값이 없는 경우
+                value = "";
+            } else {
+                value = pair[1];
+            }
+            value = URLDecoder.decode(value, StandardCharsets.UTF_8).trim();
+
+            // 질문 유형 담기
+            if (key.contains("answer_type")) {
+                String[] key_array = key.split("_");
+                int i = Integer.parseInt(key_array[2]);
+
+                answer[aIdx][2] = value;
+
+                // 질문 번호와 답변 담기
+            } else if (key.contains("answer_")) {
+                String[] key_array = key.split("_");
+                int i = Integer.parseInt(key_array[1]);
+                if (answer[aIdx][2] == null) answer[aIdx][2] = answer[aIdx-1][2]; // 질문 유형이 안 담겼다면 담기
+
+                switch (answer[aIdx][2]) {
+                    case "객관식" -> {
+                        answer[aIdx][0] = String.valueOf(i); // 질문 번호
+                        answer[aIdx][1] = value; // 답변
+                    }
+                    case "체크박스" -> {
+                        answer[aIdx][0] = String.valueOf(i); // 질문 번호
+                        answer[aIdx][1] = key_array[2]; // 답변
+                    }
+                    case "셀렉트박스" -> {
+                        answer[aIdx][0] = String.valueOf(i); // 질문 번호
+                        answer[aIdx][1] = surveyDAO.findSelectAnswer(i, value); // 답변
+                    }
+                }
+
+                aIdx++;
+            }
+        }
+
+        /*for (int i = 0; i < aCnt; i++) {
+            if (question_type[i].equals("객관식")) {
+
+            } else if (question_type[i].equals("체크박스")) {
+
+            } else if (question_type[i].equals("셀렉트박스")) {
+
+            }
+        }*/
+
+        System.out.println(Arrays.deepToString(answer));
+
+        return 1;
+    }
 }

@@ -1,4 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <html>
 <head>
   <title>Crane Form</title>
@@ -56,10 +60,10 @@
             My Page
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="#">Profile</a></li>
-            <li><a class="dropdown-item" href="#">Settings</a></li>
+            <li><a class="dropdown-item" href="/user/profile?no=<%=session.getAttribute("no") %>">Profile</a></li>
+            <li><a class="dropdown-item" href="/analysis/select?no=<%=session.getAttribute("no")%>">Analysis</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Logout</a></li>
+            <li><a class="dropdown-item" href="#" id="logout">Logout</a></li>
           </ul>
         </li>
       </ul>
@@ -68,9 +72,12 @@
 </header>
 
 <script>
+
+  // 로그아웃
   document.getElementById("logout").addEventListener("click", function () {
-    if(confirm("로그아웃 하시겠습니까?")) {
+    if (confirm("로그아웃 하시겠습니까?")) {
       location.href = "/logout";
     }
   })
+
 </script>
