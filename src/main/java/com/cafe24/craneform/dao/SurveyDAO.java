@@ -1,6 +1,7 @@
 package com.cafe24.craneform.dao;
 
 import com.cafe24.craneform.dto.QuestionDTO;
+import com.cafe24.craneform.dto.SelectAnswerDTO;
 import com.cafe24.craneform.dto.SelectOptionDTO;
 import com.cafe24.craneform.dto.SurveyInfoDTO;
 import org.apache.ibatis.session.SqlSession;
@@ -60,11 +61,8 @@ public class SurveyDAO {
         return sqlSession.selectList("survey.selectOptionList", si_no);
     }
 
-    // selectbox의 옵션 번호 찾기
-    public String findSelectAnswer(int i, String value) {
-        SelectOptionDTO selectOptionDTO = new SelectOptionDTO();
-        selectOptionDTO.setSo_qs_no(i);
-        selectOptionDTO.setSo_detail(value);
-        return sqlSession.selectOne("survey.findSelectAnswer", selectOptionDTO);
+    // 객관식 답변 제출
+    public int insertSelectAnswer(SelectAnswerDTO selectAnswerDTO) {
+        return sqlSession.insert("survey.insertSelectAnswer", selectAnswerDTO);
     }
 }

@@ -25,8 +25,8 @@ public class SurveyAPIController {
 
     // 설문 답변 제출 (객관식)
     @PostMapping("/submitAnswer")
-    public String submitAnswer(@RequestBody Map<String, String> json_data) {
-        int cnt = surveyService.submitAnswer(json_data);
+    public String submitAnswer(@RequestBody Map<String, String> json_data, HttpSession session) {
+        int cnt = surveyService.submitAnswer(json_data, session);
         return "redirect:/";
     }
 }

@@ -156,7 +156,7 @@ public class SurveyService {
         return cnt;
     }
 
-    public int submitAnswer(Map<String, String> jsonData) {
+    public int submitAnswer(Map<String, String> jsonData, HttpSession session) {
 
         SelectAnswerDTO selectAnswerDTO = new SelectAnswerDTO();
 
@@ -174,6 +174,7 @@ public class SurveyService {
         // 질문 유형과 답변을 저장할 배열 생성
         String[][] answer = new String[aCnt][3]; // 질문 번호, 답변 내용, 질문 유형
 
+        int cnt = 0; // insert 성공 여부
         int qIdx = 0; // 질문 유형에서 쓸 인덱스
         int aIdx = 0; // 답변에서 쓸 인덱스
 
@@ -204,7 +205,7 @@ public class SurveyService {
                 if (answer[aIdx][2] == null) answer[aIdx][2] = answer[aIdx-1][2]; // 질문 유형이 안 담겼다면 담기
 
                 switch (answer[aIdx][2]) {
-                    case "객관식" -> {
+                    case "객관식", "셀렉트박스" -> {
                         answer[aIdx][0] = String.valueOf(i); // 질문 번호
                         answer[aIdx][1] = value; // 답변
                     }
@@ -212,28 +213,21 @@ public class SurveyService {
                         answer[aIdx][0] = String.valueOf(i); // 질문 번호
                         answer[aIdx][1] = key_array[2]; // 답변
                     }
-                    case "셀렉트박스" -> {
-                        answer[aIdx][0] = String.valueOf(i); // 질문 번호
-                        answer[aIdx][1] = surveyDAO.findSelectAnswer(i, value); // 답변
-                    }
                 }
 
                 aIdx++;
             }
         }
 
-        /*for (int i = 0; i < aCnt; i++) {
-            if (question_type[i].equals("객관식")) {
-
-            } else if (question_type[i].equals("체크박스")) {
-
-            } else if (question_type[i].equals("셀렉트박스")) {
-
+        selectAnswerDTO.setSa_ui_no((Integer) session.getAttribute("no"));
+        for (int i = 0; i < answer.length; i++) {
+            if (answer[i][2].equals("객관식") || answer[i][2].equals("체크박스") || answer[i][2].equals("셀렉트박스")) {
+                selectAnswerDTO.setSa_qs_no(Integer.valueOf(answer[i][0]));
+                selectAnswerDTO.setSa_so_no(Integer.valueOf(answer[i][1]));
+                cnt += surveyDAO.insertSelectAnswer(selectAnswerDTO);
             }
-        }*/
+        }
 
-        System.out.println(Arrays.deepToString(answer));
-
-        return 1;
+        return cnt;
     }
 }
