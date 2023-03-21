@@ -83,4 +83,11 @@
             WHERE qs.qs_si_no = #{si_no}
         ]]>
     </select>
+
+    <insert id="insertSelectAnswer" parameterType="com.cafe24.craneform.dto.SelectAnswerDTO">
+        <![CDATA[
+            INSERT INTO select_answer_tb (sa_qs_no, sa_ui_no, sa_so_no)
+            VALUES (#{sa_qs_no}, #{sa_ui_no}, #{sa_so_no})
+        ]]>
+    </insert>
 </mapper>

@@ -68,6 +68,14 @@
         margin-left: 5px;
     }
 
+    .badge-gray {
+        background-color: #b8b8b8;
+        color: white;
+        padding: 3px 5px;
+        border-radius: 3px;
+        margin-left: 5px;
+    }
+
 </style>
 
 <div class="container" style="padding-top: 2%; display: flex; justify-content : center;">
@@ -85,19 +93,20 @@
                 <c:forEach var="q" items="${qs}" varStatus="vs">
                     <div class="question_main mt-2 mb-3">
                     <span class="question_detail">${q.qs_order + 1}. ${q.qs_detail}
-                    <c:if test="${q.qs_required eq 'on'}"><span style="color: red; font-weight: bold">*</span></c:if>
+                    <c:if test="${q.qs_required eq 'on'}"><span style="color: red; font-weight: bold">* (필수)</span></c:if>
                     <c:if test="${q.qs_type eq '객관식'}"><span class="badge badge-primary">객관식</span></c:if>
                     <c:if test="${q.qs_type eq '체크박스'}"><span class="badge badge-warning">체크박스</span></c:if>
                     <c:if test="${q.qs_type eq '셀렉트박스'}"><span class="badge badge-danger">셀렉트박스</span></c:if>
+                    <c:if test="${q.qs_type eq '주관식 - 단답형'}"><span class="badge badge-gray">주관식 - 단답형</span></c:if>
                     </span>
                         <div class="option_main">
                             <input type="hidden" name="answer_type_${q.qs_order}" value="${q.qs_type}">
                             <c:choose>
                                 <c:when test="${q.qs_type eq '셀렉트박스'}">
-                                    <select id="option_${q.qs_no}">
+                                    <select id="option_${q.qs_no}" name="answer_${q.qs_no}">
                                         <c:forEach var="op" items="${opt}" varStatus="vs2">
                                             <c:if test="${op.so_qs_no eq q.qs_no}">
-                                                <option>${op.so_detail}</option>
+                                                <option value="${op.so_no}" <c:if test="${vs2.index == 0}">selected</c:if>>${op.so_detail}</option>
                                             </c:if>
                                         </c:forEach>
                                     </select>
@@ -117,6 +126,11 @@
                                                     <input type="checkbox" id="option_${op.so_qs_no}_${op.so_no}"
                                                            name="answer_${q.qs_no}_${op.so_no}">
                                                     <label for="option_${op.so_qs_no}_${op.so_no}">${op.so_detail}</label>
+                                                </c:when>
+                                                <c:when test="${q.qs_type eq '주관식 - 단답형'}">
+                                                    <input type="text" id="option_${op.so_qs_no}_${op.so_no}"
+                                                           name="answer_${q.qs_no}_${op.so_no}">
+                                                    안녕
                                                 </c:when>
                                             </c:choose>
                                         </c:if>
@@ -168,10 +182,6 @@
         }
 
     }
-
-    document.onload(function () {
-
-    })
 
 </script>
 

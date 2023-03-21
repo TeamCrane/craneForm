@@ -91,10 +91,10 @@
         <c:forEach var="si_list" items="${surveyInfoList}" varStatus="vs">
             <fmt:formatDate var="si_created_date" value="${si_list.si_created_date}" pattern="yyyy-MM-dd"/> <%-- 날짜 형식 지정 --%>
             <fmt:parseNumber var="si_no" value="${si_list.si_no}"/>
-            <div class="col-md-3 mb-4 survey_main" onclick="moveSurveyDetail(${si_no})">
+            <div class="col-md-3 mb-4 survey_main">
                 <input type="hidden" id="surveyNo" value="${si_list.si_no}">
                 <div class="card text-center">
-                    <div class="card-body">
+                    <div class="card-body" style="cursor: pointer" onclick="moveSurveyDetail(${si_no})">
                         <div class="d-flex justify-content-between align-items-start">
                             <div>
                                 <h5 class="card-title mb-1">${si_list.si_subtitle}</h5>
@@ -103,11 +103,11 @@
                             <div class="btn-group">
                                 <c:if test="${ui_no eq si_list.si_ui_no}">
                                 <button type="button" class="btn dropdown-toggle dropdown-toggle-split"
-                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="event.stopPropagation()">
                                     <span class="fas fa-ellipsis-v"></span>
                                 </button>
                                 <div class="dropdown-menu py-0 dropdown-menu-md-start"
-                                     style="white-space: normal; word-break: break-word;">
+                                     style="white-space: normal; word-break: break-word">
                                     <a class="dropdown-item rounded-top"><i class="fas fa-edit me-2"></i>이름 바꾸기</a>
                                     <a class="dropdown-item" onclick="deleteSurvey(${si_list.si_no})"><i class="fas fa-trash-alt me-2"></i>삭제</a>
                                     <a class="dropdown-item" href="#"><i class="fas fa-external-link-alt me-2"></i>새창으로

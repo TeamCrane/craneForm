@@ -6,10 +6,14 @@ header {
     position: absolute;
     top: 100%;
     left: 0;
-    z-index: 9999;
+    z-index: 99999;
     float: none;
     min-width: 100%;
     padding: 0;
+
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .nav-mypage {
@@ -36,6 +40,7 @@ header {
 
 .card:hover {
     transform: translateY(-5px);
+    z-index: 99999;
 }
 
 .card-img-top {
@@ -51,12 +56,6 @@ header {
 .card-text {
     font-size: 0.9rem;
     color: #6c757d;
-}
-
-.dropdown-menu {
-    border: none;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .dropdown-item {
@@ -104,6 +103,4 @@ header {
     background-color: #f8f9fa;
 }
 
-.survey_main {
-    cursor: pointer;
-}
+
