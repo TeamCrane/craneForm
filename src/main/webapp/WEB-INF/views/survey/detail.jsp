@@ -68,6 +68,14 @@
         margin-left: 5px;
     }
 
+    .badge-gray {
+        background-color: #b8b8b8;
+        color: white;
+        padding: 3px 5px;
+        border-radius: 3px;
+        margin-left: 5px;
+    }
+
 </style>
 
 <div class="container" style="padding-top: 2%; display: flex; justify-content : center;">
@@ -89,6 +97,7 @@
                     <c:if test="${q.qs_type eq '객관식'}"><span class="badge badge-primary">객관식</span></c:if>
                     <c:if test="${q.qs_type eq '체크박스'}"><span class="badge badge-warning">체크박스</span></c:if>
                     <c:if test="${q.qs_type eq '셀렉트박스'}"><span class="badge badge-danger">셀렉트박스</span></c:if>
+                    <c:if test="${q.qs_type eq '주관식 - 단답형'}"><span class="badge badge-gray">주관식 - 단답형</span></c:if>
                     </span>
                         <div class="option_main">
                             <input type="hidden" name="answer_type_${q.qs_order}" value="${q.qs_type}">
@@ -117,6 +126,11 @@
                                                     <input type="checkbox" id="option_${op.so_qs_no}_${op.so_no}"
                                                            name="answer_${q.qs_no}_${op.so_no}">
                                                     <label for="option_${op.so_qs_no}_${op.so_no}">${op.so_detail}</label>
+                                                </c:when>
+                                                <c:when test="${q.qs_type eq '주관식 - 단답형'}">
+                                                    <input type="text" id="option_${op.so_qs_no}_${op.so_no}"
+                                                           name="answer_${q.qs_no}_${op.so_no}">
+                                                    안녕
                                                 </c:when>
                                             </c:choose>
                                         </c:if>

@@ -19,8 +19,8 @@ import java.util.Map;
 public class SurveyService {
 
     /* TODO
-    *   진행 상태 & 종료일 - 추가 작업 필요
-    * */
+     *   진행 상태 & 종료일 - 추가 작업 필요
+     * */
 
     @Autowired
     private SurveyDAO surveyDAO;
@@ -32,6 +32,7 @@ public class SurveyService {
         SurveyConditionDTO surveyConditionDTO = new SurveyConditionDTO(); // 설문 조건
         QuestionDTO questionDTO = new QuestionDTO(); // 질문
         SelectOptionDTO selectOptionDTO = new SelectOptionDTO(); // 객관식 옵션
+        EssayOptionDTO essayOptionDTO = new EssayOptionDTO(); // 주관식 옵션
 
         // 설문 정보 테이블에 유저 정보 담기
         int no = (int) session.getAttribute("no");
@@ -84,7 +85,8 @@ public class SurveyService {
             switch (key) {
                 // 설문 정보
                 case "title" -> surveyInfoDTO.setSi_subtitle(URLDecoder.decode(value, StandardCharsets.UTF_8).trim());
-                case "description" -> surveyInfoDTO.setSi_detail(URLDecoder.decode(value, StandardCharsets.UTF_8).trim());
+                case "description" ->
+                        surveyInfoDTO.setSi_detail(URLDecoder.decode(value, StandardCharsets.UTF_8).trim());
                 // 설문 조건
             }
 
@@ -111,20 +113,21 @@ public class SurveyService {
                     questionArray[questionIdx][0] = URLDecoder.decode(value, StandardCharsets.UTF_8).trim();
                 } else if (key.contains("question_required_")) { // 필수 여부
                     questionArray[questionIdx][1] = URLDecoder.decode(value, StandardCharsets.UTF_8).trim();
-                } else if (key.equals("question_"+questionIdx)) { // 질문 내용
+                } else if (key.equals("question_" + questionIdx)) { // 질문 내용
                     questionArray[questionIdx][2] = URLDecoder.decode(value, StandardCharsets.UTF_8).trim();
                 }
 
             } else if (key.contains("option")) { // 옵션의 경우
+                if (key.contains("option_min")) {
 
+                }
                 // list에 담아서 아래에서 oCnt 배열에 담긴 숫자만큼 자른다
                 optionList.add(URLDecoder.decode(value, StandardCharsets.UTF_8).trim());
             }
-
         }
 
-        // 설문 정보 insert (진행 상태 & 종료일 수정 후 추가 작업 필요)
-        surveyNo = surveyDAO.insertSurveyInfo(surveyInfoDTO);
+        // 설문 정보 insert (진행 상태 & 종료일 수정 후 추`가 작업 필요)
+        // surveyNo = surveyDAO.insertSurveyInfo(surveyInfoDTO);
 
         // dto에 정보 담고 질문 insert
         if (surveyNo > 0) {
@@ -136,26 +139,44 @@ public class SurveyService {
                 questionArray[i][1] = (questionArray[i][1] == null) ? "" : questionArray[i][1]; // 필수 순번이 없다면 채우기
                 questionDTO.setQs_required(questionArray[i][1]);
                 questionDTO.setQs_detail(questionArray[i][2]);
-                questionNoList.add(surveyDAO.insertQuestion(questionDTO));
+                //questionNoList.add(surveyDAO.insertQuestion(questionDTO));
             }
         }
 
-        if (questionNoList.size() == qCnt) { // questionNoList가 질문 수를 제대로 가져왔으면
+        //if (questionNoList.size() == qCnt) { // questionNoList가 질문 수를 제대로 가져왔으면
             int tmp_oCnt = 0;
+            boolean flag = false;
 
             for (int i = 0; i < qCnt; i++) {
-                for (int j = 0; j < oCnt[i]; j++) {
-                    selectOptionDTO.setSo_qs_no(questionNoList.get(i));
-                    selectOptionDTO.setSo_order(j);
-                    selectOptionDTO.setSo_detail(optionList.get(tmp_oCnt++));
-                    cnt += surveyDAO.insertSelectOption(selectOptionDTO);
+                if (questionDTO.getQs_type().equals("객관식") || questionDTO.getQs_type().equals("체크박스") || questionDTO.getQs_type().equals("셀렉트박스")) {
+                    for (int j = 0; j < oCnt[i]; j++) {
+                        selectOptionDTO.setSo_qs_no(questionNoList.get(i));
+                        selectOptionDTO.setSo_order(j);
+                        selectOptionDTO.setSo_detail(optionList.get(tmp_oCnt++));
+                        cnt += surveyDAO.insertSelectOption(selectOptionDTO);
+                    }
+                } else if (questionDTO.getQs_type().equals("주관식 - 단답형") || questionDTO.getQs_type().equals("주관식 - 장문형")) {
+                    //essayOptionDTO.setEo_qs_no(questionNoList.get(i));
+                    if (!flag) {
+                        essayOptionDTO.setEo_min(Integer.valueOf(optionList.get(i)));
+                    }
+                    if (essayOptionDTO.getEo_min() != 0) {
+                        flag = true;
+                        continue;
+                    }
+                    if (flag) {
+                        essayOptionDTO.setEo_max(i);
+                    }
+
+                    System.out.println(essayOptionDTO);
                 }
             }
-        }
+        //}
 
         return cnt;
     }
 
+    // 답변 제출
     public int submitAnswer(Map<String, String> jsonData, HttpSession session) {
 
         SelectAnswerDTO selectAnswerDTO = new SelectAnswerDTO();
@@ -172,10 +193,12 @@ public class SurveyService {
         }
 
         // 질문 유형과 답변을 저장할 배열 생성
-        String[][] answer = new String[aCnt][3]; // 질문 번호, 답변 내용, 질문 유형
+        String[][] answer = new String[aCnt][3];
+        // 객관식 : 질문 번호, 답변 내용, 질문 유형
+        // 주관식 :
+        // 표 :
 
         int cnt = 0; // insert 성공 여부
-        int qIdx = 0; // 질문 유형에서 쓸 인덱스
         int aIdx = 0; // 답변에서 쓸 인덱스
 
         for (String part : parts) {
@@ -202,7 +225,7 @@ public class SurveyService {
             } else if (key.contains("answer_")) {
                 String[] key_array = key.split("_");
                 int i = Integer.parseInt(key_array[1]);
-                if (answer[aIdx][2] == null) answer[aIdx][2] = answer[aIdx-1][2]; // 질문 유형이 안 담겼다면 담기
+                if (answer[aIdx][2] == null) answer[aIdx][2] = answer[aIdx - 1][2]; // 질문 유형이 안 담겼다면 담기
 
                 switch (answer[aIdx][2]) {
                     case "객관식", "셀렉트박스" -> {

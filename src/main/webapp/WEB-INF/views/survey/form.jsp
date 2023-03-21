@@ -23,14 +23,13 @@ TODO delete option 완성하기, 설문 조건 완성, 객관식 이외에도 �
     }
 
     .titlebox {
-        border-top: 7px solid #fdb7d6;
+        border-top: 7px solid #7a6578;
         margin-top: 20px;
     }
 
     .title {
         font-size: 32px;
         margin-bottom: 10px; /* add some margin to bottom */
-
         border-right: none;
         border-left: none;
         border-top: none;
@@ -215,6 +214,13 @@ TODO delete option 완성하기, 설문 조건 완성, 객관식 이외에도 �
         font-weight: normal;
     }
 
+    .question_leng {
+        border-right: none;
+        border-top: none;
+        border-left: none;
+        border-color: #b8b8b8;
+    }
+
 </style>
 
 <main class="container mt-5">
@@ -303,7 +309,7 @@ TODO delete option 완성하기, 설문 조건 완성, 객관식 이외에도 �
                                             <input type="text" id="option_0_0" name="option_0_0" placeholder="옵션 1" required>&nbsp;
                                         </div>
                                         <div id="addOption_0_0" class="option_main align-items-center">
-                                            <i class="fas fa-solid fa-arrow-circle-plus"></i>&nbsp;<button
+                                            <i class="fas fa-solid fa-arrow-circle-plus"></i>&nbsp;<button type="button"
                                                 class="btn btn-outline-gray option_btn">옵션 추가
                                         </button>
                                         </div>
@@ -386,16 +392,45 @@ TODO delete option 완성하기, 설문 조건 완성, 객관식 이외에도 �
 
         // 체크 박스나 셀렉트 박스일시 필수 여부 없애기
         const required = event.parentElement.parentElement.parentElement.nextElementSibling;
+        const option_main = required.nextElementSibling;
         if (chosen_option.textContent.trim() === '체크박스' || chosen_option.textContent.trim() === '셀렉트박스') {
             required.innerHTML="";
-        } else if (chosen_option.textContent.trim() === '객관식') {
-            let question_id = event.parentElement.parentElement.id;
-            let question_id_array = question_id.split("_");
-            let question_cnt = question_id_array[2];
 
+            let message = "";
+            message += '<div id="option_main_0_0" class="option_main align-items-center">';
+            message += '        <i class="fas fa-solid fa-arrow-circle-right"></i>&nbsp;';
+            message += '        <input type="text" id="option_0_0"  name="option_0_0" placeholder="옵션 1" required>&nbsp;';
+            message += '</div>';
+            message += '<div id="addOption_0_0" class="option_main align-items-center">';
+            message += '    <i class="fas fa-solid fa-arrow-circle-plus"></i>&nbsp;<button type="button" class="btn btn-outline-gray option_btn">옵션 추가</button>';
+            message += '</div>';
+
+            option_main.innerHTML = message;
+        } else if (chosen_option.textContent.trim() === '객관식') {
             let message = "";
             message += '<input type="checkbox" id="required_0" name="question_required_0"><label for="required_0"><span style="color: red">*</span> 필수 여부</label>';
             required.innerHTML=message;
+
+            message = "";
+            message += '<div id="option_main_0_0" class="option_main align-items-center">';
+            message += '        <i class="fas fa-solid fa-arrow-circle-right"></i>&nbsp;';
+            message += '        <input type="text" id="option_0_0"  name="option_0_0" placeholder="옵션 1" required>&nbsp;';
+            message += '</div>';
+            message += '<div id="addOption_0_0" class="option_main align-items-center">';
+            message += '    <i class="fas fa-solid fa-arrow-circle-plus"></i>&nbsp;<button type="button" class="btn btn-outline-gray option_btn">옵션 추가</button>';
+            message += '</div>';
+
+            option_main.innerHTML = message;
+        } else if (chosen_option.textContent.trim() === '주관식 - 단답형' || chosen_option.textContent.trim() === '주관식 - 장문형') {
+            required.innerHTML="";
+
+            let message = "";
+            message += '<div style="text-align: center">';
+            message += '최소 글자 수 : <input type="number" class="question_leng mt-2" name="option_min" value=0 dir="rtl" min="1" max="255" defaultValue=1 required style="margin-right: 10px">';
+            message += ' / ';
+            message += '최대 글자 수 : <input type="number" class="question_leng mt-2" name="option_max" value=0 dir="rtl" min="1" max="255" defaultValue=1 required>';
+            message += "</div>";
+            option_main.innerHTML = message;
         }
     }
 
@@ -451,7 +486,7 @@ TODO delete option 완성하기, 설문 조건 완성, 객관식 이외에도 �
         message += '                        <input type="text" id="option_' + question_cnt + '_' + option_cnt + '"  name="option_' + question_cnt + '_' + option_cnt + '" placeholder="옵션 ' + (option_cnt + 1) + '" required>&nbsp;';
         message += '                    </div>';
         message += '                    <div id="addOption_' + question_cnt + '_' + option_cnt + '" class="option_main align-items-center">';
-        message += '                        <i class="fas fa-solid fa-arrow-circle-plus"></i>&nbsp;<button class="btn btn-outline-gray option_btn">옵션 추가</button>';
+        message += '                        <i class="fas fa-solid fa-arrow-circle-plus"></i>&nbsp;<button type="button" class="btn btn-outline-gray option_btn">옵션 추가</button>';
         message += '                    </div>';
         message += '                </div>';
         message += '            </div>';
@@ -489,10 +524,10 @@ TODO delete option 완성하기, 설문 조건 완성, 객관식 이외에도 �
         message += ' <div class="option_del col-2" onclick="deleteOption(this)"><i class="fas fa-sharp fa-solid fa-trash"></i>&nbsp; 삭제</div>';
         message += '</div>';
         message += '<div id="addOption_' + question_cnt + '_' + option_cnt + '" class="option_main align-items-center">';
-        message += '    <i class="fas fa-solid fa-arrow-circle-plus"></i>&nbsp;<button class="btn btn-outline-gray option_btn">옵션 추가</button>';
+        message += '    <i class="fas fa-solid fa-arrow-circle-plus"></i>&nbsp;<button type="button" class="btn btn-outline-gray option_btn">옵션 추가</button>';
         message += '</div>';
 
-        document.getElementById('option_' + question_cnt).insertAdjacentHTML('beforeend', message);
+        document.getElementById('option_' + question_cnt).insertAdjacentHTML('beforeend', message); // 맨뒤에 추가하기
     });
 
     // 질문과 세팅 페이지 변경
