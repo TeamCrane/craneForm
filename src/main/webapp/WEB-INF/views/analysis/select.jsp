@@ -37,6 +37,10 @@
         display: none;
     }
 
+    .box {
+        display: flex;
+    }
+
     .box-content {
         display: flex;
         align-items: center;
@@ -56,15 +60,43 @@
         background-color: #eee;
     }
 
-    .box:active, .box.selected {
+    .box:active > .box-content {
         cursor: grabbing;
         background-color: #f9f9f9;
         border: 1px dashed gray;
         opacity: 0.7;
     }
 
-    .box-content.analysis {
-        width: 100px;
+    .box.analysis > .box-content {
+        flex-basis: 100px;
+    }
+
+    .box-analysis {
+        flex-basis: 100%;
+        margin: auto;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .box-bar {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        margin: 36px;
+        height: 20px;
+        border-radius: 10px;
+        background-color: #ddd;
+        position: relative;
+    }
+
+    .box-value {
+        margin: 36px;
+        padding: 0 8px;
+        background-color: #ffabab;
+        font-weight: bold;
+        border: 2px solid #ddd;
+        border-radius: 50%;
     }
 
     .hovered {
@@ -81,7 +113,7 @@
         border: 2px solid #ddd;
         border-radius: 10px;
     }
-    
+
     .survey:hover {
         background-color: #eee;
     }
@@ -111,6 +143,11 @@
 <main>
     <div class="section section-md">
         <div class="container">
+            <div class="d-flex justify-content-end align-items-center mb-4">
+                <button class="btn btn-primary me-3">현재 상태 저장</button>
+                <button class="btn btn-primary me-3">이미지로 변환</button>
+                <button class="btn btn-primary">초기화</button>
+            </div>
             <div class="row mb-5">
                 <div class="col-12 col-md-6 col-lg-3 mb-5 mb-lg-0">
                     <div class="card shadow" id="survey-list">
@@ -225,9 +262,12 @@
             let ord = optionsOrder[i].split("-");
             if(ord[0]==$(this).parent().parent(".survey").data("order") && ord[1]==$(this).data("order")) {
                 tag += '<div class="box" draggable="true" data-order="'+ord[2]+'">'+
-                    '<div class="box-content">'+optionsName[i]+'</div>'+
-                    '<div class="box-analysis" data-survey="'+optionsOrder[i]+'"></div>'+
-                    '</div>';
+                            '<div class="box-content">'+optionsName[i]+'</div>'+
+                            '<div class="box-analysis d-none" data-survey="'+optionsOrder[i]+'">'+
+                                '<p class="box-bar" data-value="'+answerCount[i]+'"></p>'+
+                                '<p class="box-value">'+answerCount[i]+'</p>'+
+                            '</div>'+
+                        '</div>';
             }
         }
         $("#options").html(tag);
@@ -235,12 +275,19 @@
 
     }
 
-    // 2번 카드에 옵션을 드래그앤드롭하면 통계를 표시하기
-    function analysisList(addTag) {
+    // 2번 카드에 통계 표시하기
+    function analysisData() {
 
-        // let content = answerCount[optionsOrder.indexOf($(this).children(".box-analysis").data("survey"))]
-        // let tag = '<p class="analysis-data">'+content+'</p>';
-        // $(this).children(".box-analysis").html(tag);
+        let total = 0;
+        $('.analysis').children(".box-analysis").children(".box-bar").each(function() {
+            total += parseInt($(this).attr('data-value'));
+        });
+        $('.analysis').children(".box-analysis").children(".box-bar").each(function() {
+            let value = parseInt($(this).attr('data-value'));
+            let ratio = value / total;
+            $(this).css('width', ratio * 100 + '%');
+            $(this).css('background-color', '#ffabab');
+        });
 
     }
 
@@ -308,9 +355,18 @@
                 }
                 if (target.id === "analysis") {
                     currentBox.classList.add("analysis");
-                    analysisList(currentBox);
+
+                    // 2번 카드에 옵션을 드래그앤드롭하면 통계 표시
+                    $(".analysis").children(".box-analysis").removeClass("d-none");
+                    analysisData();
+
                 } else if (target.id === "options") {
                     currentBox.classList.remove("analysis");
+
+                    // 3번 카드에 옵션을 드래그앤드롭하면 통계 표시 제거
+                    $("#options").children(".box").children(".box-analysis").addClass("d-none");
+                    analysisData();
+
                 }
             });
         });
