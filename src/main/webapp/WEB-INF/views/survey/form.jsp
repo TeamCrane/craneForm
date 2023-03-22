@@ -10,6 +10,7 @@
 
 <%--
 TODO delete option 완성하기, 설문 조건 완성, 객관식 이외에도 완성
+TODO 셀렉트 박스나 체크 박스의 옵션 번호 수정하기. 0_0이면 안 됨
 --%>
 
 <style>
@@ -310,7 +311,7 @@ TODO delete option 완성하기, 설문 조건 완성, 객관식 이외에도 �
                                         </div>
                                         <div id="addOption_0_0" class="option_main align-items-center">
                                             <i class="fas fa-solid fa-arrow-circle-plus"></i>&nbsp;<button type="button"
-                                                class="btn btn-outline-gray option_btn">옵션 추가
+                                                class="btn btn-outline-gray option_btn" onclick="addOption(this)">옵션 추가
                                         </button>
                                         </div>
                                     </div>
@@ -390,6 +391,10 @@ TODO delete option 완성하기, 설문 조건 완성, 객관식 이외에도 �
         select_trigger.previousElementSibling.value = chosen_option.textContent.trim();
         event.parentElement.style.display = 'none';
 
+        const question_main_id = chosen_option.closest('.select-wrapper').id;
+        const question_array = question_main_id.split('_');
+        const question_cnt = question_array[2];
+
         // 체크 박스나 셀렉트 박스일시 필수 여부 없애기
         const required = event.parentElement.parentElement.parentElement.nextElementSibling;
         const option_main = required.nextElementSibling;
@@ -397,27 +402,27 @@ TODO delete option 완성하기, 설문 조건 완성, 객관식 이외에도 �
             required.innerHTML="";
 
             let message = "";
-            message += '<div id="option_main_0_0" class="option_main align-items-center">';
+            message += '<div id="option_main_' + question_cnt + '_0" class="option_main align-items-center">';
             message += '        <i class="fas fa-solid fa-arrow-circle-right"></i>&nbsp;';
-            message += '        <input type="text" id="option_0_0"  name="option_0_0" placeholder="옵션 1" required>&nbsp;';
+            message += '        <input type="text" id="option_' + question_cnt + '_0"  name="option_' + question_cnt + '_0" placeholder="옵션 1" required>&nbsp;';
             message += '</div>';
-            message += '<div id="addOption_0_0" class="option_main align-items-center">';
-            message += '    <i class="fas fa-solid fa-arrow-circle-plus"></i>&nbsp;<button type="button" class="btn btn-outline-gray option_btn">옵션 추가</button>';
+            message += '<div id="addOption_' + question_cnt + '_0" class="option_main align-items-center">';
+            message += '    <i class="fas fa-solid fa-arrow-circle-plus"></i>&nbsp;<button type="button" class="btn btn-outline-gray option_btn" onclick="addOption(this)">옵션 추가</button>';
             message += '</div>';
 
             option_main.innerHTML = message;
         } else if (chosen_option.textContent.trim() === '객관식') {
             let message = "";
-            message += '<input type="checkbox" id="required_0" name="question_required_0"><label for="required_0"><span style="color: red">*</span> 필수 여부</label>';
+            message += '<input type="checkbox" id="required_' + question_cnt + '" name="question_required_' + question_cnt + '"><label for="required_' + question_cnt + '"><span style="color: red">*</span> 필수 여부</label>';
             required.innerHTML=message;
 
             message = "";
-            message += '<div id="option_main_0_0" class="option_main align-items-center">';
+            message += '<div id="option_main_' + question_cnt + '_0" class="option_main align-items-center">';
             message += '        <i class="fas fa-solid fa-arrow-circle-right"></i>&nbsp;';
-            message += '        <input type="text" id="option_0_0"  name="option_0_0" placeholder="옵션 1" required>&nbsp;';
+            message += '        <input type="text" id="option_' + question_cnt + '_0"  name="option_' + question_cnt + '_0" placeholder="옵션 1" required>&nbsp;';
             message += '</div>';
-            message += '<div id="addOption_0_0" class="option_main align-items-center">';
-            message += '    <i class="fas fa-solid fa-arrow-circle-plus"></i>&nbsp;<button type="button" class="btn btn-outline-gray option_btn">옵션 추가</button>';
+            message += '<div id="addOption_' + question_cnt + '_0" class="option_main align-items-center">';
+            message += '    <i class="fas fa-solid fa-arrow-circle-plus"></i>&nbsp;<button type="button" class="btn btn-outline-gray option_btn" onclick="addOption(this)">옵션 추가</button>';
             message += '</div>';
 
             option_main.innerHTML = message;
@@ -426,9 +431,9 @@ TODO delete option 완성하기, 설문 조건 완성, 객관식 이외에도 �
 
             let message = "";
             message += '<div style="text-align: center">';
-            message += '최소 글자 수 : <input type="number" class="question_leng mt-2" name="option_min" value=0 dir="rtl" min="1" max="255" defaultValue=1 required style="margin-right: 10px">';
+            message += '최소 글자 수 : <input type="number" class="question_leng mt-2" name="option_min_' + question_cnt + '" value=0 dir="rtl" min="1" max="255" defaultValue=1 required style="margin-right: 10px">';
             message += ' / ';
-            message += '최대 글자 수 : <input type="number" class="question_leng mt-2" name="option_max" value=0 dir="rtl" min="1" max="255" defaultValue=1 required>';
+            message += '최대 글자 수 : <input type="number" class="question_leng mt-2" name="option_max_' + question_cnt + '" value=0 dir="rtl" min="1" max="255" defaultValue=1 required>';
             message += "</div>";
             option_main.innerHTML = message;
         }
@@ -486,7 +491,7 @@ TODO delete option 완성하기, 설문 조건 완성, 객관식 이외에도 �
         message += '                        <input type="text" id="option_' + question_cnt + '_' + option_cnt + '"  name="option_' + question_cnt + '_' + option_cnt + '" placeholder="옵션 ' + (option_cnt + 1) + '" required>&nbsp;';
         message += '                    </div>';
         message += '                    <div id="addOption_' + question_cnt + '_' + option_cnt + '" class="option_main align-items-center">';
-        message += '                        <i class="fas fa-solid fa-arrow-circle-plus"></i>&nbsp;<button type="button" class="btn btn-outline-gray option_btn">옵션 추가</button>';
+        message += '                        <i class="fas fa-solid fa-arrow-circle-plus"></i>&nbsp;<button type="button" class="btn btn-outline-gray option_btn" onclick="addOption(this)">옵션 추가</button>';
         message += '                    </div>';
         message += '                </div>';
         message += '            </div>';
@@ -499,11 +504,12 @@ TODO delete option 완성하기, 설문 조건 완성, 객관식 이외에도 �
     }
 
     // 옵션 추가
-    $(document).on('click', '.option_btn', function (event) {
+    function addOption(event) {
         // 옵션 추가 버튼을 클릭하면 해당 옵션의 질문 번호를 가져온다
         // 선택한 요소의 질문 번호를 가져와야하기에 번거로운 방법을 거친다
-        const question_main_id = $(event.target).closest('.question_main').attr('id');
+        const question_main_id = event.parentElement.previousElementSibling.id;
         const question_main_array = question_main_id.split('_');
+        console.log(question_main_array)
         const question_cnt = question_main_array[2];
 
         // 해당 옵션의 옵션 번호를 가져온다.
@@ -524,11 +530,11 @@ TODO delete option 완성하기, 설문 조건 완성, 객관식 이외에도 �
         message += ' <div class="option_del col-2" onclick="deleteOption(this)"><i class="fas fa-sharp fa-solid fa-trash"></i>&nbsp; 삭제</div>';
         message += '</div>';
         message += '<div id="addOption_' + question_cnt + '_' + option_cnt + '" class="option_main align-items-center">';
-        message += '    <i class="fas fa-solid fa-arrow-circle-plus"></i>&nbsp;<button type="button" class="btn btn-outline-gray option_btn">옵션 추가</button>';
+        message += '    <i class="fas fa-solid fa-arrow-circle-plus"></i>&nbsp;<button type="button" class="btn btn-outline-gray option_btn" onclick="addOption(this)">옵션 추가</button>';
         message += '</div>';
 
         document.getElementById('option_' + question_cnt).insertAdjacentHTML('beforeend', message); // 맨뒤에 추가하기
-    });
+    }
 
     // 질문과 세팅 페이지 변경
     function questionSetting() {

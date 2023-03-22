@@ -6,6 +6,10 @@
   To change this template use File | Settings | File Templates.
 --%>
 
+<%--
+    TODO selectAllOption에 맞춰서 수정할 필요 유
+--%>
+
 <%@ include file="../header.jsp" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
@@ -79,61 +83,59 @@
 </style>
 
 <div class="container" style="padding-top: 2%; display: flex; justify-content : center;">
-    <fmt:formatDate var="si_created_date" value="${si.si_created_date}" pattern="yyyy-MM-dd (E) "/> <%-- 날짜 형식 지정 --%>
+    <fmt:formatDate var="si_created_date" value="${surveyInfo.si_created_date}"
+                    pattern="yyyy-MM-dd (E) "/> <%-- 날짜 형식 지정 --%>
     <div class="col-2"></div>
     <div class="col-10">
         <form method="post" id="answerForm">
-            <input type="hidden" name="si_no" value="${si.si_no}">
+            <input type="hidden" name="si_no" value="${surveyInfo.si_no}">
             <div class="card shadow-detail text-center detail_main shadow">
-                <h1 class="mt-5">${si.si_subtitle}</h1>
-                <h5 class="mt-1" style="color: #8f8f8f">${si.si_detail}</h5>
+                <h1 class="mt-5">${surveyInfo.si_subtitle}</h1>
+                <h5 class="mt-1" style="color: #8f8f8f">${surveyInfo.si_detail}</h5>
                 <span class="mt-3" style="text-align: right; margin-right: 3%">${si_created_date}</span>
                 <hr>
 
-                <c:forEach var="q" items="${qs}" varStatus="vs">
+                <c:forEach var="qo" items="${questionAndOption}" varStatus="vs">
                     <div class="question_main mt-2 mb-3">
-                    <span class="question_detail">${q.qs_order + 1}. ${q.qs_detail}
-                    <c:if test="${q.qs_required eq 'on'}"><span style="color: red; font-weight: bold">* (필수)</span></c:if>
-                    <c:if test="${q.qs_type eq '객관식'}"><span class="badge badge-primary">객관식</span></c:if>
-                    <c:if test="${q.qs_type eq '체크박스'}"><span class="badge badge-warning">체크박스</span></c:if>
-                    <c:if test="${q.qs_type eq '셀렉트박스'}"><span class="badge badge-danger">셀렉트박스</span></c:if>
-                    <c:if test="${q.qs_type eq '주관식 - 단답형'}"><span class="badge badge-gray">주관식 - 단답형</span></c:if>
+                    <span class="question_detail">${qo.qs_order + 1}. ${qo.qs_detail}
+                    <c:if test="${qo.qs_required eq 'on'}"><span
+                            style="color: red; font-weight: bold">* (필수)</span></c:if>
+                    <c:if test="${qo.qs_type eq '객관식'}"><span class="badge badge-primary">객관식</span></c:if>
+                    <c:if test="${qo.qs_type eq '체크박스'}"><span class="badge badge-warning">체크박스</span></c:if>
+                    <c:if test="${qo.qs_type eq '셀렉트박스'}"><span class="badge badge-danger">셀렉트박스</span></c:if>
+                    <c:if test="${qo.qs_type eq '주관식 - 단답형'}"><span class="badge badge-gray">주관식 - 단답형</span></c:if>
                     </span>
                         <div class="option_main">
-                            <input type="hidden" name="answer_type_${q.qs_order}" value="${q.qs_type}">
+                            <input type="hidden" name="answer_type_${qo.qs_order}" value="${qo.qs_type}">
                             <c:choose>
-                                <c:when test="${q.qs_type eq '셀렉트박스'}">
-                                    <select id="option_${q.qs_no}" name="answer_${q.qs_no}">
-                                        <c:forEach var="op" items="${opt}" varStatus="vs2">
-                                            <c:if test="${op.so_qs_no eq q.qs_no}">
-                                                <option value="${op.so_no}" <c:if test="${vs2.index == 0}">selected</c:if>>${op.so_detail}</option>
-                                            </c:if>
+                                <c:when test="${qo.qs_type eq '셀렉트박스'}">
+                                    <select id="option_${qo.qs_no}" name="answer_${qo.qs_no}">
+                                        <c:forEach var="so" items="${qo.selectOptionList}" varStatus="vs2">
+                                            <option value="${so.so_no}"
+                                                    <c:if test="${vs2.index == 0}">selected</c:if>>${so.so_detail}</option>
                                         </c:forEach>
                                     </select>
                                 </c:when>
                                 <c:otherwise>
-                                    <c:forEach var="op" items="${opt}" varStatus="vs2">
-                                        <c:if test="${op.so_qs_no eq q.qs_no}">
-                                            <c:choose>
-                                                <c:when test="${q.qs_type eq '객관식'}">
-                                                    <input type="radio" id="option_${op.so_qs_no}_${op.so_no}"
-                                                           name="answer_${q.qs_no}"
-                                                           value="${op.so_no}"
-                                                           <c:if test="${q.qs_required eq 'on'}">required</c:if>>
-                                                    <label for="option_${op.so_qs_no}_${op.so_no}">${op.so_detail}</label>
-                                                </c:when>
-                                                <c:when test="${q.qs_type eq '체크박스'}">
-                                                    <input type="checkbox" id="option_${op.so_qs_no}_${op.so_no}"
-                                                           name="answer_${q.qs_no}_${op.so_no}">
-                                                    <label for="option_${op.so_qs_no}_${op.so_no}">${op.so_detail}</label>
-                                                </c:when>
-                                                <c:when test="${q.qs_type eq '주관식 - 단답형'}">
-                                                    <input type="text" id="option_${op.so_qs_no}_${op.so_no}"
-                                                           name="answer_${q.qs_no}_${op.so_no}">
-                                                    안녕
-                                                </c:when>
-                                            </c:choose>
-                                        </c:if>
+                                    <c:forEach var="so" items="${qo.selectOptionList}" varStatus="vs2">
+                                        <c:choose>
+                                            <c:when test="${qo.qs_type eq '객관식'}">
+                                                <input type="radio" id="option_${so.so_qs_no}_${so.so_no}"
+                                                       name="answer_${qo.qs_no}"
+                                                       value="${so.so_no}"
+                                                       <c:if test="${qo.qs_required eq 'on'}">required</c:if>>
+                                                <label for="option_${so.so_qs_no}_${so.so_no}">${so.so_detail}</label>
+                                            </c:when>
+                                            <c:when test="${qo.qs_type eq '체크박스'}">
+                                                <input type="checkbox" id="option_${so.so_qs_no}_${so.so_no}"
+                                                       name="answer_${qo.qs_no}_${so.so_no}">
+                                                <label for="option_${so.so_qs_no}_${so.so_no}">${so.so_detail}</label>
+                                            </c:when>
+                                            <c:when test="${qo.qs_type eq '주관식 - 단답형'}">
+                                                <input type="text" id="option_${so.so_qs_no}_${so.so_no}"
+                                                       name="answer_${qo.qs_no}_${so.so_no}">
+                                            </c:when>
+                                        </c:choose>
                                     </c:forEach>
                                 </c:otherwise>
                             </c:choose>

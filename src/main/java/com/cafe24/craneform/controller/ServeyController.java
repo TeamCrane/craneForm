@@ -31,9 +31,8 @@ public class ServeyController {
     @GetMapping("/detail/{si_no}")
     public ModelAndView surveyDetail(@PathVariable int si_no) {
         ModelAndView mav = new ModelAndView();
-        mav.addObject("si", surveyDAO.surveyInfoOne(si_no)); // 설문 정보
-        mav.addObject("qs", surveyDAO.questionList(si_no)); // 질문
-        mav.addObject("opt", surveyDAO.optionList(si_no));
+        mav.addObject("surveyInfo", surveyDAO.surveyInfoOne(si_no)); // 설문 정보, 질문, 옵션 등
+        mav.addObject("questionAndOption", surveyDAO.allSurveyInfo(si_no)); // 질문과 옵션
         mav.setViewName("/survey/detail");
         return mav;
     }
