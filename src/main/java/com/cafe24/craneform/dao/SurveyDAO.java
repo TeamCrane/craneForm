@@ -1,9 +1,6 @@
 package com.cafe24.craneform.dao;
 
-import com.cafe24.craneform.dto.QuestionDTO;
-import com.cafe24.craneform.dto.SelectAnswerDTO;
-import com.cafe24.craneform.dto.SelectOptionDTO;
-import com.cafe24.craneform.dto.SurveyInfoDTO;
+import com.cafe24.craneform.dto.*;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -51,18 +48,12 @@ public class SurveyDAO {
         return sqlSession.selectOne("survey.surveyInfoOne", si_no);
     }
 
-    // 질문 리스트
-    public List<QuestionDTO> questionList(int si_no) {
-        return sqlSession.selectList("survey.questionList", si_no);
-    }
-
-    // 객관식 옵션 리스트
-    public List<SelectOptionDTO> optionList(int si_no) {
-        return sqlSession.selectList("survey.selectOptionList", si_no);
-    }
-
     // 객관식 답변 제출
     public int insertSelectAnswer(SelectAnswerDTO selectAnswerDTO) {
         return sqlSession.insert("survey.insertSelectAnswer", selectAnswerDTO);
+    }
+
+    public List<AllSurveyInfoDTO> allSurveyInfo(int si_no) {
+        return sqlSession.selectList("survey.allSurveyInfo", si_no);
     }
 }

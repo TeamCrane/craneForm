@@ -1,6 +1,7 @@
 package com.cafe24.craneform.controller;
 
 import com.cafe24.craneform.dao.SurveyDAO;
+import com.cafe24.craneform.service.SurveyService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,9 @@ public class ServeyController {
     @Autowired
     private SurveyDAO surveyDAO = new SurveyDAO();
 
+    @Autowired
+    private SurveyService surveyService = new SurveyService();
+
     // 폼 작성 페이지 이동
     @GetMapping("/form")
     public String addSurvey(HttpSession session) {
@@ -31,9 +35,8 @@ public class ServeyController {
     @GetMapping("/detail/{si_no}")
     public ModelAndView surveyDetail(@PathVariable int si_no) {
         ModelAndView mav = new ModelAndView();
-        mav.addObject("si", surveyDAO.surveyInfoOne(si_no)); // 설문 정보
-        mav.addObject("qs", surveyDAO.questionList(si_no)); // 질문
-        mav.addObject("opt", surveyDAO.optionList(si_no));
+        mav.addObject("surveyInfo", surveyDAO.surveyInfoOne(si_no)); // 설문 정보
+        mav.addObject("allInfo", surveyDAO.allSurveyInfo(si_no)); // 질문, 옵션
         mav.setViewName("/survey/detail");
         return mav;
     }
