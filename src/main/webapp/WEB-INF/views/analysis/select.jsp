@@ -144,9 +144,9 @@
     <div class="section section-md">
         <div class="container">
             <div class="d-flex justify-content-end align-items-center mb-4">
-                <button class="btn btn-primary me-3">현재 상태 저장</button>
+                <button class="btn btn-primary me-3" id="save">현재 상태 저장</button>
                 <button class="btn btn-primary me-3">이미지로 변환</button>
-                <button class="btn btn-primary">초기화</button>
+                <button class="btn btn-primary" onclick="resetAnalysis()">초기화</button>
             </div>
             <div class="row mb-5">
                 <div class="col-12 col-md-6 col-lg-3 mb-5 mb-lg-0">
@@ -172,10 +172,12 @@
     let surveys = new Array();
     let titlesNum = new Array();
     let titlesName = new Array();
+    let questionsNum = new Array();
     let questionsName = new Array();
     let questionsOrder = new Array();
-    let optionsName = new Array();
+    let optionsNum = new Array();
     let optionsOrder = new Array();
+    let optionsName = new Array();
     let answerCount = new Array();
     let saved;
 
@@ -201,12 +203,14 @@
                     }
 
                     if(!questionsOrder.includes(i.si_no+"-"+i.qs_order)) {
-                        questionsName.push(i.qs_detail);
+                        questionsNum.push(i.si_no);
                         questionsOrder.push(i.si_no+"-"+i.qs_order);
+                        questionsName.push(i.qs_detail);
                     }
 
-                    optionsName.push(i.so_detail);
+                    optionsNum.push((i.so_no));
                     optionsOrder.push(i.si_no+"-"+i.qs_order+"-"+i.so_order);
+                    optionsName.push(i.so_detail);
                     answerCount.push(i.sa_count);
 
                 }
@@ -214,14 +218,18 @@
                 console.log(surveys);
                 console.log(titlesNum);
                 console.log(titlesName);
+                console.log(questionsNum);
                 console.log(questionsOrder);
                 console.log(questionsName);
+                console.log(optionsNum);
                 console.log(optionsOrder);
                 console.log(optionsName);
                 console.log(answerCount)
 
                 surveyList();
                 $(".survey-question").click(optionList);
+
+                $("#save").click(saveAnalysis);
 
             }
         })
@@ -241,7 +249,7 @@
                     '<div class="survey-questions d-none">';
                 for (let j = 0; j < questionsOrder.length; j++) {
                     if(titlesNum[i]==questionsOrder[j].split("-")[0]) {
-                        tag += '<p class="survey-question" data-order="'+questionsOrder[j].split("-")[1]+'">'+questionsName[j]+'</p>';
+                        tag += '<p class="survey-question" data-no="'+questionsNum[j]+'" data-order="'+questionsOrder[j].split("-")[1]+'">'+questionsName[j]+'</p>';
                     }
                 }
                 tag += '</div>'+
@@ -261,9 +269,9 @@
         for (let i = 0; i < optionsOrder.length; i++) {
             let ord = optionsOrder[i].split("-");
             if(ord[0]==$(this).parent().parent(".survey").data("order") && ord[1]==$(this).data("order")) {
-                tag += '<div class="box" draggable="true" data-order="'+ord[2]+'">'+
+                tag += '<div class="box" draggable="true" data-no="'+$(this).data("no")+'" data-order="'+ord[2]+'">'+
                             '<div class="box-content">'+optionsName[i]+'</div>'+
-                            '<div class="box-analysis d-none" data-survey="'+optionsOrder[i]+'">'+
+                            '<div class="box-analysis d-none" data-no="'+optionsNum[i]+'" data-survey="'+optionsOrder[i]+'">'+
                                 '<p class="box-bar" data-value="'+answerCount[i]+'"></p>'+
                                 '<p class="box-value">'+answerCount[i]+'</p>'+
                             '</div>'+
@@ -288,6 +296,41 @@
             $(this).css('width', ratio * 100 + '%');
             $(this).css('background-color', '#ffabab');
         });
+
+    }
+
+    // 현재 상태 저장
+    function saveAnalysis() {
+
+        if($(".analysis").data("no")==undefined) { alert("일단 데이터 없음을 확인하는 메시지 입니다."); return; }
+
+        let so_no = new Array();
+        $(".analysis").children(".box-analysis").each(function() {
+            so_no.push($(this).data("no"));
+        });
+
+        let data = {
+            qs_no:$(".analysis").data("no"),
+            so_no:so_no
+        }
+
+        $.ajax({
+            url:"/api/analysis/save",
+            type:"put",
+            data:JSON.stringify(data),
+            contentType:"application/json",
+            success: function (r) {
+
+            }
+        })
+
+    }
+
+    // 초기화
+    function resetAnalysis() {
+
+        if(!confirm("초기화 하시겠습니까?")) { return; }
+        $(".target").html("");
 
     }
 
