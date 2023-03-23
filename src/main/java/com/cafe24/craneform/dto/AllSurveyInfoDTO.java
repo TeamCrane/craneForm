@@ -1,20 +1,24 @@
 package com.cafe24.craneform.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class AllSurveyInfoDTO {
 
-    private int qs_no; // 질문 번호 (질문)
-    private int qs_order; // 질문 순서 (질문)
-    private String qs_detail; // 질문 제목 (질문)
-    private String qs_type; // 질문 유형 (질문)
-    private String qs_required; // 필수 여부 (질문)
-    List<SelectOptionDTO> selectOptionList = new ArrayList<>(); // 객관식 옵션 리스트
-    List<EssayOptionDTO> essayAnswerList = new ArrayList<>(); // 주관식 옵션 리스트
-    List<TableOptionDTO> tableOptionList = new ArrayList<>(); // 표 옵션 리스트
+    private Integer qs_no; // 질문 일련번호
+    private Integer qs_si_no; // 설문 일련번호 (설문)
+    private String qs_type; // 질문 유형
+    private String qs_detail; // 질문 내용
+    private String qs_required; // 필수 여부
+    private Integer qs_order; // 질문 순번
+    private List<SelectOptionDTO> selectOptionList; // 객관식 옵션 리스트
+    private List<EssayOptionDTO> essayOptionList; // 주관식 옵션 리스트
+    private List<TableOptionDTO> tableOptionList; // 표 옵션 리스트
 
 }

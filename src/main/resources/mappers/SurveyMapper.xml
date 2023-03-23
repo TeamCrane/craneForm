@@ -67,27 +67,54 @@
         ]]>
     </select>
 
+    <!-- AllSurveyInfoDTO 내부의 리스트에 매핑 -->
+    <resultMap id="allSurveyInfoMap" type="com.cafe24.craneform.dto.AllSurveyInfoDTO">
+        <id property="qs_no" column="qs_no"/>
+        <result property="qs_si_no" column="qs_si_no"/>
+        <result property="qs_type" column="qs_type"/>
+        <result property="qs_detail" column="qs_detail"/>
+        <result property="qs_required" column="qs_required"/>
+        <result property="qs_order" column="qs_order"/>
+        <collection property="selectOptionList" ofType="com.cafe24.craneform.dto.SelectOptionDTO" javaType="java.util.List" >
+            <id property="so_no" column="so_no"/>
+            <result property="so_qs_no" column="so_qs_no"/>
+            <result property="so_order" column="so_order"/>
+            <result property="so_detail" column="so_detail"/>
+        </collection>
+        <collection property="essayOptionList" ofType="com.cafe24.craneform.dto.EssayOptionDTO" javaType="java.util.List" >
+            <id property="eo_no" column="eo_no"/>
+            <result property="eo_min" column="eo_min"/>
+            <result property="eo_max" column="eo_max"/>
+        </collection>
+        <collection property="tableOptionList" ofType="com.cafe24.craneform.dto.TableOptionDTO" javaType="java.util.List" >
+            <id property="to_no" column="to_no"/>
+            <result property="to_order" column="to_order"/>
+            <result property="to_matrix" column="to_matrix"/>
+            <result property="to_detail" column="to_detail"/>
+        </collection>
+    </resultMap>
+
     <!-- 설문지 상세에 질문과 옵션 리스트 -->
-    <select id="allSurveyInfo" parameterType="int" resultType="com.cafe24.craneform.dto.AllSurveyInfoDTO">
-        <!--SELECT qs.qs_order, qs.qs_detail, qs.qs_type, qs.qs_required, qs.qs_no
-        <choose>
+    <select id="allSurveyInfo" parameterType="int" resultMap="allSurveyInfoMap">
+        SELECT qs.qs_order, qs.qs_detail, qs.qs_type, qs.qs_required, qs.qs_no, so.so_no,so.so_order, so.so_detail, so.so_no,eo.eo_min, eo.eo_max, eo.eo_no,tb.to_matrix, tb.to_detail, tb.to_order, tb.to_no
+        <!--<choose>
             <when test='qs_type == "객관식" or qs_type == "체크박스" or qs_type == "셀렉트박스"'>
-                ,so.so_order, so.so_detail, so.so_no
+
             </when>
             <when test='qs_type == "주관식 - 단답형" or qs_type == "주관식 - 장문형"'>
-                ,eo.eo_min, eo.eo_max, eo.eo_no
+
             </when>
             <when test='qs_type == "객관식 표" or qs_type == "체크박스 표"'>
-                ,tb.to_matrix, tb.to_detail, tb.to_order, tb.to_no
+
             </when>
-        </choose>
+        </choose>-->
         FROM question_tb qs
         INNER JOIN survey_info_tb si ON si.si_no = qs.qs_si_no /* 설문 정보 */
         LEFT JOIN select_option_tb so ON qs.qs_no = so.so_qs_no /* 객관식 옵션 */
         LEFT JOIN essay_option_tb eo ON qs.qs_no = eo.eo_qs_no /* 주관식 옵션 */
         LEFT JOIN table_option_tb tb ON qs.qs_no = tb.to_qs_no /* 표 옵션 */
         WHERE qs.qs_si_no = #{si_no}
-        ORDER BY qs.qs_no, so.so_no-->
+        ORDER BY qs.qs_no, so.so_no
     </select>
 
     <!-- 답변 insert -->
