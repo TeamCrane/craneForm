@@ -20,4 +20,13 @@ public class AnalysisService {
 
         return resultMap;
     }
+
+    public Map<String, Object> insertResult(Map<String, Object> list) {
+        Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
+
+        analysisDAO.insertResult(list);
+
+        return resultMap;
+    }
+
 }

@@ -13,6 +13,7 @@ public class SelectResultDTO {
     private String qs_detail; // 질문 내용
     private Integer qs_order; // 질문 순번
 
+    private Integer so_no; // 옵션 일련번호
     private String so_detail; // 옵션 내용
     private Integer so_order; // 옵션 순번
 
