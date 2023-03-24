@@ -20,8 +20,8 @@ public class AnalysisAPIController {
     }
 
     @PutMapping("/save")
-    public Map<String, Object> putAnalysisSave(@RequestBody Map<String, Object> list) {
-        return analysis_service.insertResult(list);
+    public Map<String, Object> putAnalysisSave(HttpSession session, @RequestBody Map<String, Object> list) {
+        return analysis_service.insertResult(list, (int)session.getAttribute("no"));
     }
 
 }

@@ -27,4 +27,18 @@
             </foreach>
     </insert>
 
+    <delete id="analysis_delete">
+        delete san from select_analysis_tb san
+        inner join question_tb qs on san.san_qs_no = qs.qs_no
+        inner join survey_info_tb si on qs.qs_si_no = si.si_no
+        where si.si_ui_no = #{ui_no}
+    </delete>
+
+    <select id="check" resultType="com.cafe24.craneform.dto.SelectAnalysisDTO">
+        select san.san_qs_no, san.san_so_no from select_analysis_tb san
+        inner join question_tb qs on san.san_qs_no = qs.qs_no
+        inner join survey_info_tb si on qs.qs_si_no = si.si_no
+        where si.si_ui_no = #{ui_no}
+    </select>
+
 </mapper>

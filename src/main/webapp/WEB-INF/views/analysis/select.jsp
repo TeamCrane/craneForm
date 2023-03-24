@@ -145,7 +145,7 @@
         <div class="container">
             <div class="d-flex justify-content-end align-items-center mb-4">
                 <button class="btn btn-primary me-3" id="save">현재 상태 저장</button>
-                <button class="btn btn-primary me-3">이미지로 변환</button>
+<%--                <button class="btn btn-primary me-3">이미지로 변환</button>--%>
                 <button class="btn btn-primary" onclick="resetAnalysis()">초기화</button>
             </div>
             <div class="row mb-5">
@@ -179,19 +179,24 @@
     let optionsOrder = new Array();
     let optionsName = new Array();
     let answerCount = new Array();
-    let saved;
+    let saved = new Array();
 
     $(function () {
         selectResultList();
 
     })
 
+    // 설문 정보 불러오기
     function selectResultList() {
         $.ajax({
             url:"/api/analysis/select",
             type:"get",
             resultType:"application/json",
             success:function(r) {
+
+                // 저장된 옵션 통계 정보 불러오기
+                saved = r.save_options;
+                console.log(saved);
 
                 // 설문 결과 정보 객체에 저장
                 surveys = r.select_result;
@@ -227,7 +232,24 @@
                 console.log(answerCount)
 
                 surveyList();
+
                 $(".survey-question").click(optionList);
+
+                $(".survey-question").each(function () {
+                    if($(this).data("no")==saved[0]) {
+                        $(this).parent().removeClass("d-none");
+                        $(this).click();
+                    }
+                })
+                $(".box-analysis").each(function () {
+                    if(saved[1].includes($(this).data("no"))) {
+                        var target = $('#analysis');
+                        $(this).parent().appendTo(target);
+                        $(this).parent().addClass("analysis");
+                        $(this).removeClass("d-none");
+                        analysisData();
+                    }
+                })
 
                 $("#save").click(saveAnalysis);
 
@@ -302,8 +324,6 @@
     // 현재 상태 저장
     function saveAnalysis() {
 
-        if($(".analysis").data("no")==undefined) { alert("일단 데이터 없음을 확인하는 메시지 입니다."); return; }
-
         let so_no = new Array();
         $(".analysis").children(".box-analysis").each(function() {
             so_no.push($(this).data("no"));
@@ -314,13 +334,18 @@
             so_no:so_no
         }
 
+        if($(".analysis").data("no")==undefined) {
+            data.qs_no = null;
+            data.so_no = null;
+        }
+
         $.ajax({
             url:"/api/analysis/save",
             type:"put",
             data:JSON.stringify(data),
             contentType:"application/json",
             success: function (r) {
-
+                alert(r.message);
             }
         })
 
