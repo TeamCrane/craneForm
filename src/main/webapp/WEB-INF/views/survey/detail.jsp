@@ -96,7 +96,6 @@
     <div class="col-2"></div>
     <div class="col-10">
         <form method="post" id="answerForm">
-            <input type="hidden" name="si_no" value="${surveyInfo.si_no}">
             <div class="card shadow-detail text-center detail_main shadow">
                 <h1 class="mt-5">${surveyInfo.si_subtitle}</h1>
                 <h5 class="mt-1" style="color: #8f8f8f">${surveyInfo.si_detail}</h5>
@@ -121,20 +120,21 @@
                                     <c:forEach var="so" items="${qs.selectOptionList}" varStatus="vs2">
                                     <input type="radio" id="option_${so.so_qs_no}_${so.so_no}"
                                            name="answer_${qs.qs_no}"
-                                           value="${so.so_no}"
+                                           value="${so.so_no}" class="form-check-input"
                                            <c:if test="${qs.qs_required eq 'on'}">required</c:if>>
-                                    <label for="option_${so.so_qs_no}_${so.so_no}">${so.so_detail}</label>
+                                    <label for="option_${so.so_qs_no}_${so.so_no}" class="form-check-label">${so.so_detail}</label>
                                     </c:forEach>
                                 </c:when>
                                 <c:when test="${qs.qs_type eq '체크박스'}">
                                     <c:forEach var="so" items="${qs.selectOptionList}" varStatus="vs2">
                                     <input type="checkbox" id="option_${so.so_qs_no}_${so.so_no}"
-                                           name="answer_${qs.qs_no}_${so.so_no}">
-                                    <label for="option_${so.so_qs_no}_${so.so_no}">${so.so_detail}</label>
+                                           name="answer_${qs.qs_no}_${so.so_no}" class="form-check-input">
+                                    <label for="option_${so.so_qs_no}_${so.so_no}" class="form-check-label">${so.so_detail}</label>
+
                                     </c:forEach>
                                 </c:when>
                                 <c:when test="${qs.qs_type eq '셀렉트박스'}">
-                                    <select id="option_${qs.qs_no}" name="answer_${qs.qs_no}">
+                                    <select id="option_${qs.qs_no}" name="answer_${qs.qs_no}" class="form-select" style="min-width: 60%">
                                         <c:forEach var="so" items="${qs.selectOptionList}" varStatus="vs2">
                                             <option value="${so.so_no}"
                                                     <c:if test="${vs2.index == 0}">selected</c:if>>${so.so_detail}</option>
@@ -144,12 +144,12 @@
                                 <c:when test="${qs.qs_type eq '주관식 - 단답형'}">
                                     <c:forEach var="eo" items="${qs.essayOptionList}" varStatus="vs2">
                                         <input type="text" id="option_${qs.qs_no}_${eo.eo_no}"
-                                               name="answer_${qs.qs_no}_${eo.eo_no}" minlength="${eo.eo_min}" maxlength="${eo.eo_max}">
+                                               name="answer_${qs.qs_no}" minlength="${eo.eo_min}" maxlength="${eo.eo_max}" class="form-control">
                                     </c:forEach>
                                 </c:when>
                                 <c:when test="${qs.qs_type eq '주관식 - 장문형'}">
                                     <c:forEach var="eo" items="${qs.essayOptionList}" varStatus="vs2">
-                                        <textarea id="option_${qs.qs_no}_${eo.eo_no}" name="answer_${qs.qs_no}_${eo.eo_no}"  minlength="${eo.eo_min}" maxlength="${eo.eo_max}"></textarea>
+                                        <textarea id="option_${qs.qs_no}_${eo.eo_no}" name="answer_${qs.qs_no}" minlength="${eo.eo_min}" maxlength="${eo.eo_max}" class="form-control"></textarea>
                                     </c:forEach>
                                 </c:when>
                             </c:choose>

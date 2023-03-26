@@ -33,9 +33,14 @@ public class SurveyDAO {
         }
     }
 
-    // 옵션 제출
+    // 객관식 옵션 제출
     public int insertSelectOption(SelectOptionDTO selectOptionDTO) {
         return sqlSession.insert("survey.insertSelectOption", selectOptionDTO);
+    }
+
+    // 주관식 옵션 제출
+    public int insertEssayOption(EssayOptionDTO essayOptionDTO) {
+        return sqlSession.insert("survey.insertEssayOption", essayOptionDTO);
     }
 
     // index 설문조사 리스트
@@ -48,12 +53,17 @@ public class SurveyDAO {
         return sqlSession.selectOne("survey.surveyInfoOne", si_no);
     }
 
+    // 질문과 옵션 상세
+    public List<AllSurveyInfoDTO> allSurveyInfo(int si_no) {
+        return sqlSession.selectList("survey.allSurveyInfo", si_no);
+    }
+
     // 객관식 답변 제출
     public int insertSelectAnswer(SelectAnswerDTO selectAnswerDTO) {
         return sqlSession.insert("survey.insertSelectAnswer", selectAnswerDTO);
     }
 
-    public List<AllSurveyInfoDTO> allSurveyInfo(int si_no) {
-        return sqlSession.selectList("survey.allSurveyInfo", si_no);
+    public int insertEssayAnswer(EssayAnswerDTO essayAnswerDTO) {
+        return sqlSession.insert("survey.insertEssayAnswer", essayAnswerDTO);
     }
 }

@@ -19,7 +19,7 @@ public class HomeService {
     public Map<String, Object> login (HttpSession session, String email, String pwd) {
 
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
-         UserInfoDTO loginUser = userDAO.loginUser(email, pwd);
+        UserInfoDTO loginUser = userDAO.loginUser(email, pwd);
 
         if(loginUser == null) {
             resultMap.put("status", false);
