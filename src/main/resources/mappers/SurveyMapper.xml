@@ -21,11 +21,19 @@
         ]]>
     </insert>
 
-    <!-- 옵션 제출 -->
+    <!-- 객관식 옵션 제출 -->
     <insert id="insertSelectOption" parameterType="com.cafe24.craneform.dto.SelectOptionDTO">
         <![CDATA[
             INSERT INTO select_option_tb (so_qs_no, so_detail, so_order)
             VALUES (#{so_qs_no}, #{so_detail}, #{so_order})
+        ]]>
+    </insert>
+
+    <!-- 주관식 옵션 제출 -->
+    <insert id="insertEssayOption" parameterType="com.cafe24.craneform.dto.EssayOptionDTO">
+        <![CDATA[
+            INSERT INTO essay_option_tb (eo_qs_no, eo_min, eo_max)
+            VALUES (#{eo_qs_no}, #{eo_min}, #{eo_max})
         ]]>
     </insert>
 
@@ -117,11 +125,18 @@
         ORDER BY qs.qs_no, so.so_no
     </select>
 
-    <!-- 답변 insert -->
+    <!-- 객관식 답변 insert -->
     <insert id="insertSelectAnswer" parameterType="com.cafe24.craneform.dto.SelectAnswerDTO">
         <![CDATA[
             INSERT INTO select_answer_tb (sa_qs_no, sa_ui_no, sa_so_no)
             VALUES (#{sa_qs_no}, #{sa_ui_no}, #{sa_so_no})
+        ]]>
+    </insert>
+
+    <insert id="insertEssayAnswer" parameterType="com.cafe24.craneform.dto.EssayAnswerDTO">
+        <![CDATA[
+            INSERT INTO essay_answer_tb (ea_qs_no, ea_ui_no, ea_content)
+            VALUES (#{ea_qs_no}, #{ea_ui_no}, #{ea_content})
         ]]>
     </insert>
 </mapper>
