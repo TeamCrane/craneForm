@@ -96,11 +96,11 @@ CREATE TABLE essay_answer_tb -- 주관식 답변
 
 CREATE TABLE table_answer_tb -- 표 답변
 (
-    ta_no     INT     NOT NULL AUTO_INCREMENT PRIMARY KEY, -- 표 답변 일련번호
-    ta_qs_no  INT     NOT NULL,                            -- 질문 일련번호
-    ta_row    INT     NOT NULL,                            -- 행 번호
-    ta_column INT     NOT NULL,                            -- 열 번호
-    ta_check  CHAR(1) NOT NULL                             -- 체크 여부
+    ta_no     INT NOT NULL AUTO_INCREMENT PRIMARY KEY, -- 표 답변 일련번호
+    ta_qs_no  INT NOT NULL,                            -- 질문 일련번호
+    ta_ui_no  INT NOT NULL,                            -- 유저 일련번호
+    ta_row    INT NOT NULL,                            -- 행 번호
+    ta_column INT NOT NULL                             -- 열 번호
 );
 
 CREATE TABLE select_analysis_tb -- 객관식 분석

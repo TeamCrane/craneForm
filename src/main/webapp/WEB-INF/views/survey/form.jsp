@@ -241,8 +241,10 @@ TODO 셀렉트 박스나 체크 박스의 옵션 번호 수정하기. 0_0이면 
                     <div class="card shadow">
                         <div class="card-body px-5 text-center text-md-left titlebox">
                             <div class="row align-items-center">
-                                <input type="text" name="title" class="title" placeholder="제목 없는 설문지" value="" required autofocus>
-                                <input type="text" name="description" class="form-control description" placeholder="설문지 설명" value="">
+                                <input type="text" name="title" class="title" placeholder="제목 없는 설문지" value="" required
+                                       autofocus>
+                                <input type="text" name="description" class="form-control description"
+                                       placeholder="설문지 설명" value="">
                             </div>
                         </div>
                     </div>
@@ -255,7 +257,8 @@ TODO 셀렉트 박스나 체크 박스의 옵션 번호 수정하기. 0_0이면 
                                 <input type="hidden" id="question_cnt" value="0">
                                 <div id="question_main_0" class="question_main btn-group align-items-center">
                                     <div class="col-md-8">
-                                        <input type="text" name="question_0" class="form-control" placeholder="질문 1" required>
+                                        <input type="text" name="question_0" class="form-control" placeholder="질문 1"
+                                               required>
                                     </div>
                                     <div class="col-md-4">
                                         <div id="select_wrapper_0" class="select-wrapper">
@@ -285,8 +288,8 @@ TODO 셀렉트 박스나 체크 박스의 옵션 번호 수정하기. 0_0이면 
                                                     셀렉트박스
                                                 </li>
                                                 <hr>
-                                                <li onclick="updateTypeMenu(this)"><i class="fas fa-th"></i> &nbsp; 객관식
-                                                    표
+                                                <li onclick="updateTypeMenu(this)"><i class="fas fa-th"></i>
+                                                    &nbsp; 객관식 표
                                                 </li>
                                                 <li onclick="updateTypeMenu(this)"><i class="far fa-check-square"></i>
                                                     &nbsp; 체크박스 표
@@ -302,17 +305,21 @@ TODO 셀렉트 박스나 체크 박스의 옵션 번호 수정하기. 0_0이면 
                                         </div>
                                     </div>
                                     <div class="required">
-                                        <input type="checkbox" id="required_0" name="question_required_0"><label for="required_0"><span style="color: red">*</span> 필수 여부</label>
+                                        <input type="checkbox" id="required_0" name="question_required_0"><label
+                                            for="required_0"><span style="color: red">*</span> 필수 여부</label>
                                     </div>
                                     <div id="option_0" class="col-12">
                                         <div id="option_main_0_0" class="option_main align-items-center">
                                             <i class="fas fa-solid fa-arrow-circle-right"></i>&nbsp;
-                                            <input type="text" id="option_0_0" name="option_0_0" placeholder="옵션 1" required>&nbsp;
+                                            <input type="text" id="option_0_0" name="option_0_0" placeholder="옵션 1"
+                                                   required>&nbsp;
                                         </div>
                                         <div id="addOption_0_0" class="option_main align-items-center">
-                                            <i class="fas fa-solid fa-arrow-circle-plus"></i>&nbsp;<button type="button"
-                                                class="btn btn-outline-gray option_btn" onclick="addOption(this)">옵션 추가
-                                        </button>
+                                            <i class="fas fa-solid fa-arrow-circle-plus"></i>&nbsp;
+                                            <button type="button" class="btn btn-outline-gray option_btn"
+                                                    onclick="addOption(this)">
+                                                옵션 추가
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -332,7 +339,9 @@ TODO 셀렉트 박스나 체크 박스의 옵션 번호 수정하기. 0_0이면 
         <div class="row">
             <div class="col-2"></div>
             <div class="col-8">
-                <button type="button" class="btn btn-lg btn-primary btn-block" onclick="questionComplete()" style="width: 100%">제출</button>
+                <button type="button" class="btn btn-lg btn-primary btn-block" onclick="questionComplete()"
+                        style="width: 100%">제출
+                </button>
             </div>
             <div class="col-2"></div>
         </div>
@@ -345,6 +354,8 @@ TODO 셀렉트 박스나 체크 박스의 옵션 번호 수정하기. 0_0이면 
     시작일, 종료일, 진행상태
 
     조건 종류 조건 내용
+
+
 </section>
 
 <script>
@@ -399,7 +410,7 @@ TODO 셀렉트 박스나 체크 박스의 옵션 번호 수정하기. 0_0이면 
         const required = event.parentElement.parentElement.parentElement.nextElementSibling;
         const option_main = required.nextElementSibling;
         if (chosen_option.textContent.trim() === '체크박스' || chosen_option.textContent.trim() === '셀렉트박스') {
-            required.innerHTML="";
+            required.innerHTML = "";
 
             let message = "";
             message += '<div id="option_main_' + question_cnt + '_0" class="option_main align-items-center">';
@@ -414,7 +425,7 @@ TODO 셀렉트 박스나 체크 박스의 옵션 번호 수정하기. 0_0이면 
         } else if (chosen_option.textContent.trim() === '객관식') {
             let message = "";
             message += '<input type="checkbox" id="required_' + question_cnt + '" name="question_required_' + question_cnt + '"><label for="required_' + question_cnt + '"><span style="color: red">*</span> 필수 여부</label>';
-            required.innerHTML=message;
+            required.innerHTML = message;
 
             message = "";
             message += '<div id="option_main_' + question_cnt + '_0" class="option_main align-items-center">';
@@ -427,7 +438,7 @@ TODO 셀렉트 박스나 체크 박스의 옵션 번호 수정하기. 0_0이면 
 
             option_main.innerHTML = message;
         } else if (chosen_option.textContent.trim() === '주관식 - 단답형' || chosen_option.textContent.trim() === '주관식 - 장문형') {
-            required.innerHTML="";
+            required.innerHTML = "";
 
             let message = "";
             message += '<div style="text-align: center">';
@@ -435,6 +446,38 @@ TODO 셀렉트 박스나 체크 박스의 옵션 번호 수정하기. 0_0이면 
             message += ' / ';
             message += '최대 글자 수 : <input type="number" class="question_leng mt-2" name="option_max_' + question_cnt + '" value=0 dir="rtl" min="1" max="255" defaultValue=1 required>';
             message += "</div>";
+
+            option_main.innerHTML = message;
+        } else if (chosen_option.textContent.trim() === '객관식 표' || chosen_option.textContent.trim() === '체크박스 표') {
+            required.innerHTML = "";
+
+            let message = "";
+            message += '<div class="row">';
+            message += '    <div id="column_' + question_cnt + '" class="col-6">';
+            message += '        <div id="option_main_' + question_cnt + '_0" class="option_main align-items-center">';
+            message += '            <i class="fas fa-solid fa-arrow-circle-right"></i>&nbsp;';
+            message += '            <input type="text" name="optionColumn_' + question_cnt + '_0" placeholder="행 1" required>&nbsp;';
+            message += '        </div>';
+            message += '        <div id="addColumn_' + question_cnt + '_0" class="option_main align-items-center">';
+            message += '            <i class="fas fa-solid fa-arrow-circle-plus"></i>&nbsp;';
+            message += '            <button type="button" class="btn btn-outline-gray option_btn" onclick="addMatrix(this, \'column\')">행 추가';
+            message += '            </button>';
+            message += '        </div>';
+            message += '    </div>';
+
+            message += '    <div id="row_' + question_cnt + '" class="col-6">';
+            message += '        <div id="option_main_' + question_cnt + '_0" class="option_main align-items-center">';
+            message += '        <i class="fas fa-solid fa-arrow-circle-right"></i>&nbsp;';
+            message += '        <input type="text" name="optionRow_' + question_cnt + '_0" placeholder="열 1" required>&nbsp;';
+            message += '        </div>';
+            message += '        <div id="addRow_' + question_cnt + '_0" class="option_main align-items-center">';
+            message += '            <i class="fas fa-solid fa-arrow-circle-plus"></i>&nbsp;';
+            message += '            <button type="button" class="btn btn-outline-gray option_btn" onclick="addMatrix(this, \'row\')">열 추가';
+            message += '            </button>';
+            message += '        </div>';
+            message += '    </div>';
+            message += '</div>';
+
             option_main.innerHTML = message;
         }
     }
@@ -509,7 +552,6 @@ TODO 셀렉트 박스나 체크 박스의 옵션 번호 수정하기. 0_0이면 
         // 선택한 요소의 질문 번호를 가져와야하기에 번거로운 방법을 거친다
         const question_main_id = event.parentElement.previousElementSibling.id;
         const question_main_array = question_main_id.split('_');
-        console.log(question_main_array)
         const question_cnt = question_main_array[2];
 
         // 해당 옵션의 옵션 번호를 가져온다.
@@ -536,6 +578,61 @@ TODO 셀렉트 박스나 체크 박스의 옵션 번호 수정하기. 0_0이면 
         document.getElementById('option_' + question_cnt).insertAdjacentHTML('beforeend', message); // 맨뒤에 추가하기
     }
 
+    // 행렬 추가
+    function addMatrix(event, matrix) {
+        // 행렬 추가 버튼을 클릭하면 해당 행렬의 질문 번호를 가져온다
+        const question_main_id = event.parentElement.previousElementSibling.id;
+        const question_main_array = question_main_id.split('_');
+        const question_cnt = question_main_array[2];
+
+        // 해당 옵션의 옵션 번호를 가져온다.
+        let option_main_id = '';
+        if (matrix === 'row') {
+            option_main_id = $('#question_main_' + question_cnt).find('#row_' + question_cnt).find('.option_main').last().attr('id');
+        } else if (matrix === 'column') {
+            option_main_id = $('#question_main_' + question_cnt).find('#column_' + question_cnt).find('.option_main').last().attr('id');
+        }
+        let option_cnt_array = option_main_id.split('_');
+        let option_cnt = parseInt(option_cnt_array[2]);
+
+        // 버튼을 제거한다.
+        let addButton = '';
+        if (matrix === 'row') {
+            addButton = document.getElementById('addRow' + '_' + question_cnt + '_' + option_cnt);
+        } else if (matrix === 'column') {
+            addButton = document.getElementById('addColumn' + '_' + question_cnt + '_' + option_cnt);
+        }
+        addButton.remove();
+
+        option_cnt += 1;
+
+        let message = "";
+
+        if (matrix === 'row') {
+            message += '        <div id="option_main_' + question_cnt + '_' + option_cnt + '" class="option_main align-items-center">';
+            message += '            <i class="fas fa-solid fa-arrow-circle-right"></i>&nbsp;';
+            message += '            <input type="text" name="optionRow_' + question_cnt + '_' + option_cnt + '" placeholder="열 ' + (option_cnt + 1) + '" required>&nbsp;';
+            message += '        </div>';
+            message += '        <div id="addRow_' + question_cnt + '_' + option_cnt + '" class="option_main align-items-center">';
+            message += '            <i class="fas fa-solid fa-arrow-circle-plus"></i>&nbsp;';
+            message += '            <button type="button" class="btn btn-outline-gray option_btn" onclick="addMatrix(this, \'row\')">열 추가';
+            message += '            </button>';
+            message += '        </div>';
+        } else if (matrix === 'column') {
+            message += '        <div id="option_main_' + question_cnt + '_' + option_cnt + '" class="option_main align-items-center">';
+            message += '            <i class="fas fa-solid fa-arrow-circle-right"></i>&nbsp;';
+            message += '            <input type="text" name="optionColumn_' + question_cnt + '_' + option_cnt + '" placeholder="행 ' + (option_cnt + 1) + '" required>&nbsp;';
+            message += '        </div>';
+            message += '        <div id="addColumn_' + question_cnt + '_' + option_cnt + '" class="option_main align-items-center">';
+            message += '            <i class="fas fa-solid fa-arrow-circle-plus"></i>&nbsp;';
+            message += '            <button type="button" class="btn btn-outline-gray option_btn" onclick="addMatrix(this, \'column\')">행 추가';
+            message += '            </button>';
+            message += '        </div>';
+        }
+
+        document.getElementById(matrix + '_' + question_cnt).insertAdjacentHTML('beforeend', message); // 맨뒤에 추가하기
+    }
+
     // 질문과 세팅 페이지 변경
     function questionSetting() {
         if (document.getElementById('question_form').style.display === 'none') {
@@ -550,7 +647,7 @@ TODO 셀렉트 박스나 체크 박스의 옵션 번호 수정하기. 0_0이면 
     // 데이터 전송 (json 형식)
     function questionComplete() {
         let form_data = $('form').serialize();
-        let json_data = JSON.stringify({ form_data: form_data }); // 객체를 json 타입으로 변경 (직렬화)
+        let json_data = JSON.stringify({form_data: form_data}); // 객체를 json 타입으로 변경 (직렬화)
         let form = document.getElementById("question_form");
 
         // 유효성 검사를 해주는 함수
@@ -560,9 +657,9 @@ TODO 셀렉트 박스나 체크 박스의 옵션 번호 수정하기. 0_0이면 
                 url: "/api/submitSurvey",
                 contentType: "application/json",
                 data: json_data,
-                success: function(result) {
+                success: function (response) {
                     alert('제출 성공');
-                    location.href="/";
+                    location.href = "/";
                 },
                 error: function (error) {
                     console.log('error : ' + error)

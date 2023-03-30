@@ -37,6 +37,13 @@
         ]]>
     </insert>
 
+    <insert id="insertTableOption" parameterType="com.cafe24.craneform.dto.TableOptionDTO">
+        <![CDATA[
+            INSERT INTO table_option_tb (to_qs_no, to_detail, to_matrix, to_order)
+            VALUES (#{to_qs_no}, #{to_detail}, #{to_matrix}, #{to_order})
+        ]]>
+    </insert>
+
     <!-- 방금 insert한 설문 번호 검색 -->
     <select id="searchSurveyNo" parameterType="com.cafe24.craneform.dto.SurveyInfoDTO" resultType="int">
         <![CDATA[
@@ -93,18 +100,20 @@
             <id property="eo_no" column="eo_no"/>
             <result property="eo_min" column="eo_min"/>
             <result property="eo_max" column="eo_max"/>
+            <result property="eo_qs_no" column="eo_qs_no"/>
         </collection>
         <collection property="tableOptionList" ofType="com.cafe24.craneform.dto.TableOptionDTO" javaType="java.util.List" >
             <id property="to_no" column="to_no"/>
             <result property="to_order" column="to_order"/>
             <result property="to_matrix" column="to_matrix"/>
             <result property="to_detail" column="to_detail"/>
+            <result property="to_qs_no" column="to_qs_no"/>
         </collection>
     </resultMap>
 
     <!-- 설문지 상세에 질문과 옵션 리스트 -->
     <select id="allSurveyInfo" parameterType="int" resultMap="allSurveyInfoMap">
-        SELECT qs.qs_order, qs.qs_detail, qs.qs_type, qs.qs_required, qs.qs_no, so.so_no,so.so_order, so.so_detail, so.so_no,eo.eo_min, eo.eo_max, eo.eo_no,tb.to_matrix, tb.to_detail, tb.to_order, tb.to_no
+        SELECT qs.qs_order, qs.qs_detail, qs.qs_type, qs.qs_required, qs.qs_no, so.so_no,so.so_order, so.so_detail, so.so_no,eo.eo_min, eo.eo_max, eo.eo_no, eo_qs_no, tb.to_matrix, tb.to_detail, tb.to_order, tb.to_no, tb.to_qs_no
         <!--<choose>
             <when test='qs_type == "객관식" or qs_type == "체크박스" or qs_type == "셀렉트박스"'>
 
@@ -133,10 +142,19 @@
         ]]>
     </insert>
 
+    <!-- 주관식 답변 insert -->
     <insert id="insertEssayAnswer" parameterType="com.cafe24.craneform.dto.EssayAnswerDTO">
         <![CDATA[
             INSERT INTO essay_answer_tb (ea_qs_no, ea_ui_no, ea_content)
             VALUES (#{ea_qs_no}, #{ea_ui_no}, #{ea_content})
+        ]]>
+    </insert>
+
+    <!-- 표 답변 insert -->
+    <insert id="insertTableAnswer" parameterType="com.cafe24.craneform.dto.TableAnswerDTO">
+        <![CDATA[
+            INSERT INTO table_answer_tb (ta_qs_no, ta_ui_no, ta_row, ta_column)
+            VALUES (#{ta_qs_no}, #{ta_ui_no}, #{ta_row}, #{ta_column})
         ]]>
     </insert>
 </mapper>
