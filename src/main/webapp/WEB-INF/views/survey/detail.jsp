@@ -118,23 +118,26 @@
                             <c:choose>
                                 <c:when test="${qs.qs_type eq '객관식'}">
                                     <c:forEach var="so" items="${qs.selectOptionList}" varStatus="vs2">
-                                    <input type="radio" id="option_${so.so_qs_no}_${so.so_no}"
-                                           name="answer_${qs.qs_no}"
-                                           value="${so.so_no}" class="form-check-input"
-                                           <c:if test="${qs.qs_required eq 'on'}">required</c:if>>
-                                    <label for="option_${so.so_qs_no}_${so.so_no}" class="form-check-label">${so.so_detail}</label>
+                                        <input type="radio" id="option_${so.so_qs_no}_${so.so_no}"
+                                               name="answer_${qs.qs_no}"
+                                               value="${so.so_no}" class="form-check-input"
+                                               <c:if test="${qs.qs_required eq 'on'}">required</c:if>>
+                                        <label for="option_${so.so_qs_no}_${so.so_no}"
+                                               class="form-check-label">${so.so_detail}</label>
                                     </c:forEach>
                                 </c:when>
                                 <c:when test="${qs.qs_type eq '체크박스'}">
                                     <c:forEach var="so" items="${qs.selectOptionList}" varStatus="vs2">
-                                    <input type="checkbox" id="option_${so.so_qs_no}_${so.so_no}"
-                                           name="answer_${qs.qs_no}_${so.so_no}" class="form-check-input">
-                                    <label for="option_${so.so_qs_no}_${so.so_no}" class="form-check-label">${so.so_detail}</label>
+                                        <input type="checkbox" id="option_${so.so_qs_no}_${so.so_no}"
+                                               name="answer_${qs.qs_no}_${so.so_no}" class="form-check-input">
+                                        <label for="option_${so.so_qs_no}_${so.so_no}"
+                                               class="form-check-label">${so.so_detail}</label>
 
                                     </c:forEach>
                                 </c:when>
                                 <c:when test="${qs.qs_type eq '셀렉트박스'}">
-                                    <select id="option_${qs.qs_no}" name="answer_${qs.qs_no}" class="form-select" style="min-width: 60%">
+                                    <select id="option_${qs.qs_no}" name="answer_${qs.qs_no}" class="form-select"
+                                            style="min-width: 60%">
                                         <c:forEach var="so" items="${qs.selectOptionList}" varStatus="vs2">
                                             <option value="${so.so_no}"
                                                     <c:if test="${vs2.index == 0}">selected</c:if>>${so.so_detail}</option>
@@ -144,13 +147,49 @@
                                 <c:when test="${qs.qs_type eq '주관식 - 단답형'}">
                                     <c:forEach var="eo" items="${qs.essayOptionList}" varStatus="vs2">
                                         <input type="text" id="option_${qs.qs_no}_${eo.eo_no}"
-                                               name="answer_${qs.qs_no}" minlength="${eo.eo_min}" maxlength="${eo.eo_max}" class="form-control">
+                                               name="answer_${qs.qs_no}" minlength="${eo.eo_min}"
+                                               maxlength="${eo.eo_max}" class="form-control">
                                     </c:forEach>
                                 </c:when>
                                 <c:when test="${qs.qs_type eq '주관식 - 장문형'}">
                                     <c:forEach var="eo" items="${qs.essayOptionList}" varStatus="vs2">
-                                        <textarea id="option_${qs.qs_no}_${eo.eo_no}" name="answer_${qs.qs_no}" minlength="${eo.eo_min}" maxlength="${eo.eo_max}" class="form-control"></textarea>
+                                        <textarea id="option_${qs.qs_no}_${eo.eo_no}" name="answer_${qs.qs_no}"
+                                                  minlength="${eo.eo_min}" maxlength="${eo.eo_max}"
+                                                  class="form-control"></textarea>
                                     </c:forEach>
+                                </c:when>
+                                <c:when test="${qs.qs_type eq '객관식 표' or qs.qs_type eq '체크박스 표'}">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <c:forEach var="to" items="${qs.tableOptionList}" varStatus="vs2">
+                                                    <c:if test="${to.to_qs_no eq qs.qs_no and fn:contains(to.to_matrix, 'r')}">
+                                                        <th style="text-align: center">${to.to_detail}</th>
+                                                    </c:if>
+                                                </c:forEach>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        <c:forEach var="to" items="${qs.tableOptionList}" varStatus="vs2">
+                                            <c:if test="${to.to_qs_no eq qs.qs_no and fn:contains(to.to_matrix, 'c')}">
+                                                <tr>
+                                                    <td>${to.to_detail}</td>
+                                                    <c:forEach var="to2" items="${qs.tableOptionList}" varStatus="vs3">
+                                                        <c:if test="${to2.to_qs_no eq qs.qs_no and fn:contains(to2.to_matrix, 'r') and qs.qs_type eq '객관식 표'}">
+                                                            <td style="text-align: center"><input type="radio" name="answer_${to.to_qs_no}_${to.to_no}" value="${to2.to_no}" class="form-check-input"></td>
+                                                            <%-- name='answer_질문번호_행번호' / value='열번호' --%>
+                                                        </c:if>
+                                                        <c:if test="${to2.to_qs_no eq qs.qs_no and fn:contains(to2.to_matrix, 'r') and qs.qs_type eq '체크박스 표'}">
+                                                            <td style="text-align: center"><input type="checkbox" name="answer_${to.to_qs_no}_${vs3.index}" value="${to.to_no}_${to2.to_no}" class="form-check-input"></td>
+                                                            <%-- name='answer_질문번호_index' / value='행번호_열번호' --%>
+                                                        </c:if>
+                                                    </c:forEach>
+                                                </tr>
+                                            </c:if>
+                                        </c:forEach>
+                                        </tbody>
+                                    </table>
                                 </c:when>
                             </c:choose>
                         </div>
@@ -185,7 +224,7 @@
                 url: "/api/submitAnswer",
                 contentType: "application/json",
                 data: json_data,
-                success: function (result) {
+                success: function (response) {
                     alert('제출 성공');
                     location.href = "/";
                 },

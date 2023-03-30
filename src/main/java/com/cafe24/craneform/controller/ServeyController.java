@@ -21,9 +21,6 @@ public class ServeyController {
     @Autowired
     private SurveyDAO surveyDAO = new SurveyDAO();
 
-    @Autowired
-    private SurveyService surveyService = new SurveyService();
-
     // 폼 작성 페이지 이동
     @GetMapping("/form")
     public String addSurvey(HttpSession session) {

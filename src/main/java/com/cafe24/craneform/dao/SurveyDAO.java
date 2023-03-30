@@ -43,6 +43,10 @@ public class SurveyDAO {
         return sqlSession.insert("survey.insertEssayOption", essayOptionDTO);
     }
 
+    public int insertTableOption(TableOptionDTO tableOptionDTO) {
+        return sqlSession.insert("survey.insertTableOption", tableOptionDTO);
+    }
+
     // index 설문조사 리스트
     public List<SurveyInfoDTO> surveyInfoList() {
         return sqlSession.selectList("survey.surveyInfoList");
@@ -63,7 +67,12 @@ public class SurveyDAO {
         return sqlSession.insert("survey.insertSelectAnswer", selectAnswerDTO);
     }
 
+    // 주관식 답변 제출
     public int insertEssayAnswer(EssayAnswerDTO essayAnswerDTO) {
         return sqlSession.insert("survey.insertEssayAnswer", essayAnswerDTO);
+    }
+
+    public int insertTableAnswer(TableAnswerDTO tableAnswerDTO) {
+        return sqlSession.insert("insertTableAnswer", tableAnswerDTO);
     }
 }
